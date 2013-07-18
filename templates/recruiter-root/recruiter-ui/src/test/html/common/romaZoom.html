@@ -1,0 +1,17 @@
+<nav class="romaZoom">
+    <ul class="row-fluid navbar nav nav-pills navbar-inner romaZoom-icons">
+        <li class="span2 center"><a ng-click="returnHome()"><i class="icon-home"></i></a></li>
+        <li class="span2 center"><a ng-click="upOneLevel()"><i class="icon-arrow-up"></i></a></li>
+        <li class="span2 center"><a ng-click="refresh()"><i class="icon-refresh"></i></a></li>
+        <li class="span2 center"><a ng-click="add()"><i class="icon-plus"></i></a></li>
+        <li class="span2 center"><a><i class="icon-search"></i></a></li>
+    </ul>
+    <div id="entityType" class="h5 span3">{{romaZoom.entityTypeKey}}</div>    
+    <div lazylist loadslice="loadSlice" htmlcontent="htmlcontent" categories="categories" slicedata="slicedata" slicesize="romaZoom.sliceSize" totalcount="totalcount" click="onClick" dblclick="zoomIn" listclass="classOf"></div>
+                        
+</nav>
+
+           
+               
+     
+ 

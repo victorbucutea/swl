@@ -1,0 +1,10 @@
+<div class="form-search relative">
+	<input type="text" placeholder="Search {{title}}" class="input-medium search-query" ng-model="searchInput" ng-click="focus()">
+
+	<ul class="dropdown-menu fixed-width8">
+		<li class="active" ng-repeat="phone in phones | search:searchInput" >
+			<div ng-include="includeUrl" ></div>
+			<div class="divider"></div>
+		</li>
+	</ul>
+</div>

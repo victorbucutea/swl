@@ -1,0 +1,49 @@
+{
+    "operators": {
+        "default":  [
+            "IS"
+        ],
+        "alpha":    [
+            "IS",
+            "CONTAINS",
+            "STARTS_WITH",
+            "ENDS_WITH"
+        ],
+        "num":      [
+            "IS",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUAL_TO",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUAL_TO"
+        ]
+    },
+    "entities": {
+        "groups": [
+            [
+                "country"
+            ]
+        ],
+        "country": {
+            "criteria": {
+                "groups": [
+                    [
+                        "iso2",
+                        "convention"
+                    ]
+                ],
+                "iso2": {
+                    "type": "TEXT_SMALL",
+                    "operators": "alpha",
+                    "common": true,
+                    "mandatory": false
+                },
+                "convention": {
+                    "type": "CONVENTION",
+                    "operators": "default",
+                    "common": false,
+                    "mandatory": false
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+<div class="control-group">
+	<label class="control-label" for="country">Country</label>
+	<div class="controls">
+		<select ng-model="countryreference" required ng-options="elem.country.reference as elem.label for elem in countries" id="country">
+		</select><i ng-show="required" class="icon-star" />
+	</div>
+</div>
+
+
+

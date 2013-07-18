@@ -1,0 +1,11 @@
+<div class="control-group">
+	<label class="control-label" for="fusedMunicipality">{{municipalitytlabel}}</label>
+	<div class="controls">
+		<select ng-model="municipalityreference" ng-required="required" ng-options="elem.municipality.reference as elem.label for elem in municipalities" id="fusedMunicipality">
+		  <option ng-show="!required"></option>
+		</select><i ng-show="required" class="icon-star" />
+	</div>
+</div>
+
+
+

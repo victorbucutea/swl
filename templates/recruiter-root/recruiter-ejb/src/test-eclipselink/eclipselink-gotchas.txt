@@ -1,0 +1,6 @@
+After testing eclipselink has proved the following advantages :
+
+
+1. crudDao.save(cvToUpdate); crudDao.find(cvToUpdate.getId()) does not hit the DB with another select
+2. CV cv = crudDao.create(createCV()); eagerly loads previously persisted entities ( refresh is cascaded properly ) 
+3. crudDao.find(id) properly initializez all child entitites as being lazily initialized ( Hibernate will do a query for each child entity, and it will also lazy load only some children - the others will still be eagerly loaded.

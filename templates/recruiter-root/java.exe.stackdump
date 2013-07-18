@@ -1,0 +1,11 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=610DBFAB
+eax=00000001 ebx=00000000 ecx=00000000 edx=0252ABB0 esi=00000210 edi=0252AC44
+ebp=0252AB7C esp=0252AA64 program=\\?\D:\jdk\jdk1.6.0_26\bin\java.exe, pid 1536, thread unknown (0x2B10)
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0252AB7C  610DBFAB  (00000000, 00000000, 00000000, 00000000)
+0252AC4C  610DCD67  (FFFFFFFF, FFFFFFFF, 00000000, 00000000)
+0252ACAC  6102F16F  (00000002, A0107030, 0252CDB8, 770F6CDC)
+0252AD38  770F6E91  (00000002, 0252CDB8, 770F6CDC, 00000000)
+   4160 [unknown (0x2B10)] sh 1536! exception::handle: Error while dumping state (probably corrupted stack)

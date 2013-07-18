@@ -1,0 +1,56 @@
+<div ng-show="isVisible">
+	<h4>{{streetName}}</h4>
+	<form novalidate>
+		<div class="container">
+
+			<div class="row">
+
+				<div class=" span8 form-actions buttonsBar">
+                <button type="button" id="saveBut" ng-click="save()" class="btn btn-primary">Save</button>
+                <button type="button" id="deleteBut" ng-show="editMode==false" ng-click="remove()"  class="btn btn-primary">Delete</button>
+                <button type="button" id="cancelBut" ng-click="cancel()" class="btn btn-primary">Cancel</button>
+				</div>
+				<div class="span8 form-horizontal">
+
+					<label class="alert-error"> {{errorMessage}} </label>
+					<label class="alert-info"> {{infoMessage}} </label>
+
+                    <div class="row-fluid">
+                        <label class="control-label" for=dutchName>Fused Municipality</label>
+                        <div class="controls">
+                            {{fusedMunicipalityName}}
+                        </div>                        
+                    </div>
+                    
+                    <div class="control-group" ng-show="dutchNameRequired">
+                        <label class="control-label" for=dutchName>Street name Dutch</label>
+                        <div class="controls">
+                            <input type="text" ng-model="model.dutchName.text" id="dutchName" size="30" maxlength="30"><i class="icon-star" />
+                            <label class="checkbox inline" ng-show="editMode==false"><input type="checkbox" ng-model="model.dutchKeepAsSyn" ng-checked="model.dutchKeepAsSyn==true" id="keepDutchAsSyn">Keep as synonym if changed</label>
+                        </div>
+                    </div>
+                    <div class="control-group" ng-show="frenchNameRequired">
+                        <label class="control-label" for="frenchName">Street name French</label>
+                        <div class="controls">
+                            <input type="text" ng-model="model.frenchName.text" id="frenchName" size="30" maxlength="30"><i class="icon-star" />
+                            <label class="checkbox inline" ng-show="editMode==false"><input type="checkbox" ng-model="model.frenchKeepAsSyn" ng-checked="model.frenchKeepAsSyn==true" id="keepFrenchAsSyn">Keep as synonym if changed</label>
+                        </div>
+                    </div>
+                    <div municipalityselect municipalityreference="subMunicipalityReference" municipalities="submunicipalities" 
+                                municipalitytlabel="subMunicipalityLabel" required="submunicipalityrequired"></div>
+
+                    <div class="row">
+                        <div class="span4">
+                            <h6>Synonyms</h6>
+                            <div class="span3" id="synonimListDiv" namesgrid items="street.synonymsArray" candeleteall="true" triggerValidation="validateChildren" textmaxlength="70"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+
+
+	</form>
+</div>
+
+

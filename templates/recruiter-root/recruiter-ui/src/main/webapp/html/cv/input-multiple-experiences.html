@@ -1,0 +1,29 @@
+<div>
+	
+	<div class="control-group">
+		<label class="control-label">Start date</label>
+ 		<input type="text" ng-model="selectedValue.startDate" date-format="dd/mm/yyyy" datepicker  ng-change="$emit('dirty')">
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">End date</label> 
+		<input type="text" ng-model="selectedValue.endDate" date-format="dd/mm/yyyy" datepicker  ng-change="$emit('dirty')">
+	</div>
+	
+
+	<div class="control-group">
+		<label class="control-label" for="role">Company type</label> 
+		<input type="text" name="role" ng-model="selectedValue.companyType" ng-change="$emit('dirty')"/>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="desc">Company name</label> 
+		<input type="text" name="desc" ng-model="selectedValue.companyName" ng-change="$emit('dirty')"/>
+	</div>
+	
+	<div swdl-input-multiple data="selectedValue.projects" 
+							 title="'Projects'" 
+							 label="name"
+							 include-url="'html/cv/input-multiple-projects.html'" />
+	
+</div>

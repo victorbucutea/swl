@@ -1,0 +1,86 @@
+<div ng-show="isVisible">
+	<h4>{{ppType.name}}</h4>
+	<form novalidate>
+		<div class="container">
+
+			<div class="row">
+
+				<div class=" span8 form-actions buttonsBar">
+					<button type="button" id="saveBut" ng-click="save()" class="btn btn-primary">Save</button>
+					<button type="button" id="deleteBut" ng-click="remove()" class="btn btn-primary"
+						ng-show="editMode==false && ppType.deletable==true">Delete</button>
+					<button type="button" id="cancelBut" ng-click="cancel()" class="btn btn-primary">Cancel</button>
+				</div>
+				<div class="span8 form-horizontal">
+
+					<label class="alert-error">{{errorMessage}}</label> <label class="alert-info"> {{infoMessage}} </label>
+
+					<div class="control-group">
+						<label class="control-label" for="name">Code</label>
+						<div class="controls">
+							<input class="span3" type="text" ng-model="ppType.description" id="name" size="30" maxlength="30"><i
+								class="icon-star" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="nameFr">Name in French</label>
+						<div class="controls">
+							<input class="span3" type="text" ng-model="ppType.nameFr.text" id="nameFr" size="30" maxlength="30"><i
+								class="icon-star" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="nameNl">Name in Dutch</label>
+						<div class="controls">
+							<input class="span3" type="text" ng-model="ppType.nameNl.text" id="nameNl" size="30" maxlength="30"><i
+								class="icon-star" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="suffNo">Maximum number of suffixes</label>
+						<div class="controls">
+							<input type="number" class="span3" type="text" ng-model="ppType.max_no_of_suffixes" id="suffNo" maxlength="30"
+								min="1">
+						</div>
+					</div>
+					<div suffixtypeselect suffixtyperef="ppType.default_suffix_ref" types="suffixTypes" suffixlabel="suffixTypeLabel"
+						required="true"></div>
+					<div class="control-group">
+						<label class="control-label" for="deletable">Deletable</label>
+						<div class="controls">
+							<input type="checkbox" ng-model="ppType.deletable" ng-checked="ppType.deletable==true" id="deletable"
+								ng-show="editMode==true" ng-disabled="editMode==false" /> <i class="icon-ok"
+								ng-show="ppType.deletable==true && editMode==false" /> <i class="icon-remove"
+								ng-show="ppType.deletable==false && editMode==false" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="span4">
+					<h6>Exclusions</h6>
+					<!-- <div class="span3">
+						<button type="button" ng-click="triggerLoadExclusions()" class="btn btn-primary">Load</button>
+					</div> -->
+
+					 <div > 
+						<div class="span4">
+							<div id="ppTypesExcl" typeschecklist items="ppTypes" label="ppTypesExclLabel" checkeditems="ppType.excluded_point_types"></div>
+						</div>
+
+						<div class="span4">
+							  <div id="suffixTypesExcl" typeschecklist items="suffixTypes" label="suffixTypesExclLabel" checkeditems="ppType.excluded_suffix_types"></div>
+						</div>
+					 </div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+	</form>
+</div>
+
+

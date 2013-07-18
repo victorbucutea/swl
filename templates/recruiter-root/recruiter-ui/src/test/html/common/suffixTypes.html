@@ -1,0 +1,10 @@
+<div class="control-group">
+    <label class="control-label" for="suffixType">{{suffixlabel}}</label>
+    <div class="controls">
+        <select ng-model="suffixtyperef" required ng-options="suffType.type.reference as suffType.label for suffType in types" id="suffixType">
+        </select><i ng-show="required" class="icon-star" />
+    </div>
+</div>
+
+
+

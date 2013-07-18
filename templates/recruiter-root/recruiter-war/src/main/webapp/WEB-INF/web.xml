@@ -1,0 +1,26 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	  <display-name>recruiter</display-name>
+	
+	  <servlet>
+	  	<servlet-name>Vaadin Application</servlet-name>
+	  	<servlet-class>
+	  		com.vaadin.terminal.gwt.server.ApplicationServlet
+	  	</servlet-class>
+	  	
+	  	<init-param>
+	      <description>Vaadin application class to start</description>
+	      <param-name>application</param-name>
+	      <param-value>
+	  	  	ro.sft.recruiter.ui.common.RecruiterApplication
+	      </param-value>
+	 	</init-param>
+	 </servlet>
+	 
+	 <servlet-mapping>
+	 	<servlet-name>Vaadin Application</servlet-name>
+	 	<url-pattern>/*</url-pattern>
+	 </servlet-mapping>
+</web-app>

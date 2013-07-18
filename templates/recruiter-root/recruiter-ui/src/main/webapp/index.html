@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="css/custom.css">
+<script data-main="scripts/main" src="lib/require.js"></script>
+
+</head>
+<body  ng-controller="mainController">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">App</a>
+			<ul class="nav">
+				<li><a href="#/cv">CV</a></li>
+				<li><a href="#/Openings">Openings</a></li>
+				<li><a href="#/Interviuri">Interviews</a></li>
+				<li><a href="#/Ads">Ads</a></li>
+			</ul>
+			<div class="navbar-search pull-right">
+				Logged in as: {{principalName}} 
+				<a ng-click="logout()" href ng-show="principalName"> Logout </a>
+			</div>
+		</div>
+	</div>
+	<div ng-view></div>
+
+<!--  login modal -->
+	<div class="modal fade in" ng-show="authenticationRequired">
+			<div class="modal-header">
+				<h4>Login</h4>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+					<label class="control-label" for="inputUser">Username</label>
+					<div class="controls">
+						<input type="text" id="inputUser" ng-model="username" placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputPassword">Password</label>
+					<div class="controls">
+						<input type="password" id="inputPassword" ng-model="password" placeholder="Password">
+					</div>
+				</div>
+				<div swdl-message></div>
+				<div class="control-group">
+					<div class="controls">
+						<label class="checkbox"> <input type="checkbox">
+							Remember me
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn" ng-click="login(username,password)">Sign in</button>
+				<button class="btn btn-warning cancel" ng-click="authenticationRequired = false">Cancel</button>
+			</div>
+	</div>
+</body>
+</html>

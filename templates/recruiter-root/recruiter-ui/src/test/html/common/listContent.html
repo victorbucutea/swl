@@ -1,0 +1,5 @@
+<ul class="nav nav-pills nav-stacked span4">
+	<li id="{{listdata.fromIndex + $index}}" ng-repeat="item in listdata.slice" ng-class="listclass(item)">
+	    <a ng-click="click(item, $event)" ng-dblclick="dblclick(item.pathToChildren, item.reference)"><i ng-click="$event.preventDefault();dblclick(item.pathToChildren, item.reference);" class="icon-arrow-right"/><span style="overflow: ellipsis;width: 80%;">{{item.label}}</span><i ng-click="" class="icon-folder-open new-tab"/></a>
+	</li>
+</ul>

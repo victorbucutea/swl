@@ -1,0 +1,36 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<label class="control-label"><small>CV.ui.ManuallyCreateCV.form.cv.status</small></label>
+		<div class="controls">
+			<select id="cv.status" ng-model="cv.status" ng-options="status for status in cv.statuses" value="{{selectedStatus.name}}" />
+		</div>
+		
+		<label class="control-label"> <small>CV.ui.ManuallyCreateCV.form.cv.previousStatus</small></label>
+		<div class="controls"> {{cv.previousStatus}} </div>
+		
+		<label class="control-label"> <small>Image</small></label>
+		<div fileupload thumbnail-height="150px" thumbnail-width="200px" value="cv.rawFile"/>
+		
+		
+		<label class="control-label" for="cv.previousStatus"> <small>Experiences</small></label>
+		<div swdl-input-multiple data="cv.experiences" label="companyName +' - '+ companyType" title="'Experiences'" include-url="'html/cv/input-multiple-experiences.html'" />
+
+		
+		<label class="control-label"> <small>Education</small></label>
+		<div swdl-input-multiple data="cv.educations" label="university +' - '+ startDate" title="'Educations'" include-url="'html/cv/input-multiple-educations.html'" />
+		
+		<label class="control-label"> <small>Certifications</small></label>
+		<div swdl-input-multiple data="cv.certifications" label="name" title="'Certifications'" include-url="'html/cv/input-multiple-certifications.html'" />
+		
+		<div swdl-search data="cv.certifications" include-url="'html/cv/search-certifications.html'" title="'Certifications'"  />
+		
+		<div class="form-actions">
+			<button type="button" id="saveButton" ng-click="save()"
+			class="btn btn-primary">Save</button>
+			<button type="button" id="cancelButton" ng-click="cancel()"
+			class="btn btn-primary">Cancel</button>
+		</div>
+
+		
+	</div>
+</div>

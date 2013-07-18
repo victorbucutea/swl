@@ -1,0 +1,39 @@
+<div ng-show="isVisible">
+	<h4>{{cityName}}</h4>
+	<form novalidate>
+		<div class="container">
+			<div class="row ">
+				<div class=" span8 form-actions buttonsBar">
+					<button type="button" id="saveBut" ng-click="save()" class="btn btn-primary">Save</button>
+                    <button type="button" id="deleteBut" ng-click="remove()" class="btn btn-primary">Delete</button>
+				</div>
+				<div class="span8">
+					<label class="alert-error"> {{errorMessage}} </label>
+					<label class="alert-info"> {{infoMessage}} </label>
+					<div class="row-fluid">
+					   <div countryselect countryreference="city.country_ref" countries="countries" required="true"></div>
+					</div>
+					<div class="row">
+						<div class="span3 ">
+							<h6>Postal codes</h6>
+							<div class="span3" id="postalCodesListDiv" postalcodegrid items="postalCodes"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="span4">
+							<h6>Names</h6>
+							<div class="span3" id="namesListDiv" namesgrid items="city.namesArray" candeleteall="false" triggerValidation="validateChildren" textmaxlength="50"></div>
+						</div>
+						<div class="span4">
+							<h6>Synonyms</h6>
+							<div class="span3" id="synonimListDiv" namesgrid items="city.synonymsArray" candeleteall="true" triggerValidation="validateChildren" textmaxlength="50"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
