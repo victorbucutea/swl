@@ -1,0 +1,64 @@
+package ro.swl.engine.parser.test;
+
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.junit.Test;
+
+import ro.swl.engine.SwlTest;
+import ro.swl.engine.parser.ASTButton;
+import ro.swl.engine.parser.ASTCssClassName;
+import ro.swl.engine.parser.ASTCssInlineStyle;
+import ro.swl.engine.parser.ASTHorizontalLayout;
+import ro.swl.engine.parser.ASTInput;
+import ro.swl.engine.parser.ParseException;
+import ro.swl.engine.parser.SWL;
+import ro.swl.engine.parser.model.Component;
+
+public class SWLNodeTest extends SwlTest {
+
+	@Test
+	public void inputCssChildren() throws ParseException {
+		//@formatter:off
+		SWL swl = new SWL (createInputStream("" +
+				"		input(modelVar,' cssclass1; height: 200px;')"));
+		//@formatter:on
+
+		ASTInput input = swl.Input();
+
+		List<ASTCssInlineStyle> styles = input.getChildNodesOfType(ASTCssInlineStyle.class, true);
+		List<ASTCssClassName> clsNames = input.getChildNodesOfType(ASTCssClassName.class, true);
+
+		System.out.println(styles.get(0).jjtGetValue());
+		assertEquals("cssclass1", clsNames.get(0).getImage());
+		assertEquals("height: 200px", styles.get(0).getImage());
+
+	}
+
+	public static void main(String[] args) {
+		System.out.println(Component.class.isAssignableFrom(ASTInput.class));
+	}
+
+	@Test
+	public void componentChildren() throws ParseException {
+		//@formatter:off
+				SWL swl = new SWL (createInputStream("" +
+						"		horizontal_layout(3,1,1) {" +
+						"		input(modelVar,' cssclass1; height: 200px;')" +
+						"		button(action1(param1))" +
+						"		}"));
+		//@formatter:on
+
+		ASTHorizontalLayout horizontalLayout = swl.HorizontalLayout();
+		horizontalLayout.dump("");
+		List<Component> components = horizontalLayout.getChildComponents();
+
+		assertEquals(2, components.size());
+
+		assertTrue(components.get(0) instanceof ASTInput);
+		assertTrue(components.get(1) instanceof ASTButton);
+
+	}
+}
