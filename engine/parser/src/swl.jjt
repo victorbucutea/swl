@@ -7,12 +7,12 @@ options
   MULTI=true;
   KEEP_LINE_COLUMN = false;
   static = false;
-  DEBUG_PARSER=true;
-  DEBUG_TOKEN_MANAGER=true;
+  //DEBUG_PARSER=true;
+  //DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
-package ro.sft.recruiter;
+package ro.swl.engine.parser;
 
 public class SWL
 {
@@ -109,6 +109,7 @@ PARSER_END(SWL)
 | < RADIO: "radio" >
 | < RADIOS: "radios" >
 | < BUTTON: "button" >
+| < BUTTONGROUP: "button_group" >
 | < IMG: "img" >
 
 // Layout Components
@@ -128,6 +129,8 @@ PARSER_END(SWL)
 | < H4: "h4" >
 | < H5: "h5" >
 | < H6: "h6" >
+| < UL: "ul" >
+| < LI: "li" >
 | < NAME: < IDENTIFIER >> 
 }
 
@@ -264,12 +267,8 @@ void GenericBlock() :
 {
    (Model())?
   (Controller())?
-  (Component())*}     
-
-
-void Component(): {}
-{
-	(	  Input()
+  (	
+	  Input()
 	| InputFile()
 	| InputArea()
 	| Checkbox()
@@ -278,10 +277,13 @@ void Component(): {}
 	| Radio()
 	| Radios()
 	| Img()
+	| Button()
+	| ButtonGroup()
 	// layout components
 	| VerticalLayout()
 	| HorizontalLayout()
 	| HorizontalForm()
+	| HorizontalFormGroup()
 	| Section()
 	// HTML components
 	| Br()
@@ -290,41 +292,69 @@ void Component(): {}
 	| H3()
 	| H4()
 	| H5()
-	| H6()	 
-	)
-}
+	| H6()
+	| Ul()	 
+	)*}
 
-void VerticalLayout() : {}
+ASTVerticalLayout VerticalLayout() : {}
 {
     < VERTICAL_LAYOUT >
-   	VerticalLayoutDescription()	
+   	StdLayoutDescription()	
   	< OPEN_BRACKET >
   		MvcArea()
-  	< CLOSE_BRACKET >}
+  	< CLOSE_BRACKET >  	{
+  	  return jjtThis;  	}}
 
-void HorizontalLayout() : {}
+ASTHorizontalLayout HorizontalLayout() : {}
 {
   	< HORIZONTAL_LAYOUT >
   	HorizontalLayoutDescription()	
   	< OPEN_BRACKET >
   		MvcArea()
   	< CLOSE_BRACKET >
+
+  	{  	   return jjtThis;
+  	}
 }
 
 
-void HorizontalForm() : {}
+ASTHorizontalForm HorizontalForm() : {}
 {
   < HORIZONTAL_FORM >
+  StdLayoutDescription()
+  < OPEN_BRACKET >
+  		MvcArea()
+  < CLOSE_BRACKET >
+  {
+    return jjtThis;  }
 }
 
-void Section() : {}
+ASTHorizontalFormGroup HorizontalFormGroup() : {}
 {
-  < SECTION >}
+   < HORIZONTAL_FORM_GROUP >
+    StdLayoutDescription()
+   < OPEN_BRACKET >
+  		MvcArea()
+   < CLOSE_BRACKET >
+   {
+    return jjtThis;
+  }}
+
+ASTSection Section() : {}
+{
+  < SECTION >
+   StdInputDescription()
+  < OPEN_BRACKET >
+  		MvcArea()
+  < CLOSE_BRACKET >
+  {
+    return jjtThis;
+  }}
 
 
 void Br() : {}
 {
-	< BR >  
+	< BR >  < OPEN_R_BRACKET > <CLOSE_R_BRACKET >
 }
 
 
@@ -357,52 +387,79 @@ void H6() : {}
 {
   < H6 >
 }
-void Input():  {}
+
+void Ul() : {}
 {
-  < INPUT > (StdInputDescription())? }
+  < UL >
+}
+ASTInput Input():  {}
+{
+  < INPUT > (StdInputDescription())? { return jjtThis; } }
 
 
-void InputFile(): {}
+ASTInputFile InputFile(): {}
 {
-  < INPUT_FILE > (StdInputDescription())? 
+  < INPUT_FILE > (StdInputDescription())? { return jjtThis; } 
 }
 
-void InputArea(): {}
+ASTInputArea InputArea(): {}
 {
-  < INPUT_AREA >   (StdInputDescription())? 
+  < INPUT_AREA >   (StdInputDescription())? { return jjtThis; } 
 }
 
-void Checkbox(): {}
+ASTCheckbox Checkbox(): {}
 {
-  < CHECKBOX > (StdInputDescription())? 
+  < CHECKBOX > (StdInputDescription())?  { return jjtThis; } 
 }
 
-void Selectbox(): {}
+ASTSelectbox Selectbox(): {}
 {
-  < SELECTBOX >  (SelectInputDescription())? (SelectboxOptions())?
+  < SELECTBOX >  (SelectInputDescription())? (SelectboxOptions())? { return jjtThis; } 
 }
 
-void Radio(): {}
+ASTRadio Radio(): {}
 {
-  < RADIO > (RadioInputDescription())?}
+  < RADIO > (RadioInputDescription())? { return jjtThis; } }
 
-void Radios(): {}
+ASTRadios Radios(): {}
 {
-  < RADIOS >  (RadiosInputDescription())? }
+  < RADIOS >  (RadiosInputDescription())? { return jjtThis; } }
 
-void Label(): {}
+ASTLabel Label(): {}
 {
-  < LABEL > (StdInputDescription())?}
+  < LABEL > (StdInputDescription())? { return jjtThis; } }
 
-void Img(): {}
+ASTImg Img(): {}
 {
-  < IMG > (StdInputDescription())?}
+  < IMG > (StdInputDescription())?  { return jjtThis; } }
+
+void ButtonGroup() : {}
+{
+	< BUTTONGROUP > < OPEN_BRACKET > (Button())* < CLOSE_BRACKET >
+}
+
+ASTButton Button() : {}{
+	< BUTTON > (ButtonDescription())?  { return jjtThis; } 
+}
+
+void ButtonDescription() : {}
+{  	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
+		(		  ButtonAction()
+		  (< COMMA > CssStyle() )?
+		)?
+  	< CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT); }
+}
+
+void ButtonAction() : {}
+{
+  < VARIABLE > <OPEN_R_BRACKET > (<VARIABLE > (< DOT > <VARIABLE >)*)*  < CLOSE_R_BRACKET >}
+
  
 void ModelVariable(): {}
 {
      < LITERAL > | ( < VARIABLE > (< DOT > <VARIABLE >)* )}
 
-void VerticalLayoutDescription(): {}
+void StdLayoutDescription(): {}
 {
   	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		(  CssStyle() )?	< CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT) ;}
@@ -417,20 +474,21 @@ void HorizontalLayoutDescription():
   
   	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		( <OPEN_S_BRACKET > CssStyle() < CLOSE_S_BRACKET > )?
-		(
-		 columnDescSpan = ColumnDescription() {
-		    					noOfColumns = noOfColumns + columnDescSpan;
-		    			}		)
-		(
-		  < COMMA >
-		  columnDescSpan = ColumnDescription() {
-		    					noOfColumns = noOfColumns + columnDescSpan;
-		    			}
-		)*
+		(			  (
+			 columnDescSpan = ColumnDescription() {
+			    					noOfColumns = noOfColumns + columnDescSpan;
+			    			}			)
+			(
+			  < COMMA >
+			  columnDescSpan = ColumnDescription() {
+			    					noOfColumns = noOfColumns + columnDescSpan;
+			    			}
+			)*
+		)?
 	< CLOSE_R_BRACKET > {
 	  					  if (noOfColumns > 12) {
 			    				throw new ParseException("A horizontal_layout is a bootstrap fluid layout and"+
-			    									"cannot have more then 12 columns.");
+			    									"cannot have more than 12 columns.");
 			    		  }
 			    		  token_source.SwitchTo(DEFAULT) ;
 			    		}
@@ -530,25 +588,30 @@ void CssStyle(): {}
   )*
  	 
   < CLOSE_QUOTE >  { token_source.SwitchTo(InputDescriptionState); }}
-void CssClassName()  : {}
-{	 < STYLE_CLASS >  < SEMICOLON >
+void CssClassName()  : {Token t = null;}
+{	t = < STYLE_CLASS >  < SEMICOLON >
+	 {
+		jjtThis.setImage(t.image); 
+	}
 }
 
-void CssInlineStyle() : {}
-{	
- 	CssStyleName()
- 	 < COLON > {token_source.SwitchTo(CssStyleValueState);} 	 	CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
+void CssInlineStyle() : {String t1 = null; String t2 = null;}
+{    t1 =  CssStyleName()
+ 	 < COLON > {token_source.SwitchTo(CssStyleValueState);} 	t2 =  CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
  	 < SEMICOLON >
+	{
+		jjtThis.setImage(t1 + ": "+t2); 
+	}
 }
 
 
-void CssStyleName(): {}
+String CssStyleName():  {Token t = null;}
 {
-  (< ASTERISK >)? < STYLE_CLASS >}
+  (< ASTERISK >)? t = < STYLE_CLASS > { return t.image; }}
 
-void CssStyleValue(): {}
+String CssStyleValue(): {Token t = null;}
 {
-   <ANY_NO_SEMICOLON > }
+  t = <ANY_NO_SEMICOLON > {  return t.image.trim();  }}
 
 
 void Logic() : {}
