@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTModelVariable extends SimpleNode {
+class ASTModelVariable extends SWLNode {
   public ASTModelVariable(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTModelVariable extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=127b3d7613b45c48891a4081be7bb142 (do not edit this line) */
+/* JavaCC - OriginalChecksum=5c2aea81e4209deae297adfa20a92135 (do not edit this line) */

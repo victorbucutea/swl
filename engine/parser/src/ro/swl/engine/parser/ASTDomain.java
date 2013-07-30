@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTDomain extends SimpleNode {
+class ASTDomain extends SWLNode {
   public ASTDomain(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTDomain extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=b8c4219fc7cae1fcb277d77175d60ad7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=600b91a0d6c6b4974392bf99eb6a166a (do not edit this line) */

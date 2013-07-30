@@ -22,7 +22,7 @@ public class ASTInput extends Component {
 
 	@Override
 	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		writer.append(grammar.input());
+		writer.appendLine(grammar.input());
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class ASTInput extends Component {
 
 	@Override
 	public void writeLabel(Writer writer) throws WriteException {
-		writer.append(grammar.label());
+		writer.appendLine(grammar.label());
 		writer.append(grammar.labelDeclarationEnd());
 		writer.append("input TODO");
 		writer.append(grammar.labelEnd());

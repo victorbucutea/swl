@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTRadios extends SimpleNode {
+class ASTRadios extends SWLNode {
   public ASTRadios(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTRadios extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=d4e6064fb2ccce931f9f78168c393301 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4aaec151aa0862695b3fb6dd7be6df13 (do not edit this line) */

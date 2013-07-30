@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTButtonGroup extends SimpleNode {
+class ASTButtonGroup extends SWLNode {
   public ASTButtonGroup(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTButtonGroup extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=b13078c4dcbf797e6e95924d1a5b390d (do not edit this line) */
+/* JavaCC - OriginalChecksum=7f02ebf906af6f3182dce9620ed84e8d (do not edit this line) */

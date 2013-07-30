@@ -11,7 +11,7 @@ import ro.swl.engine.grammar.Grammar;
 import ro.swl.engine.parser.ASTCssClassName;
 import ro.swl.engine.parser.ASTCssInlineStyle;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.LabeledComponent;
+import ro.swl.engine.parser.SWLNode;
 import ro.swl.engine.writer.WriteException;
 import ro.swl.engine.writer.Writer;
 import ro.swl.engine.writer.WritingComponent;
@@ -23,12 +23,14 @@ import ro.swl.engine.writer.WritingComponent;
  * @author VictorBucutea
  * 
  */
-public abstract class Component extends SWLNode implements WritingComponent, LabeledComponent {
+public abstract class Component extends SWLNode implements WritingComponent {
 
 	@Inject
 	protected Grammar grammar = new AngularJSGrammar();
 
-	protected boolean labelRendered;
+	protected boolean labelRendered = false;
+
+	protected boolean hasBody = true;
 
 	public Component(int id) {
 		super(id);
@@ -53,13 +55,27 @@ public abstract class Component extends SWLNode implements WritingComponent, Lab
 
 	}
 
-	private void renderChildren(Writer writer) throws WriteException {
+	protected void renderChildren(Writer writer) throws WriteException {
 		for (Component c : getChildComponents()) {
+			writer.indent();
 			c.renderComponent(writer);
+			writer.unIndent();
 		}
 	}
 
-	protected void writeCssStyles(Writer writer) {
+	@Override
+	public void beginBodyDeclaration(Writer writer) throws WriteException {
+		// set flag to skip rendering. Makes no sense 
+		// to render anything if we don't start a body
+		hasBody = false;
+	}
+
+	@Override
+	public void writeCssStyles(Writer writer) throws WriteException {
+		if (!hasBody) {
+			return;
+		}
+
 		String clsString = join(getCssClassNames().toArray(), " ");
 		writer.append(grammar.styleClassAttribute(clsString));
 
@@ -69,10 +85,6 @@ public abstract class Component extends SWLNode implements WritingComponent, Lab
 
 	@Override
 	public void writeAttributes(Writer writer) throws WriteException {
-	}
-
-	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
 	}
 
 	@Override

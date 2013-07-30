@@ -7,6 +7,7 @@ options
   MULTI=true;
   KEEP_LINE_COLUMN = false;
   static = false;
+  NODE_CLASS = "SWLNode";
   //DEBUG_PARSER=true;
   //DEBUG_TOKEN_MANAGER=true;
 }
@@ -501,7 +502,7 @@ int ColumnDescription() :
 {	t = < NUMBER >
 	(<OPEN_S_BRACKET > CssStyle() < CLOSE_S_BRACKET >)?
   {
-    
+    jjtThis.setImage(t.image);
     return Integer.parseInt(t.image);
   }
 }

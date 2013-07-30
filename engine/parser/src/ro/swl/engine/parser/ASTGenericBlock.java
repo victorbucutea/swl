@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTGenericBlock extends SimpleNode {
+class ASTGenericBlock extends SWLNode {
   public ASTGenericBlock(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTGenericBlock extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=b4f1aee82a18d519f0a59a4f9244bb1e (do not edit this line) */
+/* JavaCC - OriginalChecksum=599a327b2a2f64a496b75fabc184372a (do not edit this line) */

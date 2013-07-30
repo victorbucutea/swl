@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTScreen extends SimpleNode {
+class ASTScreen extends SWLNode {
   public ASTScreen(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTScreen extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=dcc0dac1b4be81f4ad5496c57f79d2e6 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1339a89389f2f4cfd1a4962b4a044709 (do not edit this line) */

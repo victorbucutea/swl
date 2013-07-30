@@ -42,6 +42,20 @@ public interface Grammar {
 
 	public String horizontalLayout();
 
+	public String horizontalLayoutClass();
+
+	public String horizontalLayoutColumn();
+
+	public String horizontalLayoutColumnDeclarationEnd();
+
+	public String horizontalLayoutColumnEnd();
+
+	public String horizontalLayoutColumnClass(String span);
+
+	public String horizontalLayoutDeclarationEnd();
+
+	public String horizontalLayoutEnd();
+
 	public String verticalLayout();
 
 	public String inlineStyleAttribute(String value);

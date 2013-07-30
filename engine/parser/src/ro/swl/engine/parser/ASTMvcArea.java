@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTMvcArea extends SimpleNode {
+class ASTMvcArea extends SWLNode {
   public ASTMvcArea(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTMvcArea extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=5d6a7a23d8f202824abf185dd2fe2ca7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=62571ca9d46169c6493b96bcf95831a6 (do not edit this line) */

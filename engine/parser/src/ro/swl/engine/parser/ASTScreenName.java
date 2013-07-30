@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTScreenName extends SimpleNode {
+class ASTScreenName extends SWLNode {
   public ASTScreenName(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTScreenName extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=e4f4a1d5e7f41833abc3dbcd0e2d7348 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c38bcd34c1ee5e0ad05a258f184f2a90 (do not edit this line) */

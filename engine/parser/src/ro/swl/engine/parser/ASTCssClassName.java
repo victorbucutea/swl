@@ -6,7 +6,6 @@
  */
 package ro.swl.engine.parser;
 
-import ro.swl.engine.parser.model.SWLNode;
 
 public class ASTCssClassName extends SWLNode {
 	public ASTCssClassName(int id) {

@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTH4 extends SimpleNode {
+class ASTH4 extends SWLNode {
   public ASTH4(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTH4 extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=bb963ddef31c607ec2852fab68fb77de (do not edit this line) */
+/* JavaCC - OriginalChecksum=9fa28ec6840cb8bc79bc0fbad013124b (do not edit this line) */

@@ -8,6 +8,7 @@ import ro.swl.engine.parser.ASTInput;
 import ro.swl.engine.parser.ASTInputArea;
 import ro.swl.engine.parser.ASTLabel;
 import ro.swl.engine.parser.SWL;
+import ro.swl.engine.parser.SWLNode;
 
 /**
  * Standard Description of a component.

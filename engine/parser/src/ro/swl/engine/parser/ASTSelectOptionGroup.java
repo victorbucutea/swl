@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTSelectOptionGroup extends SimpleNode {
+class ASTSelectOptionGroup extends SWLNode {
   public ASTSelectOptionGroup(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTSelectOptionGroup extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=89f591deac4dfd5ffccabce25b66df1c (do not edit this line) */
+/* JavaCC - OriginalChecksum=63962e054c238ffbaaa76a3b14e9c40c (do not edit this line) */

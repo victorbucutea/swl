@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTAppName extends SimpleNode {
+class ASTAppName extends SWLNode {
   public ASTAppName(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTAppName extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=174ae15ec34822bec2857751e983e0cc (do not edit this line) */
+/* JavaCC - OriginalChecksum=3c0eeae16e103296636b04aba7f6ec74 (do not edit this line) */

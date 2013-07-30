@@ -8,6 +8,7 @@ options
              
   KEEP_LINE_COLUMN = false;
   static = false;
+                         
   //DEBUG_PARSER=true;
   //DEBUG_TOKEN_MANAGER=true;
 }
@@ -1531,7 +1532,7 @@ int ColumnDescription() :
   }
 /*@egen*/
   {
-    
+    jjtn000.setImage(t.image);
     return Integer.parseInt(t.image);
   }/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {

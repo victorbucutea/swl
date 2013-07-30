@@ -53,6 +53,41 @@ public class AngularJSGrammar implements Grammar {
 	}
 
 	@Override
+	public String horizontalLayoutClass() {
+		return "row-fluid";
+	}
+
+	@Override
+	public String horizontalLayoutColumnClass(String span) {
+		return "span" + span;
+	}
+
+	@Override
+	public String horizontalLayoutColumn() {
+		return "<div ";
+	}
+
+	@Override
+	public String horizontalLayoutColumnDeclarationEnd() {
+		return ">";
+	}
+
+	@Override
+	public String horizontalLayoutColumnEnd() {
+		return "</div>";
+	}
+
+	@Override
+	public String horizontalLayoutDeclarationEnd() {
+		return ">";
+	}
+
+	@Override
+	public String horizontalLayoutEnd() {
+		return "</div>";
+	}
+
+	@Override
 	public String verticalLayout() {
 		return "<div ";
 	}

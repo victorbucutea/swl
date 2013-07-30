@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTModuleBody extends SimpleNode {
+class ASTModuleBody extends SWLNode {
   public ASTModuleBody(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTModuleBody extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=a4480da73426161a9f795e88ce6f175d (do not edit this line) */
+/* JavaCC - OriginalChecksum=2701ff9258959d6a4a1b3a1c6363257a (do not edit this line) */

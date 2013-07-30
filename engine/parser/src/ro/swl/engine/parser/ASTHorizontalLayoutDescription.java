@@ -27,24 +27,29 @@ public class ASTHorizontalLayoutDescription extends Description {
 	 */
 	@Override
 	public List<String> getCssClassNames() {
-		return super.getCssClassNames();
+		return getFirstChildNodeOfType(ASTCssStyle.class, false)
+				.getImageOfChildNodesOfType(ASTCssClassName.class, true);
 	}
 
 	public List<String> getCssClassNames(int columnNo) {
-		Class<ASTCssClassName> cssCls = ASTCssClassName.class;
-		Class<ASTColumnDescription> parentClass = ASTColumnDescription.class;
-		return getImageOfChildNodesWithParentOfType(cssCls, parentClass);
+		List<ASTColumnDescription> columnDescs = getChildNodesOfType(ASTColumnDescription.class, false);
+		ASTColumnDescription targetCol = columnDescs.get(columnNo);
+		return targetCol.getImageOfChildNodesOfType(ASTCssClassName.class, true);
 	}
 
+	/**
+	 * returns block level css styles
+	 */
 	@Override
 	public List<String> getCssInlineStyles() {
-		return super.getCssInlineStyles();
+		return getFirstChildNodeOfType(ASTCssStyle.class, false).getImageOfChildNodesOfType(ASTCssInlineStyle.class,
+				true);
 	}
 
 	public List<String> getCssInlineStyles(int columnNo) {
-		Class<ASTCssInlineStyle> cssCls = ASTCssInlineStyle.class;
-		Class<ASTColumnDescription> parentClass = ASTColumnDescription.class;
-		return getImageOfChildNodesWithParentOfType(cssCls, parentClass);
+		List<ASTColumnDescription> columnDescs = getChildNodesOfType(ASTColumnDescription.class, false);
+		ASTColumnDescription targetCol = columnDescs.get(columnNo);
+		return targetCol.getImageOfChildNodesOfType(ASTCssInlineStyle.class, true);
 	}
 
 }

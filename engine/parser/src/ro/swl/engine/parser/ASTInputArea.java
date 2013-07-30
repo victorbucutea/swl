@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTInputArea extends SimpleNode {
+class ASTInputArea extends SWLNode {
   public ASTInputArea(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTInputArea extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=b652436ebf3388aedd7802b8bd09cafb (do not edit this line) */
+/* JavaCC - OriginalChecksum=2e0487bc0772e10b5ad3fca5e8020f9f (do not edit this line) */

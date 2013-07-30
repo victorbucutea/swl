@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTImg extends SimpleNode {
+class ASTImg extends SWLNode {
   public ASTImg(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTImg extends SimpleNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=eac04883f8f2e28e29668789136f950c (do not edit this line) */
+/* JavaCC - OriginalChecksum=ae3cbe4e6d8de1aa5a1c5b3011d2466f (do not edit this line) */
