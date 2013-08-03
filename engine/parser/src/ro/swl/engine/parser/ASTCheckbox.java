@@ -7,40 +7,41 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.TagWriter;
 import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.Writer;
 
 public class ASTCheckbox extends Component {
+
+	/**
+	 * flag to indicate whether we already wrapped this checkbox in a label,
+	 * because on the subsequent calls to render(), we need not wrap again
+	 */
+	private boolean wrappedLabel;
+
 	public ASTCheckbox(int id) {
 		super(id);
 	}
 
-	public ASTCheckbox(SWL p, int id) {
-		super(p, id);
+	@Override
+	public void render(TagWriter writer) throws WriteException {
+		if (!wrappedLabel) {
+			ASTInputLabel label = new ASTInputLabel(0);
+			label.jjtAddChild(this, 0);
+			wrappedLabel = true;
+			label.render(writer);
+		} else {
+			super.render(writer);
+		}
 	}
 
 	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		writer.append(grammar.label());
-		writer.append(grammar.styleClassAttribute("checkbox"));
-		writer.append(grammar.labelDeclarationEnd());
-		writer.append(grammar.checkbox());
+	protected String getComponentName() {
+		return grammar.checkbox();
 	}
 
 	@Override
-	public void endBodyDeclaration(Writer writer) throws WriteException {
-		writer.append(grammar.checkboxDeclarationEnd());
-	}
-
-	@Override
-	public void endBody(Writer writer) throws WriteException {
-		writer.append(grammar.checkboxEnd());
-		writer.append("checkbox label TODO");
-		writer.append(grammar.labelEnd());
-	}
-
-	@Override
-	public void writeLabel(Writer writer) throws WriteException {
+	public void writeAttributes(TagWriter writer) throws WriteException {
+		writer.append(grammar.checkboxType());
 	}
 
 }

@@ -6,43 +6,24 @@
  */
 package ro.swl.engine.parser;
 
-import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.Writer;
+import ro.swl.engine.parser.model.InputComponent;
 
-public class ASTInput extends Component {
+public class ASTInput extends InputComponent {
 
 	public ASTInput(int id) {
 		super(id);
 	}
 
-	public ASTInput(SWL p, int id) {
-		super(p, id);
+	@Override
+	public String getInputComponentType() {
+		return grammar.inputTextType();
 	}
 
 	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		writer.appendLine(grammar.input());
+	protected String getComponentName() {
+		return grammar.inputText();
 	}
 
-	@Override
-	public void endBodyDeclaration(Writer writer) throws WriteException {
-		writer.append(grammar.inputDeclarationEnd());
-	}
-
-	@Override
-	public void endBody(Writer writer) throws WriteException {
-		writer.append(grammar.inputEnd());
-	}
-
-	@Override
-	public void writeLabel(Writer writer) throws WriteException {
-		writer.appendLine(grammar.label());
-		writer.append(grammar.labelDeclarationEnd());
-		writer.append("input TODO");
-		writer.append(grammar.labelEnd());
-		labelRendered = true;
-	}
 }
 /*
  * JavaCC - OriginalChecksum=eedb51c9abcc9e42e4fac7989a097346 (do not edit this

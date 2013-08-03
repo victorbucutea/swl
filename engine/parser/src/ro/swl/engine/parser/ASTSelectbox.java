@@ -7,14 +7,27 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.Writer;
 
 public class ASTSelectbox extends Component {
 	public ASTSelectbox(int id) {
 		super(id);
 	}
 
-	public ASTSelectbox(SWL p, int id) {
-		super(p, id);
+	@Override
+	public void beginBodyDeclaration(Writer writer) throws WriteException {
+		writer.append(grammar.selectbox());
+	}
+
+	@Override
+	public void endBodyDeclaration(Writer writer) throws WriteException {
+		writer.append(grammar.selectboxDeclarationEnd());
+	}
+
+	@Override
+	public void endBody(Writer writer) throws WriteException {
+		writer.append(grammar.selectboxEnd());
 	}
 
 }

@@ -3,28 +3,32 @@ package ro.swl.engine.grammar;
 public class AngularJSGrammar implements Grammar {
 
 	@Override
-	public String input() {
-		return "<input type=\"text\"";
+	public String inputText() {
+		return "input";
 	}
 
 	@Override
-	public String inputDeclarationEnd() {
-		return ">";
-	}
-
-	@Override
-	public String inputEnd() {
-		return "</input>";
+	public String inputTextType() {
+		return " type=\"text\"";
 	}
 
 	@Override
 	public String inputArea() {
-		return "<input type=\"area\"";
+		return "input";
+	}
+
+	@Override
+	public String inputAreaType() {
+		return " type=\"area\"";
 	}
 
 	@Override
 	public String inputFile() {
-		return input();
+		return "input";
+	}
+
+	public String inputFileType() {
+		return " type=\"file\"";
 	}
 
 	@Override
@@ -33,18 +37,33 @@ public class AngularJSGrammar implements Grammar {
 	}
 
 	@Override
+	public String selectoption() {
+		return "<option";
+	}
+
+	@Override
 	public String checkbox() {
-		return "<input type=\"checkbox\" ";
+		return "input";
 	}
 
 	@Override
-	public String checkboxDeclarationEnd() {
-		return ">";
+	public String checkboxType() {
+		return " type=\"checkbox\"";
 	}
 
 	@Override
-	public String checkboxEnd() {
-		return "</input>";
+	public String checkboxClass() {
+		return "checkbox";
+	}
+
+	@Override
+	public String radio() {
+		return "<input type=\"radio\"";
+	}
+
+	@Override
+	public String radioClass() {
+		return "radio";
 	}
 
 	@Override
@@ -68,43 +87,23 @@ public class AngularJSGrammar implements Grammar {
 	}
 
 	@Override
-	public String horizontalLayoutColumnDeclarationEnd() {
-		return ">";
-	}
-
-	@Override
-	public String horizontalLayoutColumnEnd() {
-		return "</div>";
-	}
-
-	@Override
-	public String horizontalLayoutDeclarationEnd() {
-		return ">";
-	}
-
-	@Override
-	public String horizontalLayoutEnd() {
-		return "</div>";
-	}
-
-	@Override
 	public String verticalLayout() {
 		return "<div ";
 	}
 
 	@Override
+	public String span() {
+		return "<span ";
+	}
+
+	@Override
 	public String label() {
-		return "<label ";
+		return "label";
 	}
 
 	@Override
-	public String labelDeclarationEnd() {
-		return ">";
-	}
-
-	@Override
-	public String labelEnd() {
-		return "</label>";
+	public String button() {
+		return "button";
 	}
 
 	@Override

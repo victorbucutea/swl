@@ -9,8 +9,8 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
                          
-  //DEBUG_PARSER=true;
-  //DEBUG_TOKEN_MANAGER=true;
+  DEBUG_PARSER=true;
+  DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -122,7 +122,7 @@ PARSER_END(SWL)
 | < VERTICAL_LAYOUT: "vertical_layout" >
 | < HORIZONTAL_LAYOUT: "horizontal_layout" >
 | < HORIZONTAL_FORM: "horizontal_form" >
-| < HORIZONTAL_FORM_GROUP: "horizontal_form_group" >
+| < GROUP: "group" >
 | < SECTION: "section" >
 
 
@@ -746,7 +746,7 @@ ASTHorizontalFormGroup HorizontalFormGroup() : {/*@bgen(jjtree) HorizontalFormGr
 {/*@bgen(jjtree) HorizontalFormGroup */
    try {
 /*@egen*/
-   < HORIZONTAL_FORM_GROUP >
+   < GROUP >
     StdLayoutDescription()
    < OPEN_BRACKET >
   		MvcArea()
@@ -1700,9 +1700,10 @@ void SelectboxOptions() : {/*@bgen(jjtree) SelectboxOptions */
   try {
 /*@egen*/
   < OPEN_BRACKET >
-
-  	SelectOption()
+  
+ (     	SelectOption()
  |  SelectOptionGroup()
+ )*
 
   < CLOSE_BRACKET >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -1734,7 +1735,7 @@ void SelectOption() : {/*@bgen(jjtree) SelectOption */
 {/*@bgen(jjtree) SelectOption */
    try {
 /*@egen*/
-   < SELECTOPTION > (RadiosInputDescription())*/*@bgen(jjtree)*/
+   < SELECTOPTION > (RadiosInputDescription())/*@bgen(jjtree)*/
    } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
@@ -1765,7 +1766,7 @@ void SelectOptionGroup() : {/*@bgen(jjtree) SelectOptionGroup */
 {/*@bgen(jjtree) SelectOptionGroup */
    try {
 /*@egen*/
-   < SELECTOPTIONGROUP > < OPEN_R_BRACKET > (SelectOption())* < CLOSE_R_BRACKET >/*@bgen(jjtree)*/
+   < SELECTOPTIONGROUP > StdInputDescription() < OPEN_BRACKET > (SelectOption())* < CLOSE_BRACKET >/*@bgen(jjtree)*/
    } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);

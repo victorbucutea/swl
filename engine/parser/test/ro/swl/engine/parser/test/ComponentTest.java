@@ -16,7 +16,7 @@ import ro.swl.engine.parser.SWL;
 public class ComponentTest extends SwlTest {
 
 	@Test
-	public void noComponents() throws UnsupportedEncodingException, ParseException {
+	public void noComponents() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' module CV{ " +
 				"	ui { screen screen1 {" +
@@ -29,7 +29,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleModel() throws UnsupportedEncodingException, ParseException {
+	public void simpleModel() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' module CV{ " +
 				"	ui { screen screen1 {" +
@@ -52,7 +52,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void styleClassDecl() throws UnsupportedEncodingException, ParseException {
+	public void styleClassDecl() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' module CV{ " +
 				"	ui { screen screen1 {" +
@@ -67,7 +67,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void inlineStyleDecl() throws UnsupportedEncodingException, ParseException {
+	public void inlineStyleDecl() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream("input(var1.x.y.z, \" " +
 					"			top: 23%; bottom:3px; "+
@@ -94,7 +94,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void combinedInlineAndClassDecl() throws UnsupportedEncodingException, ParseException {
+	public void combinedInlineAndClassDecl() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream("input(var1.x.y.z, \" " +
 					"			top: 23%; bottom:3px; "+
@@ -109,7 +109,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void spacesBetweenStyles() throws UnsupportedEncodingException, ParseException {
+	public void spacesBetweenStyles() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" screen screen1 {" +
 				"			input(var1.x.y.z, \"  cssStyleClass1     ; " +
@@ -128,7 +128,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void literalWithStyleLikeText() throws UnsupportedEncodingException, ParseException {
+	public void literalWithStyleLikeText() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" screen screen1 {" +
 				"			input(\"top: 	23%  " +
@@ -174,7 +174,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void radiosAllProps() throws UnsupportedEncodingException, ParseException {
+	public void radiosAllProps() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("radios(modelVar,collection,\"background-url: 'http://www.somesite.com';\")"));
 		//@formatter:on
@@ -182,7 +182,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void radiosAllPropsSingleQuoteForCss() throws UnsupportedEncodingException, ParseException {
+	public void radiosAllPropsSingleQuoteForCss() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("radios(modelVar,collection,'background-url: \"http://www.somesite.com\";')"));
 		//@formatter:on
@@ -190,7 +190,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void radiosAllPropsWithSimpleCssClass() throws UnsupportedEncodingException, ParseException {
+	public void radiosAllPropsWithSimpleCssClass() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("radios(modelVar,collection,\"someCssClass ;\")"));
 		//@formatter:on
@@ -198,7 +198,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void radiosMandatoryAttrs() throws UnsupportedEncodingException, ParseException {
+	public void radiosMandatoryAttrs() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("radios(modelVar,collection)"));
 		//@formatter:on
@@ -206,7 +206,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleRadios() throws UnsupportedEncodingException, ParseException {
+	public void simpleRadios() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("radios()"));
 		//@formatter:on
@@ -214,7 +214,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleSelectBox() throws UnsupportedEncodingException, ParseException {
+	public void simpleSelectBox() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox()"));
 		//@formatter:on
@@ -222,7 +222,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void selectBoxWithMandatoryAttrs() throws UnsupportedEncodingException, ParseException {
+	public void selectBoxWithMandatoryAttrs() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection)"));
 		//@formatter:on
@@ -230,7 +230,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void selectBoxWithAllAttrs() throws UnsupportedEncodingException, ParseException {
+	public void selectBoxWithAllAttrs() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection,\"styleClass;\")"));
 		//@formatter:on
@@ -239,7 +239,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void selectBoxWithOptions() throws UnsupportedEncodingException, ParseException {
+	public void selectBoxWithOptions() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection) {" +
 				" selectoption() selectoption()}"));
@@ -248,7 +248,18 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void selectBoxWithAdvOptions() throws UnsupportedEncodingException, ParseException {
+	public void selectBoxWithOptionGroups() throws ParseException {
+		//@formatter:off
+		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection) {" +
+				" selectoptiongroup() { selectoption() selectoption()} " +
+				" selectoptiongroup() { selectoption() selectoption()}" +
+				" selectoption() }"));
+		//@formatter:on
+		swl.Selectbox();
+	}
+
+	@Test
+	public void selectBoxWithAdvOptions() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection) {" +
 				" selectoption(\"value\",\"label\") selectoption(\"value\",\"label\",'styleclass;')}"));
@@ -257,7 +268,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void imgSimple() throws UnsupportedEncodingException, ParseException {
+	public void imgSimple() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("img(cv.rawFile,\"width:300px; height:150px;\")"));
 		//@formatter:on
@@ -265,7 +276,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void imgLiteral() throws UnsupportedEncodingException, ParseException {
+	public void imgLiteral() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("img('cv.rawFile')"));
 		//@formatter:on
@@ -273,7 +284,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void inputLiteral() throws UnsupportedEncodingException, ParseException {
+	public void inputLiteral() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("input('some text')"));
 		//@formatter:on
@@ -281,7 +292,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void labelLiteral() throws UnsupportedEncodingException, ParseException {
+	public void labelLiteral() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("label(\"some text\")"));
 		//@formatter:on
@@ -289,7 +300,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void imgEmpty() throws UnsupportedEncodingException, ParseException {
+	public void imgEmpty() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("img()"));
 		//@formatter:on
@@ -297,7 +308,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleVerticalLayout() throws UnsupportedEncodingException, ParseException {
+	public void simpleVerticalLayout() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("vertical_layout() {}"
 								));
@@ -308,7 +319,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void verticalLayoutWithContent() throws UnsupportedEncodingException, ParseException {
+	public void verticalLayoutWithContent() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("vertical_layout () {"+
 													"img(cv.rawFile,\"width:300px; height:150px;\") "+
@@ -321,7 +332,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void verticalLayoutModelController() throws UnsupportedEncodingException, ParseException {
+	public void verticalLayoutModelController() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("vertical_layout () {"+
 													"model {} "+
@@ -336,7 +347,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void nestedVerticalLayoutWithContent() throws UnsupportedEncodingException, ParseException {
+	public void nestedVerticalLayoutWithContent() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("vertical_layout () {"+
 														"//layout can be dynamically defined \n"+ 
@@ -355,7 +366,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void nestedVerticalLayoutWithModelAndContent() throws UnsupportedEncodingException, ParseException {
+	public void nestedVerticalLayoutWithModelAndContent() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("vertical_layout (\"cssStyleClass2; top:20px;\") {"+
 														"img(cv.rawFile,\"width:300px; height:150px;\") "+
@@ -375,7 +386,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalLayout() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalLayout() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(4,1,1,1,1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -389,7 +400,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalLayout2() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalLayout2() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout() {}"));
 				//@formatter:on
@@ -398,7 +409,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalLayoutWithCss() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalLayoutWithCss() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row-css;\"],1,1,1['background-color: blue;'],1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -412,7 +423,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalLayoutWithCssAllOver() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalLayoutWithCssAllOver() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row1-css;\"],1[\"row2-css;\"]," +
 																			"1[\"row-css;\"],1['background-color: blue;'],1[\"row-css;\"],1[\"row-css;\"]) {"+
@@ -427,7 +438,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test(expected = ParseException.class)
-	public void horizontalLayoutWithMoreThen12Cols() throws UnsupportedEncodingException, ParseException {
+	public void horizontalLayoutWithMoreThen12Cols() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(1,1,1,1,1,1,1,1,1,1,1,1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -441,7 +452,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test(expected = ParseException.class)
-	public void horizontalLayoutWithMoreThen12Cols2() throws UnsupportedEncodingException, ParseException {
+	public void horizontalLayoutWithMoreThen12Cols2() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(13) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -455,7 +466,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test(expected = ParseException.class)
-	public void horizontalLayoutWithMoreThen12Cols3() throws UnsupportedEncodingException, ParseException {
+	public void horizontalLayoutWithMoreThen12Cols3() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(4,1,1,2,2,3) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -469,7 +480,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test(expected = ParseException.class)
-	public void horizontalLayoutWithMoreThen12Cols4() throws UnsupportedEncodingException, ParseException {
+	public void horizontalLayoutWithMoreThen12Cols4() throws ParseException {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(5,5,5) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
@@ -483,7 +494,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleButton() throws UnsupportedEncodingException, ParseException {
+	public void simpleButton() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("button()"));
 		//@formatter:on
@@ -492,7 +503,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleButtonWithAction() throws UnsupportedEncodingException, ParseException {
+	public void simpleButtonWithAction() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("button(saveAction())"));
 		//@formatter:on
@@ -501,7 +512,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleButtonWithActionParameter() throws UnsupportedEncodingException, ParseException {
+	public void simpleButtonWithActionParameter() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("button(saveAction(var1.subvar2.subvar3))"));
 		//@formatter:on
@@ -510,7 +521,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleButtonWithActionParameterAndCss() throws UnsupportedEncodingException, ParseException {
+	public void simpleButtonWithActionParameterAndCss() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("button(saveAction(var1.subvar2.subvar3)),'width :300px;')"));
 		//@formatter:on
@@ -519,7 +530,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalForm() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalForm() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("horizontal_form('width :300px;') {} "));
 		//@formatter:on
@@ -528,7 +539,7 @@ public class ComponentTest extends SwlTest {
 	}
 
 	@Test
-	public void simpleHorizontalFormWithContent() throws UnsupportedEncodingException, ParseException {
+	public void simpleHorizontalFormWithContent() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("horizontal_form('width :300px;') {" +
 				"							  model {} " +

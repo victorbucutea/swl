@@ -9,12 +9,14 @@ package ro.swl.engine.parser;
 import ro.swl.engine.parser.model.Component;
 
 public class ASTButton extends Component {
+
 	public ASTButton(int id) {
 		super(id);
 	}
 
-	public ASTButton(SWL p, int id) {
-		super(p, id);
+	@Override
+	protected String getComponentName() {
+		return grammar.button();
 	}
 
 }

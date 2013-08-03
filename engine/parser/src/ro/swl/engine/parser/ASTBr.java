@@ -7,23 +7,16 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.Writer;
 
 public class ASTBr extends Component {
 	public ASTBr(int id) {
 		super(id);
 	}
 
-	public ASTBr(SWL p, int id) {
-		super(p, id);
-	}
-
 	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		writer.append("<br />");
+	protected String getComponentName() {
+		return "br";
 	}
-
 }
 /*
  * JavaCC - OriginalChecksum=9f902c2c59a8127f6f3234e776076b87 (do not edit this

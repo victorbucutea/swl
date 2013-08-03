@@ -16,29 +16,33 @@ package ro.swl.engine.grammar;
  */
 public interface Grammar {
 
-	public String input();
+	public String inputText();
 
-	public String inputDeclarationEnd();
-
-	public String inputEnd();
+	public String inputTextType();
 
 	public String label();
 
-	public String labelDeclarationEnd();
-
-	public String labelEnd();
-
 	public String inputArea();
+
+	public String inputAreaType();
 
 	public String inputFile();
 
+	public String inputFileType();
+
 	public String selectbox();
+
+	public String selectoption();
 
 	public String checkbox();
 
-	public String checkboxDeclarationEnd();
+	public String checkboxType();
 
-	public String checkboxEnd();
+	public String checkboxClass();
+
+	public String radio();
+
+	public String radioClass();
 
 	public String horizontalLayout();
 
@@ -46,20 +50,16 @@ public interface Grammar {
 
 	public String horizontalLayoutColumn();
 
-	public String horizontalLayoutColumnDeclarationEnd();
-
-	public String horizontalLayoutColumnEnd();
-
 	public String horizontalLayoutColumnClass(String span);
-
-	public String horizontalLayoutDeclarationEnd();
-
-	public String horizontalLayoutEnd();
 
 	public String verticalLayout();
 
 	public String inlineStyleAttribute(String value);
 
 	public String styleClassAttribute(String value);
+
+	public String span();
+
+	public String button();
 
 }

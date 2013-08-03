@@ -1,6 +1,7 @@
 package ro.swl.engine.parser.test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -31,14 +32,19 @@ public class SWLNodeTest extends SwlTest {
 		List<ASTCssInlineStyle> styles = input.getChildNodesOfType(ASTCssInlineStyle.class, true);
 		List<ASTCssClassName> clsNames = input.getChildNodesOfType(ASTCssClassName.class, true);
 
-		System.out.println(styles.get(0).jjtGetValue());
 		assertEquals("cssclass1", clsNames.get(0).getImage());
 		assertEquals("height: 200px", styles.get(0).getImage());
 
 	}
 
-	public static void main(String[] args) {
-		System.out.println(Component.class.isAssignableFrom(ASTInput.class));
+	@Test
+	public void hasChildren() throws ParseException {
+		//@formatter:off
+				SWL swl = new SWL (createInputStream("" +
+						"		input(modelVar,' cssclass1; height: 200px;')"));
+		//@formatter:on
+
+		assertFalse(swl.Input().hasChildComponents());
 	}
 
 	@Test

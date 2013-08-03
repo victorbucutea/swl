@@ -89,7 +89,7 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int HORIZONTAL_FORM = 45;
   /** RegularExpression Id. */
-  int HORIZONTAL_FORM_GROUP = 46;
+  int GROUP = 46;
   /** RegularExpression Id. */
   int SECTION = 47;
   /** RegularExpression Id. */
@@ -198,7 +198,7 @@ public interface SWLConstants {
     "\"vertical_layout\"",
     "\"horizontal_layout\"",
     "\"horizontal_form\"",
-    "\"horizontal_form_group\"",
+    "\"group\"",
     "\"section\"",
     "\"br\"",
     "\"h1\"",

@@ -13,8 +13,9 @@ public class ASTLabel extends Component {
 		super(id);
 	}
 
-	public ASTLabel(SWL p, int id) {
-		super(p, id);
+	@Override
+	protected String getComponentName() {
+		return grammar.label();
 	}
 
 }

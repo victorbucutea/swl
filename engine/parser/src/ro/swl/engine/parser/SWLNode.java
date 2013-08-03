@@ -21,6 +21,10 @@ public class SWLNode extends SimpleNode {
 		return getChildNodesOfType(Component.class, true);
 	}
 
+	public boolean hasChildComponents() {
+		return !getChildComponents().isEmpty();
+	}
+
 	public <T extends SWLNode> List<String> getImageOfChildNodesOfType(Class<T> cls, boolean recursive) {
 		List<T> childNodes = getChildNodesOfType(cls, recursive);
 		List<String> result = new ArrayList<String>();

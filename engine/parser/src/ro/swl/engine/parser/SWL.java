@@ -28,29 +28,31 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
 /** *************************  SWL GRAMMAR  **************************** */
 /** ******************************************************************** */
   final public ASTSwdlFile SwdlFile() throws ParseException {
+    trace_call("SwdlFile");
+    try {
  /*@bgen(jjtree) SwdlFile */
   ASTSwdlFile jjtn000 = new ASTSwdlFile(JJTSWDLFILE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      NameDecl();
-      label_1:
-      while (true) {
-        Module();
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case MODULE:
-          ;
-          break;
-        default:
-          jj_la1[0] = jj_gen;
-          break label_1;
+      try {
+        NameDecl();
+        label_1:
+        while (true) {
+          Module();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case MODULE:
+            ;
+            break;
+          default:
+            jj_la1[0] = jj_gen;
+            break label_1;
+          }
         }
-      }
-      jj_consume_token(0);
+        jj_consume_token(0);
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -64,23 +66,28 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("SwdlFile");
+    }
   }
 
   final public void NameDecl() throws ParseException {
+    trace_call("NameDecl");
+    try {
  /*@bgen(jjtree) NameDecl */
   ASTNameDecl jjtn000 = new ASTNameDecl(JJTNAMEDECL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(APP_NAME);
-      AppName();
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(APP_NAME);
+        AppName();
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -94,37 +101,47 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("NameDecl");
     }
   }
 
   final public void AppName() throws ParseException {
+    trace_call("AppName");
+    try {
  /*@bgen(jjtree) AppName */
   ASTAppName jjtn000 = new ASTAppName(JJTAPPNAME);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token t;
-    try {
-      t = jj_consume_token(QUOTED_IDENTIFIER);
-    } finally {
+      try {
+        t = jj_consume_token(QUOTED_IDENTIFIER);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("AppName");
     }
   }
 
   final public void Module() throws ParseException {
+    trace_call("Module");
+    try {
  /*@bgen(jjtree) Module */
   ASTModule jjtn000 = new ASTModule(JJTMODULE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(MODULE);
-      ModuleName();
-      ModuleBody();
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(MODULE);
+        ModuleName();
+        ModuleBody();
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -138,63 +155,73 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Module");
     }
   }
 
   final public void ModuleName() throws ParseException {
+    trace_call("ModuleName");
+    try {
  /*@bgen(jjtree) ModuleName */
   ASTModuleName jjtn000 = new ASTModuleName(JJTMODULENAME);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token t;
-    try {
-      t = jj_consume_token(NAME);
+      try {
+        t = jj_consume_token(NAME);
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     System.out.println("Matched module name :"+t.image);
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("ModuleName");
     }
   }
 
   final public void ModuleBody() throws ParseException {
+    trace_call("ModuleBody");
+    try {
  /*@bgen(jjtree) ModuleBody */
   ASTModuleBody jjtn000 = new ASTModuleBody(JJTMODULEBODY);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_BRACKET);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case UI:
-        Ui();
-        break;
-      default:
-        jj_la1[1] = jj_gen;
-        ;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LOGIC:
-        Logic();
-        break;
-      default:
-        jj_la1[2] = jj_gen;
-        ;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case DOMAIN:
-        Domain();
-        break;
-      default:
-        jj_la1[3] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_BRACKET);
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(OPEN_BRACKET);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case UI:
+          Ui();
+          break;
+        default:
+          jj_la1[1] = jj_gen;
+          ;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case LOGIC:
+          Logic();
+          break;
+        default:
+          jj_la1[2] = jj_gen;
+          ;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DOMAIN:
+          Domain();
+          break;
+        default:
+          jj_la1[3] = jj_gen;
+          ;
+        }
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -208,35 +235,40 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("ModuleBody");
     }
   }
 
   final public void Ui() throws ParseException {
+    trace_call("Ui");
+    try {
  /*@bgen(jjtree) Ui */
   ASTUi jjtn000 = new ASTUi(JJTUI);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(UI);
-      jj_consume_token(OPEN_BRACKET);
-      label_2:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case SCREEN:
-          ;
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          break label_2;
+      try {
+        jj_consume_token(UI);
+        jj_consume_token(OPEN_BRACKET);
+        label_2:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SCREEN:
+            ;
+            break;
+          default:
+            jj_la1[4] = jj_gen;
+            break label_2;
+          }
+          Screen();
         }
-        Screen();
-      }
-      jj_consume_token(CLOSE_BRACKET);
-    } catch (Throwable jjte000) {
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -250,25 +282,30 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Ui");
     }
   }
 
   final public void Screen() throws ParseException {
+    trace_call("Screen");
+    try {
  /*@bgen(jjtree) Screen */
   ASTScreen jjtn000 = new ASTScreen(JJTSCREEN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(SCREEN);
-      ScreenName();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(SCREEN);
+        ScreenName();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -282,36 +319,46 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Screen");
     }
   }
 
   final public void ScreenName() throws ParseException {
+    trace_call("ScreenName");
+    try {
  /*@bgen(jjtree) ScreenName */
   ASTScreenName jjtn000 = new ASTScreenName(JJTSCREENNAME);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token t;
-    try {
-      t = jj_consume_token(NAME);
-    } finally {
+      try {
+        t = jj_consume_token(NAME);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("ScreenName");
     }
   }
 
   final public void Model() throws ParseException {
+    trace_call("Model");
+    try {
  /*@bgen(jjtree) Model */
   ASTModel jjtn000 = new ASTModel(JJTMODEL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(MODEL);
-      GenericBlock();
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(MODEL);
+        GenericBlock();
+      } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
        jjtc000 = false;
@@ -325,22 +372,27 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
        {if (true) throw (ParseException)jjte000;}
      }
      {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
      if (jjtc000) {
        jjtree.closeNodeScope(jjtn000, true);
      }
+      }
+    } finally {
+      trace_return("Model");
     }
   }
 
   final public void Controller() throws ParseException {
+    trace_call("Controller");
+    try {
                     /*@bgen(jjtree) Controller */
   ASTController jjtn000 = new ASTController(JJTCONTROLLER);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(CONTROLLER);
-      GenericBlock();
-    } catch (Throwable jjte000) {
+      try {
+        jj_consume_token(CONTROLLER);
+        GenericBlock();
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -354,47 +406,52 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Controller");
     }
   }
 
   final public void GenericBlock() throws ParseException {
+    trace_call("GenericBlock");
+    try {
  /*@bgen(jjtree) GenericBlock */
   ASTGenericBlock jjtn000 = new ASTGenericBlock(JJTGENERICBLOCK);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_BRACKET);
+      try {
+        jj_consume_token(OPEN_BRACKET);
          token_source.SwitchTo(JsContentState);
          nestingLvl++;
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case OPEN_BRACKET:
-        case ANY_NON_OPEN_CLOSE:
-          ;
-          break;
-        default:
-          jj_la1[5] = jj_gen;
-          break label_3;
+        label_3:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case OPEN_BRACKET:
+          case ANY_NON_OPEN_CLOSE:
+            ;
+            break;
+          default:
+            jj_la1[5] = jj_gen;
+            break label_3;
+          }
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case ANY_NON_OPEN_CLOSE:
+            jj_consume_token(ANY_NON_OPEN_CLOSE);
+            break;
+          case OPEN_BRACKET:
+            GenericBlock();
+            break;
+          default:
+            jj_la1[6] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ANY_NON_OPEN_CLOSE:
-          jj_consume_token(ANY_NON_OPEN_CLOSE);
-          break;
-        case OPEN_BRACKET:
-          GenericBlock();
-          break;
-        default:
-          jj_la1[6] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-      jj_consume_token(CLOSE_BRACKET);
+        jj_consume_token(CLOSE_BRACKET);
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     nestingLvl--;
@@ -402,7 +459,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     {
       token_source.SwitchTo(DEFAULT);
     }
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -416,148 +473,153 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("GenericBlock");
     }
   }
 
   final public void MvcArea() throws ParseException {
+    trace_call("MvcArea");
+    try {
                   /*@bgen(jjtree) MvcArea */
   ASTMvcArea jjtn000 = new ASTMvcArea(JJTMVCAREA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MODEL:
-        Model();
-        break;
-      default:
-        jj_la1[7] = jj_gen;
-        ;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case CONTROLLER:
-        Controller();
-        break;
-      default:
-        jj_la1[8] = jj_gen;
-        ;
-      }
-      label_4:
-      while (true) {
+      try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case INPUT:
-        case INPUT_AREA:
-        case INPUT_FILE:
-        case CHECKBOX:
-        case SELECTBOX:
-        case LABEL:
-        case RADIO:
-        case RADIOS:
-        case BUTTON:
-        case BUTTONGROUP:
-        case IMG:
-        case VERTICAL_LAYOUT:
-        case HORIZONTAL_LAYOUT:
-        case HORIZONTAL_FORM:
-        case HORIZONTAL_FORM_GROUP:
-        case SECTION:
-        case BR:
-        case H1:
-        case H2:
-        case H3:
-        case H4:
-        case H5:
-        case H6:
-        case UL:
+        case MODEL:
+          Model();
+          break;
+        default:
+          jj_la1[7] = jj_gen;
           ;
-          break;
-        default:
-          jj_la1[9] = jj_gen;
-          break label_4;
         }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case INPUT:
-          Input();
-          break;
-        case INPUT_FILE:
-          InputFile();
-          break;
-        case INPUT_AREA:
-          InputArea();
-          break;
-        case CHECKBOX:
-          Checkbox();
-          break;
-        case SELECTBOX:
-          Selectbox();
-          break;
-        case LABEL:
-          Label();
-          break;
-        case RADIO:
-          Radio();
-          break;
-        case RADIOS:
-          Radios();
-          break;
-        case IMG:
-          Img();
-          break;
-        case BUTTON:
-          Button();
-          break;
-        case BUTTONGROUP:
-          ButtonGroup();
-          break;
-        case VERTICAL_LAYOUT:
-          VerticalLayout();
-          break;
-        case HORIZONTAL_LAYOUT:
-          HorizontalLayout();
-          break;
-        case HORIZONTAL_FORM:
-          HorizontalForm();
-          break;
-        case HORIZONTAL_FORM_GROUP:
-          HorizontalFormGroup();
-          break;
-        case SECTION:
-          Section();
-          break;
-        case BR:
-          Br();
-          break;
-        case H1:
-          H1();
-          break;
-        case H2:
-          H2();
-          break;
-        case H3:
-          H3();
-          break;
-        case H4:
-          H4();
-          break;
-        case H5:
-          H5();
-          break;
-        case H6:
-          H6();
-          break;
-        case UL:
-          Ul();
+        case CONTROLLER:
+          Controller();
           break;
         default:
-          jj_la1[10] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+          jj_la1[8] = jj_gen;
+          ;
         }
-      }
-    } catch (Throwable jjte000) {
+        label_4:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case INPUT:
+          case INPUT_AREA:
+          case INPUT_FILE:
+          case CHECKBOX:
+          case SELECTBOX:
+          case LABEL:
+          case RADIO:
+          case RADIOS:
+          case BUTTON:
+          case BUTTONGROUP:
+          case IMG:
+          case VERTICAL_LAYOUT:
+          case HORIZONTAL_LAYOUT:
+          case HORIZONTAL_FORM:
+          case GROUP:
+          case SECTION:
+          case BR:
+          case H1:
+          case H2:
+          case H3:
+          case H4:
+          case H5:
+          case H6:
+          case UL:
+            ;
+            break;
+          default:
+            jj_la1[9] = jj_gen;
+            break label_4;
+          }
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case INPUT:
+            Input();
+            break;
+          case INPUT_FILE:
+            InputFile();
+            break;
+          case INPUT_AREA:
+            InputArea();
+            break;
+          case CHECKBOX:
+            Checkbox();
+            break;
+          case SELECTBOX:
+            Selectbox();
+            break;
+          case LABEL:
+            Label();
+            break;
+          case RADIO:
+            Radio();
+            break;
+          case RADIOS:
+            Radios();
+            break;
+          case IMG:
+            Img();
+            break;
+          case BUTTON:
+            Button();
+            break;
+          case BUTTONGROUP:
+            ButtonGroup();
+            break;
+          case VERTICAL_LAYOUT:
+            VerticalLayout();
+            break;
+          case HORIZONTAL_LAYOUT:
+            HorizontalLayout();
+            break;
+          case HORIZONTAL_FORM:
+            HorizontalForm();
+            break;
+          case GROUP:
+            HorizontalFormGroup();
+            break;
+          case SECTION:
+            Section();
+            break;
+          case BR:
+            Br();
+            break;
+          case H1:
+            H1();
+            break;
+          case H2:
+            H2();
+            break;
+          case H3:
+            H3();
+            break;
+          case H4:
+            H4();
+            break;
+          case H5:
+            H5();
+            break;
+          case H6:
+            H6();
+            break;
+          case UL:
+            Ul();
+            break;
+          default:
+            jj_la1[10] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
        jjtc000 = false;
@@ -571,28 +633,33 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
        {if (true) throw (ParseException)jjte000;}
      }
      {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
      if (jjtc000) {
        jjtree.closeNodeScope(jjtn000, true);
      }
+      }
+    } finally {
+      trace_return("MvcArea");
     }
   }
 
   final public ASTVerticalLayout VerticalLayout() throws ParseException {
+    trace_call("VerticalLayout");
+    try {
                                       /*@bgen(jjtree) VerticalLayout */
   ASTVerticalLayout jjtn000 = new ASTVerticalLayout(JJTVERTICALLAYOUT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(VERTICAL_LAYOUT);
-      StdLayoutDescription();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
+      try {
+        jj_consume_token(VERTICAL_LAYOUT);
+        StdLayoutDescription();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
           jjtree.closeNodeScope(jjtn000, true);
           jjtc000 = false;
           {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
         jjtc000 = false;
@@ -606,29 +673,34 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         {if (true) throw (ParseException)jjte000;}
       }
       {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
       }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("VerticalLayout");
+    }
   }
 
   final public ASTHorizontalLayout HorizontalLayout() throws ParseException {
+    trace_call("HorizontalLayout");
+    try {
                                           /*@bgen(jjtree) HorizontalLayout */
   ASTHorizontalLayout jjtn000 = new ASTHorizontalLayout(JJTHORIZONTALLAYOUT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(HORIZONTAL_LAYOUT);
-      HorizontalLayoutDescription();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
+      try {
+        jj_consume_token(HORIZONTAL_LAYOUT);
+        HorizontalLayoutDescription();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
           jjtree.closeNodeScope(jjtn000, true);
           jjtc000 = false;
            {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -642,29 +714,34 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("HorizontalLayout");
+    }
   }
 
   final public ASTHorizontalForm HorizontalForm() throws ParseException {
+    trace_call("HorizontalForm");
+    try {
                                       /*@bgen(jjtree) HorizontalForm */
   ASTHorizontalForm jjtn000 = new ASTHorizontalForm(JJTHORIZONTALFORM);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(HORIZONTAL_FORM);
-      StdLayoutDescription();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
+      try {
+        jj_consume_token(HORIZONTAL_FORM);
+        StdLayoutDescription();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -678,29 +755,34 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("HorizontalForm");
+    }
   }
 
   final public ASTHorizontalFormGroup HorizontalFormGroup() throws ParseException {
+    trace_call("HorizontalFormGroup");
+    try {
                                                 /*@bgen(jjtree) HorizontalFormGroup */
   ASTHorizontalFormGroup jjtn000 = new ASTHorizontalFormGroup(JJTHORIZONTALFORMGROUP);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(HORIZONTAL_FORM_GROUP);
-      StdLayoutDescription();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
+      try {
+        jj_consume_token(GROUP);
+        StdLayoutDescription();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
      jjtree.closeNodeScope(jjtn000, true);
      jjtc000 = false;
     {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
        jjtc000 = false;
@@ -714,29 +796,34 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
        {if (true) throw (ParseException)jjte000;}
      }
      {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
      if (jjtc000) {
        jjtree.closeNodeScope(jjtn000, true);
      }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("HorizontalFormGroup");
+    }
   }
 
   final public ASTSection Section() throws ParseException {
+    trace_call("Section");
+    try {
                         /*@bgen(jjtree) Section */
   ASTSection jjtn000 = new ASTSection(JJTSECTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(SECTION);
-      StdInputDescription();
-      jj_consume_token(OPEN_BRACKET);
-      MvcArea();
-      jj_consume_token(CLOSE_BRACKET);
+      try {
+        jj_consume_token(SECTION);
+        StdInputDescription();
+        jj_consume_token(OPEN_BRACKET);
+        MvcArea();
+        jj_consume_token(CLOSE_BRACKET);
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -750,147 +837,192 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Section");
+    }
   }
 
   final public void Br() throws ParseException {
+    trace_call("Br");
+    try {
              /*@bgen(jjtree) Br */
   ASTBr jjtn000 = new ASTBr(JJTBR);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(BR);
-      jj_consume_token(OPEN_R_BRACKET);
-      jj_consume_token(CLOSE_R_BRACKET);
-    } finally {
+      try {
+        jj_consume_token(BR);
+        jj_consume_token(OPEN_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("Br");
     }
   }
 
   final public void H1() throws ParseException {
+    trace_call("H1");
+    try {
              /*@bgen(jjtree) H1 */
   ASTH1 jjtn000 = new ASTH1(JJTH1);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H1);
-    } finally {
+      try {
+        jj_consume_token(H1);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("H1");
     }
   }
 
   final public void H2() throws ParseException {
+    trace_call("H2");
+    try {
              /*@bgen(jjtree) H2 */
   ASTH2 jjtn000 = new ASTH2(JJTH2);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H2);
-    } finally {
+      try {
+        jj_consume_token(H2);
+      } finally {
    if (jjtc000) {
      jjtree.closeNodeScope(jjtn000, true);
    }
+      }
+    } finally {
+      trace_return("H2");
     }
   }
 
   final public void H3() throws ParseException {
+    trace_call("H3");
+    try {
              /*@bgen(jjtree) H3 */
   ASTH3 jjtn000 = new ASTH3(JJTH3);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H3);
-    } finally {
+      try {
+        jj_consume_token(H3);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("H3");
     }
   }
 
   final public void H4() throws ParseException {
+    trace_call("H4");
+    try {
              /*@bgen(jjtree) H4 */
   ASTH4 jjtn000 = new ASTH4(JJTH4);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H4);
-    } finally {
+      try {
+        jj_consume_token(H4);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("H4");
     }
   }
 
   final public void H5() throws ParseException {
+    trace_call("H5");
+    try {
              /*@bgen(jjtree) H5 */
   ASTH5 jjtn000 = new ASTH5(JJTH5);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H5);
-    } finally {
+      try {
+        jj_consume_token(H5);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("H5");
     }
   }
 
   final public void H6() throws ParseException {
+    trace_call("H6");
+    try {
              /*@bgen(jjtree) H6 */
   ASTH6 jjtn000 = new ASTH6(JJTH6);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(H6);
-    } finally {
+      try {
+        jj_consume_token(H6);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("H6");
     }
   }
 
   final public void Ul() throws ParseException {
+    trace_call("Ul");
+    try {
              /*@bgen(jjtree) Ul */
   ASTUl jjtn000 = new ASTUl(JJTUL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(UL);
-    } finally {
+      try {
+        jj_consume_token(UL);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Ul");
     }
   }
 
   final public ASTInput Input() throws ParseException {
+    trace_call("Input");
+    try {
                     /*@bgen(jjtree) Input */
   ASTInput jjtn000 = new ASTInput(JJTINPUT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(INPUT);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[11] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(INPUT);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[11] = jj_gen;
+          ;
+        }
                                        jjtree.closeNodeScope(jjtn000, true);
                                        jjtc000 = false;
                                        {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -904,33 +1036,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Input");
+    }
   }
 
   final public ASTInputFile InputFile() throws ParseException {
+    trace_call("InputFile");
+    try {
                            /*@bgen(jjtree) InputFile */
   ASTInputFile jjtn000 = new ASTInputFile(JJTINPUTFILE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(INPUT_FILE);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[12] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(INPUT_FILE);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[12] = jj_gen;
+          ;
+        }
                                             jjtree.closeNodeScope(jjtn000, true);
                                             jjtc000 = false;
                                             {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -944,33 +1081,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("InputFile");
+    }
   }
 
   final public ASTInputArea InputArea() throws ParseException {
+    trace_call("InputArea");
+    try {
                            /*@bgen(jjtree) InputArea */
   ASTInputArea jjtn000 = new ASTInputArea(JJTINPUTAREA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(INPUT_AREA);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[13] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(INPUT_AREA);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[13] = jj_gen;
+          ;
+        }
                                               jjtree.closeNodeScope(jjtn000, true);
                                               jjtc000 = false;
                                               {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -984,33 +1126,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("InputArea");
+    }
   }
 
   final public ASTCheckbox Checkbox() throws ParseException {
+    trace_call("Checkbox");
+    try {
                          /*@bgen(jjtree) Checkbox */
   ASTCheckbox jjtn000 = new ASTCheckbox(JJTCHECKBOX);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(CHECKBOX);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[14] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(CHECKBOX);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[14] = jj_gen;
+          ;
+        }
                                            jjtree.closeNodeScope(jjtn000, true);
                                            jjtc000 = false;
                                            {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1024,42 +1171,46 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Checkbox");
+    }
   }
 
   final public ASTSelectbox Selectbox() throws ParseException {
+    trace_call("Selectbox");
+    try {
                            /*@bgen(jjtree) Selectbox */
   ASTSelectbox jjtn000 = new ASTSelectbox(JJTSELECTBOX);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(SELECTBOX);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        SelectInputDescription();
-        break;
-      default:
-        jj_la1[15] = jj_gen;
-        ;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_BRACKET:
-      case SELECTOPTIONGROUP:
-        SelectboxOptions();
-        break;
-      default:
-        jj_la1[16] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(SELECTBOX);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          SelectInputDescription();
+          break;
+        default:
+          jj_la1[15] = jj_gen;
+          ;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_BRACKET:
+          SelectboxOptions();
+          break;
+        default:
+          jj_la1[16] = jj_gen;
+          ;
+        }
                                                                      jjtree.closeNodeScope(jjtn000, true);
                                                                      jjtc000 = false;
                                                                      {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1073,33 +1224,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Selectbox");
+    }
   }
 
   final public ASTRadio Radio() throws ParseException {
+    trace_call("Radio");
+    try {
                    /*@bgen(jjtree) Radio */
   ASTRadio jjtn000 = new ASTRadio(JJTRADIO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(RADIO);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        RadioInputDescription();
-        break;
-      default:
-        jj_la1[17] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(RADIO);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          RadioInputDescription();
+          break;
+        default:
+          jj_la1[17] = jj_gen;
+          ;
+        }
                                          jjtree.closeNodeScope(jjtn000, true);
                                          jjtc000 = false;
                                          {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1113,33 +1269,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Radio");
+    }
   }
 
   final public ASTRadios Radios() throws ParseException {
+    trace_call("Radios");
+    try {
                      /*@bgen(jjtree) Radios */
   ASTRadios jjtn000 = new ASTRadios(JJTRADIOS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(RADIOS);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        RadiosInputDescription();
-        break;
-      default:
-        jj_la1[18] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(RADIOS);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          RadiosInputDescription();
+          break;
+        default:
+          jj_la1[18] = jj_gen;
+          ;
+        }
                                             jjtree.closeNodeScope(jjtn000, true);
                                             jjtc000 = false;
                                             {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1153,33 +1314,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Radios");
+    }
   }
 
   final public ASTLabel Label() throws ParseException {
+    trace_call("Label");
+    try {
                    /*@bgen(jjtree) Label */
   ASTLabel jjtn000 = new ASTLabel(JJTLABEL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(LABEL);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[19] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(LABEL);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[19] = jj_gen;
+          ;
+        }
                                        jjtree.closeNodeScope(jjtn000, true);
                                        jjtc000 = false;
                                        {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1193,33 +1359,38 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Label");
+    }
   }
 
   final public ASTImg Img() throws ParseException {
+    trace_call("Img");
+    try {
                /*@bgen(jjtree) Img */
   ASTImg jjtn000 = new ASTImg(JJTIMG);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(IMG);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        StdInputDescription();
-        break;
-      default:
-        jj_la1[20] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(IMG);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          StdInputDescription();
+          break;
+        default:
+          jj_la1[20] = jj_gen;
+          ;
+        }
                                       jjtree.closeNodeScope(jjtn000, true);
                                       jjtc000 = false;
                                       {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1233,36 +1404,41 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Img");
+    }
   }
 
   final public void ButtonGroup() throws ParseException {
+    trace_call("ButtonGroup");
+    try {
                       /*@bgen(jjtree) ButtonGroup */
   ASTButtonGroup jjtn000 = new ASTButtonGroup(JJTBUTTONGROUP);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(BUTTONGROUP);
-      jj_consume_token(OPEN_BRACKET);
-      label_5:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case BUTTON:
-          ;
-          break;
-        default:
-          jj_la1[21] = jj_gen;
-          break label_5;
+      try {
+        jj_consume_token(BUTTONGROUP);
+        jj_consume_token(OPEN_BRACKET);
+        label_5:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case BUTTON:
+            ;
+            break;
+          default:
+            jj_la1[21] = jj_gen;
+            break label_5;
+          }
+          Button();
         }
-        Button();
-      }
-      jj_consume_token(CLOSE_BRACKET);
-    } catch (Throwable jjte000) {
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1276,32 +1452,37 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("ButtonGroup");
     }
   }
 
   final public ASTButton Button() throws ParseException {
+    trace_call("Button");
+    try {
                       /*@bgen(jjtree) Button */
   ASTButton jjtn000 = new ASTButton(JJTBUTTON);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(BUTTON);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_R_BRACKET:
-        ButtonDescription();
-        break;
-      default:
-        jj_la1[22] = jj_gen;
-        ;
-      }
+      try {
+        jj_consume_token(BUTTON);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_R_BRACKET:
+          ButtonDescription();
+          break;
+        default:
+          jj_la1[22] = jj_gen;
+          ;
+        }
                                              jjtree.closeNodeScope(jjtn000, true);
                                              jjtc000 = false;
                                              {if (true) return jjtn000;}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1315,44 +1496,49 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("Button");
+    }
   }
 
   final public void ButtonDescription() throws ParseException {
+    trace_call("ButtonDescription");
+    try {
                             /*@bgen(jjtree) ButtonDescription */
   ASTButtonDescription jjtn000 = new ASTButtonDescription(JJTBUTTONDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                              token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-        ButtonAction();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          jj_consume_token(COMMA);
-          CssStyle();
+        case VARIABLE:
+          ButtonAction();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            CssStyle();
+            break;
+          default:
+            jj_la1[23] = jj_gen;
+            ;
+          }
           break;
         default:
-          jj_la1[23] = jj_gen;
+          jj_la1[24] = jj_gen;
           ;
         }
-        break;
-      default:
-        jj_la1[24] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
                               jjtree.closeNodeScope(jjtn000, true);
                               jjtc000 = false;
                               token_source.SwitchTo(DEFAULT);
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1366,113 +1552,128 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("ButtonDescription");
     }
   }
 
   final public void ButtonAction() throws ParseException {
+    trace_call("ButtonAction");
+    try {
                        /*@bgen(jjtree) ButtonAction */
   ASTButtonAction jjtn000 = new ASTButtonAction(JJTBUTTONACTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(VARIABLE);
-      jj_consume_token(OPEN_R_BRACKET);
-      label_6:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case VARIABLE:
-          ;
-          break;
-        default:
-          jj_la1[25] = jj_gen;
-          break label_6;
-        }
+      try {
         jj_consume_token(VARIABLE);
-        label_7:
+        jj_consume_token(OPEN_R_BRACKET);
+        label_6:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case DOT:
+          case VARIABLE:
             ;
             break;
           default:
-            jj_la1[26] = jj_gen;
-            break label_7;
+            jj_la1[25] = jj_gen;
+            break label_6;
           }
-          jj_consume_token(DOT);
           jj_consume_token(VARIABLE);
+          label_7:
+          while (true) {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case DOT:
+              ;
+              break;
+            default:
+              jj_la1[26] = jj_gen;
+              break label_7;
+            }
+            jj_consume_token(DOT);
+            jj_consume_token(VARIABLE);
+          }
         }
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
-    } finally {
+        jj_consume_token(CLOSE_R_BRACKET);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("ButtonAction");
     }
   }
 
   final public void ModelVariable() throws ParseException {
+    trace_call("ModelVariable");
+    try {
                        /*@bgen(jjtree) ModelVariable */
   ASTModelVariable jjtn000 = new ASTModelVariable(JJTMODELVARIABLE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LITERAL:
-        jj_consume_token(LITERAL);
-        break;
-      case VARIABLE:
-        jj_consume_token(VARIABLE);
-        label_8:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case DOT:
-            ;
-            break;
-          default:
-            jj_la1[27] = jj_gen;
-            break label_8;
-          }
-          jj_consume_token(DOT);
+      try {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case LITERAL:
+          jj_consume_token(LITERAL);
+          break;
+        case VARIABLE:
           jj_consume_token(VARIABLE);
+          label_8:
+          while (true) {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case DOT:
+              ;
+              break;
+            default:
+              jj_la1[27] = jj_gen;
+              break label_8;
+            }
+            jj_consume_token(DOT);
+            jj_consume_token(VARIABLE);
+          }
+          break;
+        default:
+          jj_la1[28] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
         }
-        break;
-      default:
-        jj_la1[28] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
+      } finally {
        if (jjtc000) {
          jjtree.closeNodeScope(jjtn000, true);
        }
+      }
+    } finally {
+      trace_return("ModelVariable");
     }
   }
 
   final public void StdLayoutDescription() throws ParseException {
+    trace_call("StdLayoutDescription");
+    try {
                               /*@bgen(jjtree) StdLayoutDescription */
   ASTStdLayoutDescription jjtn000 = new ASTStdLayoutDescription(JJTSTDLAYOUTDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                              token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case DESC_QUOTE:
-        CssStyle();
-        break;
-      default:
-        jj_la1[29] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DESC_QUOTE:
+          CssStyle();
+          break;
+        default:
+          jj_la1[29] = jj_gen;
+          ;
+        }
+        jj_consume_token(CLOSE_R_BRACKET);
                               jjtree.closeNodeScope(jjtn000, true);
                               jjtc000 = false;
                               token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1486,56 +1687,61 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("StdLayoutDescription");
     }
   }
 
   final public void HorizontalLayoutDescription() throws ParseException {
+    trace_call("HorizontalLayoutDescription");
+    try {
  /*@bgen(jjtree) HorizontalLayoutDescription */
   ASTHorizontalLayoutDescription jjtn000 = new ASTHorizontalLayoutDescription(JJTHORIZONTALLAYOUTDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);int noOfColumns = 0 ;
   int columnDescSpan = 0;
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                              token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_S_BRACKET:
-        jj_consume_token(OPEN_S_BRACKET);
-        CssStyle();
-        jj_consume_token(CLOSE_S_BRACKET);
-        break;
-      default:
-        jj_la1[30] = jj_gen;
-        ;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NUMBER:
-        columnDescSpan = ColumnDescription();
-                                                                noOfColumns = noOfColumns + columnDescSpan;
-        label_9:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            ;
-            break;
-          default:
-            jj_la1[31] = jj_gen;
-            break label_9;
-          }
-          jj_consume_token(COMMA);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_S_BRACKET:
+          jj_consume_token(OPEN_S_BRACKET);
+          CssStyle();
+          jj_consume_token(CLOSE_S_BRACKET);
+          break;
+        default:
+          jj_la1[30] = jj_gen;
+          ;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case NUMBER:
           columnDescSpan = ColumnDescription();
                                                                 noOfColumns = noOfColumns + columnDescSpan;
+          label_9:
+          while (true) {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case COMMA:
+              ;
+              break;
+            default:
+              jj_la1[31] = jj_gen;
+              break label_9;
+            }
+            jj_consume_token(COMMA);
+            columnDescSpan = ColumnDescription();
+                                                                noOfColumns = noOfColumns + columnDescSpan;
+          }
+          break;
+        default:
+          jj_la1[32] = jj_gen;
+          ;
         }
-        break;
-      default:
-        jj_la1[32] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
                               jjtree.closeNodeScope(jjtn000, true);
                               jjtc000 = false;
                                                   if (noOfColumns > 12) {
@@ -1543,7 +1749,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
                                                                                                 "cannot have more than 12 columns.");}
                                           }
                                           token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1557,35 +1763,40 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("HorizontalLayoutDescription");
     }
   }
 
   final public int ColumnDescription() throws ParseException {
+    trace_call("ColumnDescription");
+    try {
  /*@bgen(jjtree) ColumnDescription */
   ASTColumnDescription jjtn000 = new ASTColumnDescription(JJTCOLUMNDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token t = null;
-    try {
-      t = jj_consume_token(NUMBER);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_S_BRACKET:
-        jj_consume_token(OPEN_S_BRACKET);
-        CssStyle();
-        jj_consume_token(CLOSE_S_BRACKET);
-        break;
-      default:
-        jj_la1[33] = jj_gen;
-        ;
-      }
+      try {
+        t = jj_consume_token(NUMBER);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_S_BRACKET:
+          jj_consume_token(OPEN_S_BRACKET);
+          CssStyle();
+          jj_consume_token(CLOSE_S_BRACKET);
+          break;
+        default:
+          jj_la1[33] = jj_gen;
+          ;
+        }
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
     jjtn000.setImage(t.image);
     {if (true) return Integer.parseInt(t.image);}
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
             jjtc000 = false;
@@ -1599,47 +1810,52 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
             {if (true) throw (ParseException)jjte000;}
           }
           {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("ColumnDescription");
+    }
   }
 
   final public void RadioInputDescription() throws ParseException {
+    trace_call("RadioInputDescription");
+    try {
                                 /*@bgen(jjtree) RadioInputDescription */
   ASTRadioInputDescription jjtn000 = new ASTRadioInputDescription(JJTRADIOINPUTDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                                      token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-      case LITERAL:
-        ModelVariable();
-        jj_consume_token(COMMA);
-        ModelVariable();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
+        case VARIABLE:
+        case LITERAL:
+          ModelVariable();
           jj_consume_token(COMMA);
-          CssStyle();
+          ModelVariable();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            CssStyle();
+            break;
+          default:
+            jj_la1[34] = jj_gen;
+            ;
+          }
           break;
         default:
-          jj_la1[34] = jj_gen;
+          jj_la1[35] = jj_gen;
           ;
         }
-        break;
-      default:
-        jj_la1[35] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
                                       jjtree.closeNodeScope(jjtn000, true);
                                       jjtc000 = false;
                                       token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
                   if (jjtc000) {
                     jjtree.clearNodeScope(jjtn000);
                     jjtc000 = false;
@@ -1653,46 +1869,51 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
                     {if (true) throw (ParseException)jjte000;}
                   }
                   {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
                   if (jjtc000) {
                     jjtree.closeNodeScope(jjtn000, true);
                   }
+      }
+    } finally {
+      trace_return("RadioInputDescription");
     }
   }
 
   final public void RadiosInputDescription() throws ParseException {
+    trace_call("RadiosInputDescription");
+    try {
                                  /*@bgen(jjtree) RadiosInputDescription */
   ASTRadiosInputDescription jjtn000 = new ASTRadiosInputDescription(JJTRADIOSINPUTDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                                      token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-      case LITERAL:
-        ModelVariable();
-        jj_consume_token(COMMA);
-        ModelVariable();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
+        case VARIABLE:
+        case LITERAL:
+          ModelVariable();
           jj_consume_token(COMMA);
-          CssStyle();
+          ModelVariable();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            CssStyle();
+            break;
+          default:
+            jj_la1[36] = jj_gen;
+            ;
+          }
           break;
         default:
-          jj_la1[36] = jj_gen;
+          jj_la1[37] = jj_gen;
           ;
         }
-        break;
-      default:
-        jj_la1[37] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
                                       jjtree.closeNodeScope(jjtn000, true);
                                       jjtc000 = false;
                                       token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
                   if (jjtc000) {
                     jjtree.clearNodeScope(jjtn000);
                     jjtc000 = false;
@@ -1706,46 +1927,51 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
                     {if (true) throw (ParseException)jjte000;}
                   }
                   {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
                   if (jjtc000) {
                     jjtree.closeNodeScope(jjtn000, true);
                   }
+      }
+    } finally {
+      trace_return("RadiosInputDescription");
     }
   }
 
   final public void SelectInputDescription() throws ParseException {
+    trace_call("SelectInputDescription");
+    try {
                                  /*@bgen(jjtree) SelectInputDescription */
   ASTSelectInputDescription jjtn000 = new ASTSelectInputDescription(JJTSELECTINPUTDESCRIPTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
                                      token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-      case LITERAL:
-        ModelVariable();
-        jj_consume_token(COMMA);
-        ModelVariable();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
+        case VARIABLE:
+        case LITERAL:
+          ModelVariable();
           jj_consume_token(COMMA);
-          CssStyle();
+          ModelVariable();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            CssStyle();
+            break;
+          default:
+            jj_la1[38] = jj_gen;
+            ;
+          }
           break;
         default:
-          jj_la1[38] = jj_gen;
+          jj_la1[39] = jj_gen;
           ;
         }
-        break;
-      default:
-        jj_la1[39] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
+        jj_consume_token(CLOSE_R_BRACKET);
                                       jjtree.closeNodeScope(jjtn000, true);
                                       jjtc000 = false;
                                       token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
                   if (jjtc000) {
                     jjtree.clearNodeScope(jjtn000);
                     jjtc000 = false;
@@ -1759,226 +1985,51 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
                     {if (true) throw (ParseException)jjte000;}
                   }
                   {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
                   if (jjtc000) {
                     jjtree.closeNodeScope(jjtn000, true);
                   }
+      }
+    } finally {
+      trace_return("SelectInputDescription");
     }
   }
 
   final public void SelectboxOptions() throws ParseException {
+    trace_call("SelectboxOptions");
+    try {
                            /*@bgen(jjtree) SelectboxOptions */
   ASTSelectboxOptions jjtn000 = new ASTSelectboxOptions(JJTSELECTBOXOPTIONS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OPEN_BRACKET:
+      try {
         jj_consume_token(OPEN_BRACKET);
-        SelectOption();
-        break;
-      case SELECTOPTIONGROUP:
-        SelectOptionGroup();
-        jj_consume_token(CLOSE_BRACKET);
-        break;
-      default:
-        jj_la1[40] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } catch (Throwable jjte000) {
-    if (jjtc000) {
-      jjtree.clearNodeScope(jjtn000);
-      jjtc000 = false;
-    } else {
-      jjtree.popNode();
-    }
-    if (jjte000 instanceof RuntimeException) {
-      {if (true) throw (RuntimeException)jjte000;}
-    }
-    if (jjte000 instanceof ParseException) {
-      {if (true) throw (ParseException)jjte000;}
-    }
-    {if (true) throw (Error)jjte000;}
-    } finally {
-    if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
-    }
-    }
-  }
-
-  final public void SelectOption() throws ParseException {
-                       /*@bgen(jjtree) SelectOption */
-  ASTSelectOption jjtn000 = new ASTSelectOption(JJTSELECTOPTION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(SELECTOPTION);
-      label_10:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case OPEN_R_BRACKET:
-          ;
-          break;
-        default:
-          jj_la1[41] = jj_gen;
-          break label_10;
-        }
-        RadiosInputDescription();
-      }
-    } catch (Throwable jjte000) {
-     if (jjtc000) {
-       jjtree.clearNodeScope(jjtn000);
-       jjtc000 = false;
-     } else {
-       jjtree.popNode();
-     }
-     if (jjte000 instanceof RuntimeException) {
-       {if (true) throw (RuntimeException)jjte000;}
-     }
-     if (jjte000 instanceof ParseException) {
-       {if (true) throw (ParseException)jjte000;}
-     }
-     {if (true) throw (Error)jjte000;}
-    } finally {
-     if (jjtc000) {
-       jjtree.closeNodeScope(jjtn000, true);
-     }
-    }
-  }
-
-  final public void SelectOptionGroup() throws ParseException {
-                            /*@bgen(jjtree) SelectOptionGroup */
-  ASTSelectOptionGroup jjtn000 = new ASTSelectOptionGroup(JJTSELECTOPTIONGROUP);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(SELECTOPTIONGROUP);
-      jj_consume_token(OPEN_R_BRACKET);
-      label_11:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case SELECTOPTION:
-          ;
-          break;
-        default:
-          jj_la1[42] = jj_gen;
-          break label_11;
-        }
-        SelectOption();
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
-    } catch (Throwable jjte000) {
-     if (jjtc000) {
-       jjtree.clearNodeScope(jjtn000);
-       jjtc000 = false;
-     } else {
-       jjtree.popNode();
-     }
-     if (jjte000 instanceof RuntimeException) {
-       {if (true) throw (RuntimeException)jjte000;}
-     }
-     if (jjte000 instanceof ParseException) {
-       {if (true) throw (ParseException)jjte000;}
-     }
-     {if (true) throw (Error)jjte000;}
-    } finally {
-     if (jjtc000) {
-       jjtree.closeNodeScope(jjtn000, true);
-     }
-    }
-  }
-
-  final public void StdInputDescription() throws ParseException {
-                             /*@bgen(jjtree) StdInputDescription */
-  ASTStdInputDescription jjtn000 = new ASTStdInputDescription(JJTSTDINPUTDESCRIPTION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(OPEN_R_BRACKET);
-                       token_source.SwitchTo(InputDescriptionState);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-      case LITERAL:
-        ModelVariable();
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          jj_consume_token(COMMA);
-          CssStyle();
-          break;
-        default:
-          jj_la1[43] = jj_gen;
-          ;
-        }
-        break;
-      default:
-        jj_la1[44] = jj_gen;
-        ;
-      }
-      jj_consume_token(CLOSE_R_BRACKET);
-                        jjtree.closeNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        token_source.SwitchTo(DEFAULT) ;
-    } catch (Throwable jjte000) {
-    if (jjtc000) {
-      jjtree.clearNodeScope(jjtn000);
-      jjtc000 = false;
-    } else {
-      jjtree.popNode();
-    }
-    if (jjte000 instanceof RuntimeException) {
-      {if (true) throw (RuntimeException)jjte000;}
-    }
-    if (jjte000 instanceof ParseException) {
-      {if (true) throw (ParseException)jjte000;}
-    }
-    {if (true) throw (Error)jjte000;}
-    } finally {
-    if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
-    }
-    }
-  }
-
-  final public void CssStyle() throws ParseException {
-                  /*@bgen(jjtree) CssStyle */
-  ASTCssStyle jjtn000 = new ASTCssStyle(JJTCSSSTYLE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(DESC_QUOTE);
-                   token_source.SwitchTo(CssStyleState);
-      label_12:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case STYLE_CLASS:
-        case ASTERISK:
-          ;
-          break;
-        default:
-          jj_la1[45] = jj_gen;
-          break label_12;
-        }
-        if (jj_2_1(2147483647)) {
-          CssClassName();
-        } else {
+        label_10:
+        while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case STYLE_CLASS:
-          case ASTERISK:
-            CssInlineStyle();
+          case SELECTOPTION:
+          case SELECTOPTIONGROUP:
+            ;
             break;
           default:
-            jj_la1[46] = jj_gen;
+            jj_la1[40] = jj_gen;
+            break label_10;
+          }
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SELECTOPTION:
+            SelectOption();
+            break;
+          case SELECTOPTIONGROUP:
+            SelectOptionGroup();
+            break;
+          default:
+            jj_la1[41] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
         }
-      }
-      jj_consume_token(CLOSE_QUOTE);
-                     jjtree.closeNodeScope(jjtn000, true);
-                     jjtc000 = false;
-                     token_source.SwitchTo(InputDescriptionState);
-    } catch (Throwable jjte000) {
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
       jjtc000 = false;
@@ -1992,47 +2043,259 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       {if (true) throw (ParseException)jjte000;}
     }
     {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("SelectboxOptions");
+    }
+  }
+
+  final public void SelectOption() throws ParseException {
+    trace_call("SelectOption");
+    try {
+                       /*@bgen(jjtree) SelectOption */
+  ASTSelectOption jjtn000 = new ASTSelectOption(JJTSELECTOPTION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+      try {
+        jj_consume_token(SELECTOPTION);
+        RadiosInputDescription();
+      } catch (Throwable jjte000) {
+     if (jjtc000) {
+       jjtree.clearNodeScope(jjtn000);
+       jjtc000 = false;
+     } else {
+       jjtree.popNode();
+     }
+     if (jjte000 instanceof RuntimeException) {
+       {if (true) throw (RuntimeException)jjte000;}
+     }
+     if (jjte000 instanceof ParseException) {
+       {if (true) throw (ParseException)jjte000;}
+     }
+     {if (true) throw (Error)jjte000;}
+      } finally {
+     if (jjtc000) {
+       jjtree.closeNodeScope(jjtn000, true);
+     }
+      }
+    } finally {
+      trace_return("SelectOption");
+    }
+  }
+
+  final public void SelectOptionGroup() throws ParseException {
+    trace_call("SelectOptionGroup");
+    try {
+                            /*@bgen(jjtree) SelectOptionGroup */
+  ASTSelectOptionGroup jjtn000 = new ASTSelectOptionGroup(JJTSELECTOPTIONGROUP);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+      try {
+        jj_consume_token(SELECTOPTIONGROUP);
+        StdInputDescription();
+        jj_consume_token(OPEN_BRACKET);
+        label_11:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SELECTOPTION:
+            ;
+            break;
+          default:
+            jj_la1[42] = jj_gen;
+            break label_11;
+          }
+          SelectOption();
+        }
+        jj_consume_token(CLOSE_BRACKET);
+      } catch (Throwable jjte000) {
+     if (jjtc000) {
+       jjtree.clearNodeScope(jjtn000);
+       jjtc000 = false;
+     } else {
+       jjtree.popNode();
+     }
+     if (jjte000 instanceof RuntimeException) {
+       {if (true) throw (RuntimeException)jjte000;}
+     }
+     if (jjte000 instanceof ParseException) {
+       {if (true) throw (ParseException)jjte000;}
+     }
+     {if (true) throw (Error)jjte000;}
+      } finally {
+     if (jjtc000) {
+       jjtree.closeNodeScope(jjtn000, true);
+     }
+      }
+    } finally {
+      trace_return("SelectOptionGroup");
+    }
+  }
+
+  final public void StdInputDescription() throws ParseException {
+    trace_call("StdInputDescription");
+    try {
+                             /*@bgen(jjtree) StdInputDescription */
+  ASTStdInputDescription jjtn000 = new ASTStdInputDescription(JJTSTDINPUTDESCRIPTION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+      try {
+        jj_consume_token(OPEN_R_BRACKET);
+                       token_source.SwitchTo(InputDescriptionState);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case VARIABLE:
+        case LITERAL:
+          ModelVariable();
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            CssStyle();
+            break;
+          default:
+            jj_la1[43] = jj_gen;
+            ;
+          }
+          break;
+        default:
+          jj_la1[44] = jj_gen;
+          ;
+        }
+        jj_consume_token(CLOSE_R_BRACKET);
+                        jjtree.closeNodeScope(jjtn000, true);
+                        jjtc000 = false;
+                        token_source.SwitchTo(DEFAULT) ;
+      } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+      } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+      }
+    } finally {
+      trace_return("StdInputDescription");
+    }
+  }
+
+  final public void CssStyle() throws ParseException {
+    trace_call("CssStyle");
+    try {
+                  /*@bgen(jjtree) CssStyle */
+  ASTCssStyle jjtn000 = new ASTCssStyle(JJTCSSSTYLE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+      try {
+        jj_consume_token(DESC_QUOTE);
+                   token_source.SwitchTo(CssStyleState);
+        label_12:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case STYLE_CLASS:
+          case ASTERISK:
+            ;
+            break;
+          default:
+            jj_la1[45] = jj_gen;
+            break label_12;
+          }
+          if (jj_2_1(2147483647)) {
+            CssClassName();
+          } else {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case STYLE_CLASS:
+            case ASTERISK:
+              CssInlineStyle();
+              break;
+            default:
+              jj_la1[46] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
+          }
+        }
+        jj_consume_token(CLOSE_QUOTE);
+                     jjtree.closeNodeScope(jjtn000, true);
+                     jjtc000 = false;
+                     token_source.SwitchTo(InputDescriptionState);
+      } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+      } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+      }
+    } finally {
+      trace_return("CssStyle");
     }
   }
 
   final public void CssClassName() throws ParseException {
+    trace_call("CssClassName");
+    try {
                         /*@bgen(jjtree) CssClassName */
                         ASTCssClassName jjtn000 = new ASTCssClassName(JJTCSSCLASSNAME);
                         boolean jjtc000 = true;
                         jjtree.openNodeScope(jjtn000);Token t = null;
-    try {
-      t = jj_consume_token(STYLE_CLASS);
-      jj_consume_token(SEMICOLON);
+      try {
+        t = jj_consume_token(STYLE_CLASS);
+        jj_consume_token(SEMICOLON);
            jjtree.closeNodeScope(jjtn000, true);
            jjtc000 = false;
                 jjtn000.setImage(t.image);
-    } finally {
+      } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
+      }
+    } finally {
+      trace_return("CssClassName");
     }
   }
 
   final public void CssInlineStyle() throws ParseException {
+    trace_call("CssInlineStyle");
+    try {
                          /*@bgen(jjtree) CssInlineStyle */
                          ASTCssInlineStyle jjtn000 = new ASTCssInlineStyle(JJTCSSINLINESTYLE);
                          boolean jjtc000 = true;
                          jjtree.openNodeScope(jjtn000);String t1 = null; String t2 = null;
-    try {
-      t1 = CssStyleName();
-      jj_consume_token(COLON);
+      try {
+        t1 = CssStyleName();
+        jj_consume_token(COLON);
                     token_source.SwitchTo(CssStyleValueState);
-      t2 = CssStyleValue();
+        t2 = CssStyleValue();
                                 token_source.SwitchTo(CssStyleState);
-      jj_consume_token(SEMICOLON);
+        jj_consume_token(SEMICOLON);
           jjtree.closeNodeScope(jjtn000, true);
           jjtc000 = false;
                 jjtn000.setImage(t1 + ": "+t2);
-    } catch (Throwable jjte000) {
+      } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
         jjtc000 = false;
@@ -2046,86 +2309,109 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         {if (true) throw (ParseException)jjte000;}
       }
       {if (true) throw (Error)jjte000;}
-    } finally {
+      } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
       }
+      }
+    } finally {
+      trace_return("CssInlineStyle");
     }
   }
 
   final public String CssStyleName() throws ParseException {
+    trace_call("CssStyleName");
+    try {
                          /*@bgen(jjtree) CssStyleName */
                          ASTCssStyleName jjtn000 = new ASTCssStyleName(JJTCSSSTYLENAME);
                          boolean jjtc000 = true;
                          jjtree.openNodeScope(jjtn000);Token t = null;
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ASTERISK:
-        jj_consume_token(ASTERISK);
-        break;
-      default:
-        jj_la1[47] = jj_gen;
-        ;
-      }
-      t = jj_consume_token(STYLE_CLASS);
+      try {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case ASTERISK:
+          jj_consume_token(ASTERISK);
+          break;
+        default:
+          jj_la1[47] = jj_gen;
+          ;
+        }
+        t = jj_consume_token(STYLE_CLASS);
                                         jjtree.closeNodeScope(jjtn000, true);
                                         jjtc000 = false;
                                         {if (true) return t.image;}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("CssStyleName");
+    }
   }
 
   final public String CssStyleValue() throws ParseException {
+    trace_call("CssStyleValue");
+    try {
                          /*@bgen(jjtree) CssStyleValue */
                          ASTCssStyleValue jjtn000 = new ASTCssStyleValue(JJTCSSSTYLEVALUE);
                          boolean jjtc000 = true;
                          jjtree.openNodeScope(jjtn000);Token t = null;
-    try {
-      t = jj_consume_token(ANY_NO_SEMICOLON);
+      try {
+        t = jj_consume_token(ANY_NO_SEMICOLON);
                             jjtree.closeNodeScope(jjtn000, true);
                             jjtc000 = false;
                              {if (true) return t.image.trim();}
-    } finally {
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
-    }
+      }
     throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("CssStyleValue");
+    }
   }
 
   final public void Logic() throws ParseException {
+    trace_call("Logic");
+    try {
                 /*@bgen(jjtree) Logic */
   ASTLogic jjtn000 = new ASTLogic(JJTLOGIC);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(LOGIC);
-      jj_consume_token(OPEN_BRACKET);
-      jj_consume_token(CLOSE_BRACKET);
-    } finally {
+      try {
+        jj_consume_token(LOGIC);
+        jj_consume_token(OPEN_BRACKET);
+        jj_consume_token(CLOSE_BRACKET);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Logic");
     }
   }
 
   final public void Domain() throws ParseException {
+    trace_call("Domain");
+    try {
                  /*@bgen(jjtree) Domain */
   ASTDomain jjtn000 = new ASTDomain(JJTDOMAIN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-    try {
-      jj_consume_token(DOMAIN);
-      jj_consume_token(OPEN_BRACKET);
-      jj_consume_token(CLOSE_BRACKET);
-    } finally {
+      try {
+        jj_consume_token(DOMAIN);
+        jj_consume_token(OPEN_BRACKET);
+        jj_consume_token(CLOSE_BRACKET);
+      } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
+      }
+    } finally {
+      trace_return("Domain");
     }
   }
 
@@ -2168,10 +2454,10 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x80000,0x1000000,0x200000,0x100000,0x400000,0x80,0x80,0x4000000,0x2000000,0xc0000000,0xc0000000,0x200,0x200,0x200,0x200,0x200,0x80,0x200,0x200,0x200,0x200,0x0,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x800,0x0,0x0,0x800,0x0,0x0,0x0,0x0,0x0,0x0,0x80,0x200,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_0 = new int[] {0x80000,0x1000000,0x200000,0x100000,0x400000,0x80,0x80,0x4000000,0x2000000,0xc0000000,0xc0000000,0x200,0x200,0x200,0x200,0x200,0x80,0x200,0x200,0x200,0x200,0x0,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x800,0x0,0x0,0x800,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x4000000,0x4000000,0x0,0x0,0xffffe7,0xffffe7,0x0,0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x0,0x0,0x100,0x0,0x20000000,0x10000000,0x10000000,0x40000000,0x40000000,0x90000000,0x0,0x0,0x20000000,0x8000000,0x0,0x20000000,0x90000000,0x20000000,0x90000000,0x20000000,0x90000000,0x10,0x0,0x8,0x20000000,0x90000000,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x4000000,0x4000000,0x0,0x0,0xffffe7,0xffffe7,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x100,0x0,0x20000000,0x10000000,0x10000000,0x40000000,0x40000000,0x90000000,0x0,0x0,0x20000000,0x8000000,0x0,0x20000000,0x90000000,0x20000000,0x90000000,0x20000000,0x90000000,0x18,0x18,0x8,0x20000000,0x90000000,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
       jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x12,0x12,0x10,};
@@ -2272,6 +2558,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
           }
         }
       }
+      trace_token(token, "");
       return token;
     }
     token = oldToken;
@@ -2309,6 +2596,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     jj_gen++;
+      trace_token(token, " (in getNextToken)");
     return token;
   }
 
@@ -2400,12 +2688,55 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  /** Enable tracing. */
+  private int trace_indent = 0;
+  private boolean trace_enabled = true;
+
+/** Enable tracing. */
   final public void enable_tracing() {
+    trace_enabled = true;
   }
 
-  /** Disable tracing. */
+/** Disable tracing. */
   final public void disable_tracing() {
+    trace_enabled = false;
+  }
+
+  private void trace_call(String s) {
+    if (trace_enabled) {
+      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
+      System.out.println("Call:   " + s);
+    }
+    trace_indent = trace_indent + 2;
+  }
+
+  private void trace_return(String s) {
+    trace_indent = trace_indent - 2;
+    if (trace_enabled) {
+      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
+      System.out.println("Return: " + s);
+    }
+  }
+
+  private void trace_token(Token t, String where) {
+    if (trace_enabled) {
+      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
+      System.out.print("Consumed token: <" + tokenImage[t.kind]);
+      if (t.kind != 0 && !tokenImage[t.kind].equals("\"" + t.image + "\"")) {
+        System.out.print(": \"" + t.image + "\"");
+      }
+      System.out.println(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
+    }
+  }
+
+  private void trace_scan(Token t1, int t2) {
+    if (trace_enabled) {
+      for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
+      System.out.print("Visited token: <" + tokenImage[t1.kind]);
+      if (t1.kind != 0 && !tokenImage[t1.kind].equals("\"" + t1.image + "\"")) {
+        System.out.print(": \"" + t1.image + "\"");
+      }
+      System.out.println(" at line " + t1.beginLine + " column " + t1.beginColumn + ">; Expected token: <" + tokenImage[t2] + ">");
+    }
   }
 
   private void jj_rescan_token() {

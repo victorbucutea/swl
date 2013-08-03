@@ -8,8 +8,8 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
   NODE_CLASS = "SWLNode";
-  //DEBUG_PARSER=true;
-  //DEBUG_TOKEN_MANAGER=true;
+  DEBUG_PARSER=true;
+  DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -118,7 +118,7 @@ PARSER_END(SWL)
 | < VERTICAL_LAYOUT: "vertical_layout" >
 | < HORIZONTAL_LAYOUT: "horizontal_layout" >
 | < HORIZONTAL_FORM: "horizontal_form" >
-| < HORIZONTAL_FORM_GROUP: "horizontal_form_group" >
+| < GROUP: "group" >
 | < SECTION: "section" >
 
 
@@ -332,7 +332,7 @@ ASTHorizontalForm HorizontalForm() : {}
 
 ASTHorizontalFormGroup HorizontalFormGroup() : {}
 {
-   < HORIZONTAL_FORM_GROUP >
+   < GROUP >
     StdLayoutDescription()
    < OPEN_BRACKET >
   		MvcArea()
@@ -551,20 +551,21 @@ void SelectInputDescription() : {}
 void SelectboxOptions() : {}
 {
   < OPEN_BRACKET >
-
-  	SelectOption()
+  
+ (     	SelectOption()
  |  SelectOptionGroup()
+ )*
 
   < CLOSE_BRACKET >}
 
 void SelectOption() : {}
 {
-   < SELECTOPTION > (RadiosInputDescription())* // reuse the old production despite the bad name...}
+   < SELECTOPTION > (RadiosInputDescription()) // reuse the old production despite the bad name...}
 
 
 void SelectOptionGroup() : {}
 {
-   < SELECTOPTIONGROUP > < OPEN_R_BRACKET > (SelectOption())* < CLOSE_R_BRACKET > 	
+   < SELECTOPTIONGROUP > StdInputDescription() < OPEN_BRACKET > (SelectOption())* < CLOSE_BRACKET > 	
 }
 
 

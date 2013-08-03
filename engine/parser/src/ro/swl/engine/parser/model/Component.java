@@ -10,11 +10,9 @@ import ro.swl.engine.grammar.AngularJSGrammar;
 import ro.swl.engine.grammar.Grammar;
 import ro.swl.engine.parser.ASTCssClassName;
 import ro.swl.engine.parser.ASTCssInlineStyle;
-import ro.swl.engine.parser.SWL;
 import ro.swl.engine.parser.SWLNode;
+import ro.swl.engine.writer.TagWriter;
 import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.Writer;
-import ro.swl.engine.writer.WritingComponent;
 
 /**
  * Abstract component is defined by
@@ -23,7 +21,7 @@ import ro.swl.engine.writer.WritingComponent;
  * @author VictorBucutea
  * 
  */
-public abstract class Component extends SWLNode implements WritingComponent {
+public abstract class Component extends SWLNode {
 
 	@Inject
 	protected Grammar grammar = new AngularJSGrammar();
@@ -36,68 +34,63 @@ public abstract class Component extends SWLNode implements WritingComponent {
 		super(id);
 	}
 
-	public Component(SWL language, int id) {
-		super(language, id);
-	}
+	public void render(TagWriter writer) throws WriteException {
+		writer.startTag(getComponentName());
 
-	public final void renderComponent(Writer writer) throws WriteException {
-
-		if (!labelRendered) {
-			writeLabel(writer);
-		}
-
-		beginBodyDeclaration(writer);
-		writeCssStyles(writer);
 		writeAttributes(writer);
-		endBodyDeclaration(writer);
-		renderChildren(writer);
-		endBody(writer);
 
-	}
+		writeCssStyles(writer);
 
-	protected void renderChildren(Writer writer) throws WriteException {
-		for (Component c : getChildComponents()) {
-			writer.indent();
-			c.renderComponent(writer);
-			writer.unIndent();
-		}
-	}
-
-	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		// set flag to skip rendering. Makes no sense 
-		// to render anything if we don't start a body
-		hasBody = false;
-	}
-
-	@Override
-	public void writeCssStyles(Writer writer) throws WriteException {
-		if (!hasBody) {
+		if (!hasChildComponents()) {
+			writer.shortCloseTag(getComponentName());
 			return;
 		}
 
-		String clsString = join(getCssClassNames().toArray(), " ");
-		writer.append(grammar.styleClassAttribute(clsString));
+		writer.endTag(renderInline());
 
-		String inlineCss = join(getCssInlineStyles().toArray(), "; ");
-		writer.append(grammar.inlineStyleAttribute(inlineCss));
+		renderContentBeforeChildren(writer);
+
+		renderChildren(writer);
+
+		renderContentAfterChildren(writer);
+
+		writer.closeTag(getComponentName(), renderInline());
 	}
 
-	@Override
-	public void writeAttributes(Writer writer) throws WriteException {
+	public void writeCssStyles(TagWriter writer) throws WriteException {
+		List<String> cssClassNames = getCssClassNames();
+		if (!cssClassNames.isEmpty()) {
+			String clsString = join(cssClassNames.toArray(), " ");
+			writer.append(grammar.styleClassAttribute(clsString));
+		}
+
+		List<String> styles = getCssInlineStyles();
+		if (!styles.isEmpty()) {
+			String inlineCss = join(styles.toArray(), "; ");
+			writer.append(grammar.inlineStyleAttribute(inlineCss));
+		}
 	}
 
-	@Override
-	public void endBodyDeclaration(Writer writer) throws WriteException {
+	protected boolean renderInline() {
+		return false;
 	}
 
-	@Override
-	public void writeLabel(Writer writer) throws WriteException {
+	protected void writeAttributes(TagWriter writer) throws WriteException {
 	}
 
-	@Override
-	public void endBody(Writer writer) throws WriteException {
+	protected void renderContentAfterChildren(TagWriter writer) throws WriteException {
 	}
+
+	protected void renderContentBeforeChildren(TagWriter writer) throws WriteException {
+	}
+
+	protected void renderChildren(TagWriter writer) throws WriteException {
+		for (Component c : getChildComponents()) {
+			c.render(writer);
+		}
+	}
+
+	protected abstract String getComponentName();
 
 	public List<String> getCssClassNames() {
 		return getImageOfChildNodesOfType(ASTCssClassName.class, true);

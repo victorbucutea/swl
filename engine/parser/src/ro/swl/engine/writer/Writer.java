@@ -19,7 +19,7 @@ public class Writer {
 	}
 
 	private void appendIndentation() {
-		for (int i = 0; i <= indent; i++) {
+		for (int i = 0; i < indent; i++) {
 			buffer.append("\t");
 		}
 	}

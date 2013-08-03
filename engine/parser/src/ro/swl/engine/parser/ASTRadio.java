@@ -7,6 +7,8 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.Writer;
 
 public class ASTRadio extends Component {
 	public ASTRadio(int id) {
@@ -15,6 +17,27 @@ public class ASTRadio extends Component {
 
 	public ASTRadio(SWL p, int id) {
 		super(p, id);
+	}
+
+	@Override
+	public void beginBodyDeclaration(Writer writer) throws WriteException {
+		writer.appendLine(grammar.label());
+		writer.append(grammar.styleClassAttribute(grammar.radioClass()));
+		writer.append(grammar.labelDeclarationEnd());
+		writer.indent();
+		writer.appendLine(grammar.radio());
+		writer.unIndent();
+	}
+
+	@Override
+	public void endBodyDeclaration(Writer writer) throws WriteException {
+		writer.append(grammar.radioDeclarationEnd());
+	}
+
+	@Override
+	public void endBody(Writer writer) throws WriteException {
+		writer.append(grammar.radioEnd());
+		writer.appendLine(grammar.labelEnd());
 	}
 
 }
