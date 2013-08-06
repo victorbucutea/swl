@@ -25,7 +25,7 @@ public class ASTCheckbox extends Component {
 	@Override
 	public void render(TagWriter writer) throws WriteException {
 		if (!wrappedLabel) {
-			ASTInputLabel label = new ASTInputLabel(0);
+			ASTCheckboxLabel label = new ASTCheckboxLabel(0);
 			label.jjtAddChild(this, 0);
 			wrappedLabel = true;
 			label.render(writer);

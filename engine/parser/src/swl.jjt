@@ -456,9 +456,17 @@ void ButtonAction() : {}
   < VARIABLE > <OPEN_R_BRACKET > (<VARIABLE > (< DOT > <VARIABLE >)*)*  < CLOSE_R_BRACKET >}
 
  
-void ModelVariable(): {}
+void ModelVariable():
 {
-     < LITERAL > | ( < VARIABLE > (< DOT > <VARIABLE >)* )}
+  StringBuffer s = new StringBuffer();
+  Token t;
+}
+{
+    t= < LITERAL > { s.append(t.image.replace("\"","")); jjtThis.setLiteral(true); jjtThis.setImage(s.toString()); }    |( t = < VARIABLE > { s.append(t.image); }	      (
+	       t= < DOT > { s.append(t.image); }
+	       t = <VARIABLE > { s.append(t.image); }
+	       )*
+     ) { jjtThis.setImage(s.toString());  }}
 
 void StdLayoutDescription(): {}
 {
@@ -511,8 +519,8 @@ int ColumnDescription() :
 void RadioInputDescription() : {}
 {		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		
-		(		   ModelVariable() // model value to bind to
-			< COMMA > ModelVariable() // model value representing the value
+		(		    ModelVariable() // model value to bind to
+		      < COMMA > ModelVariable() // value property 
 			( < COMMA >  CssStyle() )?
 		)?
 
@@ -522,10 +530,10 @@ void RadioInputDescription() : {}
 void RadiosInputDescription() : {}
 {
 		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		
-		(
+ 		(
 		   ModelVariable() 			  // model value to bind to
 		   < COMMA > ModelVariable() // model values collection on which to iterate for the 'value' attribute of the radio
+		   < COMMA > ModelVariable() // value property 
 		 ( < COMMA >  CssStyle() )?
 		)?
 

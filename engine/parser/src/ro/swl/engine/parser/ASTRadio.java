@@ -6,38 +6,52 @@
  */
 package ro.swl.engine.parser;
 
+import java.util.List;
+
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.TagWriter;
 import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.Writer;
 
 public class ASTRadio extends Component {
+
+	private boolean wrappedLabel;
+
 	public ASTRadio(int id) {
 		super(id);
 	}
 
-	public ASTRadio(SWL p, int id) {
-		super(p, id);
+	@Override
+	public void render(TagWriter writer) throws WriteException {
+		if (!wrappedLabel) {
+			ASTRadioLabel label = new ASTRadioLabel(0);
+			label.jjtAddChild(this, 0);
+			wrappedLabel = true;
+			label.render(writer);
+		} else {
+			super.render(writer);
+		}
 	}
 
 	@Override
-	public void beginBodyDeclaration(Writer writer) throws WriteException {
-		writer.appendLine(grammar.label());
-		writer.append(grammar.styleClassAttribute(grammar.radioClass()));
-		writer.append(grammar.labelDeclarationEnd());
-		writer.indent();
-		writer.appendLine(grammar.radio());
-		writer.unIndent();
+	protected String getComponentName() {
+		return grammar.radio();
 	}
 
 	@Override
-	public void endBodyDeclaration(Writer writer) throws WriteException {
-		writer.append(grammar.radioDeclarationEnd());
+	public void writeAttributes(TagWriter writer) throws WriteException {
+		writer.append(grammar.radioType());
+		writer.append(grammar.radioName(getGroupName()));
 	}
 
-	@Override
-	public void endBody(Writer writer) throws WriteException {
-		writer.append(grammar.radioEnd());
-		writer.appendLine(grammar.labelEnd());
+	private String getGroupName() throws WriteException {
+		List<String> modelVars = getImageOfChildNodesOfType(ASTModelVariable.class, true);
+
+		if (modelVars.size() > 0) {
+			return modelVars.get(0);
+		} else {
+			throw new WriteException("Cannot identify name of radio input.");
+		}
+
 	}
 
 }

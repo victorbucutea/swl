@@ -1401,20 +1401,38 @@ void ButtonAction() : {/*@bgen(jjtree) ButtonAction */
 /*@egen*/}
 
  
-void ModelVariable(): {/*@bgen(jjtree) ModelVariable */
+void ModelVariable():
+{/*@bgen(jjtree) ModelVariable */
   ASTModelVariable jjtn000 = new ASTModelVariable(JJTMODELVARIABLE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) ModelVariable */
-     try {
 /*@egen*/
-     < LITERAL > | ( < VARIABLE > (< DOT > <VARIABLE >)* )/*@bgen(jjtree)*/
-     } finally {
-       if (jjtc000) {
+  StringBuffer s = new StringBuffer();
+  Token t;
+}
+{/*@bgen(jjtree) ModelVariable */
+    try {
+/*@egen*/
+    t= < LITERAL >/*@bgen(jjtree)*/
+                   {
+                     jjtree.closeNodeScope(jjtn000, true);
+                     jjtc000 = false;
+                   }
+/*@egen*/ { s.append(t.image.replace("\"","")); jjtn000.setLiteral(true); jjtn000.setImage(s.toString()); }    |( t = < VARIABLE > { s.append(t.image); }	      (
+	       t= < DOT > { s.append(t.image); }
+	       t = <VARIABLE > { s.append(t.image); }
+	       )*
+     )/*@bgen(jjtree)*/
+       {
          jjtree.closeNodeScope(jjtn000, true);
+         jjtc000 = false;
        }
-     }
+/*@egen*/ { jjtn000.setImage(s.toString());  }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
 /*@egen*/}
 
 void StdLayoutDescription(): {/*@bgen(jjtree) StdLayoutDescription */
@@ -1567,8 +1585,8 @@ void RadioInputDescription() : {/*@bgen(jjtree) RadioInputDescription */
                 try {
 /*@egen*/		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		
-		(		   ModelVariable() // model value to bind to
-			< COMMA > ModelVariable() // model value representing the value
+		(		    ModelVariable() // model value to bind to
+		      < COMMA > ModelVariable() // value property 
 			( < COMMA >  CssStyle() )?
 		)?
 
@@ -1609,10 +1627,10 @@ void RadiosInputDescription() : {/*@bgen(jjtree) RadiosInputDescription */
                 try {
 /*@egen*/
 		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		
-		(
+ 		(
 		   ModelVariable() 			  // model value to bind to
 		   < COMMA > ModelVariable() // model values collection on which to iterate for the 'value' attribute of the radio
+		   < COMMA > ModelVariable() // value property 
 		 ( < COMMA >  CssStyle() )?
 		)?
 

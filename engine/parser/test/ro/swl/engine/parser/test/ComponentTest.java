@@ -36,7 +36,7 @@ public class ComponentTest extends SwlTest {
 				"			input( inputVar)" +
 				"			input_file(inputFileVar)" +
 				"			input_area(inputAreaVar)" +
-				"			radio(model.radioVar,model.radioValue)" +
+				"			radio(model.radioVar)" +
 				"			radios(modelVar,collection)" +
 				"			checkbox(var2)" +
 				"           selectbox(modelVar1,collection)" +
@@ -152,7 +152,7 @@ public class ComponentTest extends SwlTest {
 	@Test
 	public void radioGroupName() throws ParseException, UnsupportedEncodingException {
 		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar,\"value\",\"cssStyleClass1;\")"));
+			SWL swl = new SWL (createInputStream("radio(modelVar,\"cssStyleClass1;\")"));
 		//@formatter:on
 		swl.Radio();
 	}
@@ -160,7 +160,7 @@ public class ComponentTest extends SwlTest {
 	@Test
 	public void radioWithVariableValue() throws ParseException, UnsupportedEncodingException {
 		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar,value.from.model,\"cssStyleClass1;\")"));
+			SWL swl = new SWL (createInputStream("radio(modelVar,\"cssStyleClass1;\")"));
 		//@formatter:on
 		swl.Radio();
 	}
@@ -168,7 +168,7 @@ public class ComponentTest extends SwlTest {
 	@Test
 	public void radioNoCss() throws ParseException, UnsupportedEncodingException {
 		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar,value.from.model)"));
+			SWL swl = new SWL (createInputStream("radio(modelVar)"));
 		//@formatter:on
 		swl.Radio();
 	}
@@ -390,9 +390,9 @@ public class ComponentTest extends SwlTest {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(4,1,1,1,1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+
                             "}"));
 				//@formatter:on
 
@@ -413,9 +413,9 @@ public class ComponentTest extends SwlTest {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row-css;\"],1,1,1['background-color: blue;'],1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+
                             "}"));
 				//@formatter:on
 
@@ -428,9 +428,9 @@ public class ComponentTest extends SwlTest {
 				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row1-css;\"],1[\"row2-css;\"]," +
 																			"1[\"row-css;\"],1['background-color: blue;'],1[\"row-css;\"],1[\"row-css;\"]) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+ 
                             "}"));
 				//@formatter:on
 
@@ -442,9 +442,9 @@ public class ComponentTest extends SwlTest {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(1,1,1,1,1,1,1,1,1,1,1,1,1) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+
                             "}"));
 				//@formatter:on
 
@@ -456,9 +456,9 @@ public class ComponentTest extends SwlTest {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(13) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+ 
                             "}"));
 				//@formatter:on
 
@@ -484,9 +484,9 @@ public class ComponentTest extends SwlTest {
 		//@formatter:off
 				SWL swl = new SWL (createInputStream(" horizontal_layout(5,5,5) {"+
                             "label(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\")"+
-                            "radio(materials,\"1\") "+ 
+                            "radio(materials)"+
+                            "radio(materials)"+
+                            "radio(materials)"+
                             "}"));
 				//@formatter:on
 

@@ -7,8 +7,13 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.TagWriter;
+import ro.swl.engine.writer.WriteException;
 
 public class ASTLabel extends Component {
+
+	protected boolean renderInline;
+
 	public ASTLabel(int id) {
 		super(id);
 	}
@@ -16,6 +21,26 @@ public class ASTLabel extends Component {
 	@Override
 	protected String getComponentName() {
 		return grammar.label();
+	}
+
+	@Override
+	protected boolean renderInline() {
+		return renderInline;
+	}
+
+	@Override
+	protected void renderContentAfterChildren(TagWriter writer) throws WriteException {
+		writer.writeContent("input label TODO", renderInline);
+	}
+
+	public void setRenderInline(boolean value) {
+		renderInline = value;
+	}
+
+	@Override
+	public boolean hasChildComponents() {
+		// AST input label has artificial child components
+		return true;
 	}
 
 }

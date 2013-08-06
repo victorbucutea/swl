@@ -11,22 +11,6 @@ public abstract class LayoutComponent extends Component {
 	}
 
 	/**
-	 * Layout components have class names in the description
-	 */
-	@Override
-	public List<String> getCssClassNames() {
-		return getDescription().getCssClassNames();
-	}
-
-	/**
-	 * Layout components have style names in the description
-	 */
-	@Override
-	public List<String> getCssInlineStyles() {
-		return getDescription().getCssInlineStyles();
-	}
-
-	/**
 	 * Layout components have child components inside a MVCArea
 	 */
 	@Override

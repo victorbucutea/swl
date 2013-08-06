@@ -1,21 +1,34 @@
 package ro.swl.engine.parser.model;
 
-import ro.swl.engine.parser.ASTInputLabel;
+import static ro.swl.engine.writer.Signal.TURN_OFF_LABEL_RENDERING;
+import ro.swl.engine.parser.ASTLabel;
+import ro.swl.engine.writer.Signal;
 import ro.swl.engine.writer.TagWriter;
 import ro.swl.engine.writer.WriteException;
 
 public abstract class InputComponent extends Component {
+
+	private boolean labelRenderingOff;
 
 	public InputComponent(int id) {
 		super(id);
 	}
 
 	@Override
+	public void receiveSignal(Signal signal) {
+		if (!TURN_OFF_LABEL_RENDERING.equals(signal)) {
+			this.labelRenderingOff = true;
+		}
+	}
+
+	@Override
 	public void render(TagWriter writer) throws WriteException {
-		//draw a label just before this input
-		ASTInputLabel astInputLabel = new ASTInputLabel(0);
-		astInputLabel.setRenderInline(true);
-		astInputLabel.render(writer);
+		//draw a label just before this input if not signaled to do otherwise ( ASTHorizontalForm )
+		if (labelRenderingOff) {
+			ASTLabel astInputLabel = new ASTLabel(0);
+			astInputLabel.setRenderInline(true);
+			astInputLabel.render(writer);
+		}
 		super.render(writer);
 	}
 

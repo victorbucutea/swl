@@ -10,14 +10,28 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.parser.model.LayoutComponent;
+import ro.swl.engine.writer.TagWriter;
+import ro.swl.engine.writer.WriteException;
 
-public class ASTHorizontalForm extends Component {
+public class ASTHorizontalForm extends LayoutComponent {
 	public ASTHorizontalForm(int id) {
 		super(id);
 	}
 
-	public ASTHorizontalForm(SWL p, int id) {
-		super(p, id);
+	@Override
+	protected String getComponentName() {
+		return grammar.horizontalLayout();
+	}
+
+	@Override
+	protected boolean renderContentBeforeChild(TagWriter writer, Component child) throws WriteException {
+
+		new ASTLabel(0).render(writer);
+		ASTVerticalLayoutRow row = new ASTVerticalLayoutRow(0);
+		row.jjtAddChild(child, 0);
+		row.render(writer);
+		return false;
 	}
 
 }

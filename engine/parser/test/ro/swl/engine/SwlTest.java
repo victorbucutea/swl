@@ -1,6 +1,7 @@
 package ro.swl.engine;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -23,10 +24,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ro.swl.engine.writer.TagWriter;
+
 public class SwlTest {
 
 	private SAXParser saxParser;
 	private TestHandler handler;
+	protected TagWriter writer;
 
 	public SwlTest() {
 		super();
@@ -47,7 +51,12 @@ public class SwlTest {
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		saxParser = factory.newSAXParser();
+		writer = new TagWriter();
 
+	}
+
+	public void parse(TagWriter buffer) {
+		parse(buffer.toString());
 	}
 
 	public void parse(String content) {
@@ -167,6 +176,10 @@ public class SwlTest {
 			assertTrue(trailingText.contains(tab));
 		}
 
+		public void assertDoesNotContainAttribute(String name) {
+			assertFalse("Attribute '" + name + "' found", attrs.containsKey(name));
+		}
+
 		public void assertContainsAttribute(String name, String value) {
 			boolean hasName = attrs.containsKey(name);
 			if (!hasName) {
@@ -175,7 +188,7 @@ public class SwlTest {
 
 			boolean hasNameAndValue = attrs.get(name).equals(value);
 			if (!hasNameAndValue) {
-				fail("The attribute '" + name + "' was found, but its value is " + attrs.get(name));
+				fail("The attribute '" + name + "' was found, but its value is '" + attrs.get(name) + "'");
 			}
 		}
 

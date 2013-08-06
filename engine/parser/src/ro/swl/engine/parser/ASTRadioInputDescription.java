@@ -12,6 +12,7 @@ package ro.swl.engine.parser;
 import ro.swl.engine.parser.model.Description;
 
 public class ASTRadioInputDescription extends Description {
+
 	public ASTRadioInputDescription(int id) {
 		super(id);
 	}

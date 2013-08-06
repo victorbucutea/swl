@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.writer.Signal;
 
 public class SWLNode extends SimpleNode {
 
@@ -23,6 +24,17 @@ public class SWLNode extends SimpleNode {
 
 	public boolean hasChildComponents() {
 		return !getChildComponents().isEmpty();
+	}
+
+	public void receiveSignal(Signal signal) {
+		// override if you want to listen to signals 
+	}
+
+	public <T extends SWLNode> void broadcastSignal(Class<T> cls, Signal signal) {
+		for (T comp : getChildNodesOfType(cls, true)) {
+			comp.receiveSignal(signal);
+			comp.broadcastSignal(cls, signal);
+		}
 	}
 
 	public <T extends SWLNode> List<String> getImageOfChildNodesOfType(Class<T> cls, boolean recursive) {

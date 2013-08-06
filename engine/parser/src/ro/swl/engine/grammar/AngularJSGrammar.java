@@ -27,6 +27,7 @@ public class AngularJSGrammar implements Grammar {
 		return "input";
 	}
 
+	@Override
 	public String inputFileType() {
 		return " type=\"file\"";
 	}
@@ -58,7 +59,12 @@ public class AngularJSGrammar implements Grammar {
 
 	@Override
 	public String radio() {
-		return "<input type=\"radio\"";
+		return "input";
+	}
+
+	@Override
+	public String radioType() {
+		return " type=\"radio\"";
 	}
 
 	@Override
@@ -67,8 +73,28 @@ public class AngularJSGrammar implements Grammar {
 	}
 
 	@Override
+	public String radioName(String groupName) {
+		return " name=\"" + groupName + "\"";
+	}
+
+	@Override
+	public String img() {
+		return "img";
+	}
+
+	@Override
+	public String imgModelValueBinding(String modelBinding) {
+		return " ng-src=\"{{" + modelBinding + "}}\"";
+	}
+
+	@Override
+	public String imgSrc(String image) {
+		return " src=\"" + image + "\"";
+	}
+
+	@Override
 	public String horizontalLayout() {
-		return "<div ";
+		return "div ";
 	}
 
 	@Override
@@ -83,17 +109,23 @@ public class AngularJSGrammar implements Grammar {
 
 	@Override
 	public String horizontalLayoutColumn() {
-		return "<div ";
+		return "div ";
 	}
 
 	@Override
 	public String verticalLayout() {
-		return "<div ";
+		return "div";
+	}
+
+	@Override
+	public String verticalLayoutRow() {
+		// TODO Auto-generated method stub
+		return "div";
 	}
 
 	@Override
 	public String span() {
-		return "<span ";
+		return "span ";
 	}
 
 	@Override

@@ -42,6 +42,8 @@ public interface Grammar {
 
 	public String radio();
 
+	public String radioType();
+
 	public String radioClass();
 
 	public String horizontalLayout();
@@ -61,5 +63,15 @@ public interface Grammar {
 	public String span();
 
 	public String button();
+
+	public String img();
+
+	public String imgModelValueBinding(String modelBinding);
+
+	public String radioName(String groupName);
+
+	public String imgSrc(String image);
+
+	public String verticalLayoutRow();
 
 }
