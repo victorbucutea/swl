@@ -1,7 +1,7 @@
 CLEAR_CONSOLE=false
-JAVACC_OPTIONS=-OUTPUT_DIRECTORY\="D\:\\projects\\Recruiter\\code_workspace\\SWL Parser - javacc\\src\\ro\\swl\\engine\\parser"
+JAVACC_OPTIONS=-OUTPUT_DIRECTORY\="D\:\\projects\\Recruiter\\code_workspace\\SWL Parser - javacc\\src\\main\\java\\ro\\swl\\engine\\parser"
 JJDOC_OPTIONS=
-JJTREE_OPTIONS=-JJTREE_OUTPUT_DIRECTORY\="D\:\\projects\\Recruiter\\code_workspace\\SWL Parser - javacc\\src\\ro\\swl\\engine\\parser"
+JJTREE_OPTIONS=-JJTREE_OUTPUT_DIRECTORY\="D\:\\projects\\Recruiter\\code_workspace\\SWL Parser - javacc\\src\\main\\java\\ro\\swl\\engine\\parser"
 JJ_NATURE=true
 JTB_OPTIONS=
 MARK_GEN_FILES_AS_DERIVED=true
