@@ -12,6 +12,14 @@ public class ASTProperty extends SWLNode {
 
 	private String type;
 
+	private boolean markedAsOneToOne;
+
+	private boolean markedAsManyToOne;
+
+	private boolean markedAsOneToMany;
+
+	private boolean assignedToRelation;
+
 	private boolean owning;
 
 
@@ -44,16 +52,59 @@ public class ASTProperty extends SWLNode {
 
 
 
+	public boolean isMarkedAsOneToOne() {
+		return markedAsOneToOne;
+	}
+
+
+
+	public void setMarkedAsOneToOne(boolean owning) {
+		this.markedAsOneToOne = owning;
+	}
+
+
+
+	public boolean isMarkedAsManyToOne() {
+		return markedAsManyToOne;
+	}
+
+
+
+	public void setMarkedAsManyToOne(boolean markedAsManyToOne) {
+		this.markedAsManyToOne = markedAsManyToOne;
+	}
+
+
+	public boolean isAssignedToRelation() {
+		return this.assignedToRelation;
+	}
+
+
+	public void setAssignedToRelation(boolean assignedToRelation) {
+		this.assignedToRelation = assignedToRelation;
+	}
+
+
+
+	public boolean isMarkedAsOneToMany() {
+		return markedAsOneToMany;
+	}
+
+
+
+	public void setMarkedAsOneToMany(boolean markedAsOneToMany) {
+		this.markedAsOneToMany = markedAsOneToMany;
+	}
+
+
+	public void setOwning(boolean b) {
+		this.owning = b;
+	}
+
+
 	public boolean isOwning() {
 		return owning;
 	}
-
-
-
-	public void setOwning(boolean owning) {
-		this.owning = owning;
-	}
-
 
 }
 /*

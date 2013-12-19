@@ -2305,9 +2305,9 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       case BLOB:
         t2 = jj_consume_token(BLOB);
         break;
-      case MANY_TO_ONE:
-        t2 = jj_consume_token(MANY_TO_ONE);
-                                 jjtn000.setOwning(true);
+      case ONE_TO_MANY:
+        t2 = jj_consume_token(ONE_TO_MANY);
+                                 jjtn000.setMarkedAsOneToMany(true);
         break;
       case CLS_NAME:
         t2 = jj_consume_token(CLS_NAME);
@@ -2318,12 +2318,25 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         throw new ParseException();
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OWNING:
-        jj_consume_token(OWNING);
-                jjtn000.setOwning(true);
+      case ONE_TO_ONE:
+      case MANY_TO_ONE:
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case ONE_TO_ONE:
+          jj_consume_token(ONE_TO_ONE);
+                     jjtn000.setMarkedAsOneToOne(true);
+          break;
+        case MANY_TO_ONE:
+          jj_consume_token(MANY_TO_ONE);
+                      jjtn000.setMarkedAsManyToOne(true);
+          break;
+        default:
+          jj_la1[56] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
         break;
       default:
-        jj_la1[56] = jj_gen;
+        jj_la1[57] = jj_gen;
         ;
       }
     jjtree.closeNodeScope(jjtn000, true);
@@ -2344,14 +2357,14 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_18()) return true;
-    return false;
-  }
-
   private boolean jj_3R_18() {
     if (jj_scan_token(STYLE_CLASS)) return true;
     if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_3R_18()) return true;
     return false;
   }
 
@@ -2366,7 +2379,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[57];
+  final private int[] jj_la1 = new int[58];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -2376,13 +2389,13 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x80000,0x1000000,0x200000,0x100000,0x400000,0x80,0x80,0x4000000,0x2000000,0xc0000000,0xc0000000,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x200,0x200,0x200,0x200,0x80,0x200,0x200,0x200,0x200,0x0,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_0 = new int[] {0x80000,0x1000000,0x200000,0x100000,0x400000,0x80,0x80,0x4000000,0x2000000,0xc0000000,0xc0000000,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x200,0x200,0x200,0x200,0x80,0x200,0x200,0x200,0x200,0x0,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x200000,0x200000,0x0,0x0,0x97fa7,0x97fa7,0x20000,0x40000,0x1000000,0xa0000,0x80000,0x80000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x0,0x1000000,0x800000,0x1000000,0x800000,0x2000000,0x2000000,0x4800000,0x8000000,0x1000000,0x4800000,0x1000000,0x4800000,0x1000000,0x4800000,0x18,0x18,0x8,0x1000000,0x4800000,0x90000000,0x90000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x200000,0x200000,0x0,0x0,0x97fa7,0x97fa7,0x20000,0x40000,0x1000000,0xa0000,0x80000,0x80000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x0,0x1000000,0x800000,0x1000000,0x800000,0x2000000,0x2000000,0x4800000,0x8000000,0x1000000,0x4800000,0x1000000,0x4800000,0x1000000,0x4800000,0x18,0x18,0x8,0x1000000,0x4800000,0x90000000,0x90000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x404,0x404,0x800,0x800,0x678,0x1000,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x404,0x404,0x800,0x800,0x678,0x3000,0x3000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -2399,7 +2412,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2415,7 +2428,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2426,7 +2439,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2438,7 +2451,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2448,7 +2461,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2459,7 +2472,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 57; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2571,12 +2584,12 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[77];
+    boolean[] la1tokens = new boolean[78];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 57; i++) {
+    for (int i = 0; i < 58; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -2591,7 +2604,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         }
       }
     }
-    for (int i = 0; i < 77; i++) {
+    for (int i = 0; i < 78; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

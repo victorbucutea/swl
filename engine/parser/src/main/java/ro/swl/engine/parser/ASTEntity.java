@@ -50,11 +50,30 @@ public class ASTEntity extends SWLNode {
 	}
 
 
-	public ASTProperty getFieldCollectionOf(String genericType) {
+	public ASTProperty getUnassignedFieldCollectionOf(String genericType) {
 		for (ASTProperty prop : getFields()) {
+
+			if (prop.isAssignedToRelation())
+				continue;
+
 			String propType = prop.getType();
 			String collectionParam = substringBetween(propType, "<", ">");
 			if (genericType.equals(collectionParam)) {
+				return prop;
+			}
+		}
+		return null;
+	}
+
+
+	public ASTProperty getUnassignedFieldWithType(String name) {
+		for (ASTProperty prop : getFields()) {
+
+			if (prop.isAssignedToRelation())
+				continue;
+
+			String propType = prop.getType();
+			if (name.equals(propType)) {
 				return prop;
 			}
 		}

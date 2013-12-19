@@ -168,10 +168,11 @@ PARSER_END(SWL)
 | < BLOB:   "Blob" >
 | < COLLECTION: "Set" | "List" >
 | < GENERIC: "<" < NAME > ">" >
-| < MANY_TO_ONE : < COLLECTION > <GENERIC >>
+| < ONE_TO_MANY : < COLLECTION > <GENERIC >>
 | < CLS_NAME : < IDENTIFIER >>
 | < SEPARATOR : "," >
-| < OWNING : "*" >
+| < ONE_TO_ONE : "*" >
+| < MANY_TO_ONE : "&" >
 }  
 
 
@@ -2151,11 +2152,12 @@ void Property() :{/*@bgen(jjtree) Property */
 	|t2 =  < STRING>
 	|t2 =  < NR>
 	|t2 =  < BLOB >
-	|t2 =  < MANY_TO_ONE > { jjtn000.setOwning(true);}
+	|t2 =  < ONE_TO_MANY > { jjtn000.setMarkedAsOneToMany(true);}
 	|t2 =  < CLS_NAME >
   )
   (
-    < OWNING >{ jjtn000.setOwning(true);}  )?/*@bgen(jjtree)*/
+    < ONE_TO_ONE > { jjtn000.setMarkedAsOneToOne(true);}
+  | < MANY_TO_ONE > { jjtn000.setMarkedAsManyToOne(true);}   )?/*@bgen(jjtree)*/
   {
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;

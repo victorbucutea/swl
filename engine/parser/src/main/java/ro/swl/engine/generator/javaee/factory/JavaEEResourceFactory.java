@@ -14,6 +14,7 @@ import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
 import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 import ro.swl.engine.generator.javaee.exception.NoModuleException;
+import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
 import ro.swl.engine.generator.javaee.model.PackageResource;
@@ -123,7 +124,8 @@ public class JavaEEResourceFactory extends ResourceFactory {
 		res.setName(entity.getName());
 		for (ASTProperty prop : entity.getFields()) {
 			checkFieldUnique(entity, prop.getName());
-			res.addEntityProperty(prop.getName(), prop.getType(), prop.isOwning());
+			EntityField field = new EntityField(prop, res.getPackage());
+			res.addEntityProperty(field);
 		}
 		newResources.add(res);
 	}

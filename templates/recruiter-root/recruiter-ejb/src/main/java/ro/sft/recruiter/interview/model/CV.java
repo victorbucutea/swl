@@ -30,6 +30,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import ro.sft.recruiter.base.model.AuditedEntity;
 
+
 @SuppressWarnings("serial")
 @javax.persistence.Entity
 // @formatter:off
@@ -105,21 +106,22 @@ public class CV extends AuditedEntity {
 	@Transient
 	private String tempDescription;
 
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Details details;
 
 	@JsonIgnore
-	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Experience> experiences;
 
 	@JsonIgnore
-	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Education> educations;
 
 	@JsonIgnore
-	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Certification> certifications;
+
 
 	public void addCertification(Certification... certs) {
 		if (certs == null) {
@@ -136,6 +138,7 @@ public class CV extends AuditedEntity {
 		}
 	}
 
+
 	public void addExperience(Experience... exps) {
 		if (exps == null) {
 			return;
@@ -151,6 +154,7 @@ public class CV extends AuditedEntity {
 		}
 	}
 
+
 	public void addEducation(Education... edus) {
 		if (edus == null) {
 			return;
@@ -164,6 +168,7 @@ public class CV extends AuditedEntity {
 			education.setCv(this);
 		}
 	}
+
 
 	@JsonProperty("experiences")
 	@JsonManagedReference
@@ -179,10 +184,12 @@ public class CV extends AuditedEntity {
 		return new HashSet<Experience>();
 	}
 
+
 	@JsonProperty("experiences")
 	public void setExperiences(Set<Experience> experiences) {
 		this.experiences = experiences;
 	}
+
 
 	@JsonProperty("educations")
 	@JsonManagedReference
@@ -198,10 +205,12 @@ public class CV extends AuditedEntity {
 		return new HashSet<Education>();
 	}
 
+
 	@JsonProperty("educations")
 	public void setEducations(Set<Education> educations) {
 		this.educations = educations;
 	}
+
 
 	@JsonProperty("certifications")
 	@JsonManagedReference
@@ -217,70 +226,87 @@ public class CV extends AuditedEntity {
 		return new HashSet<Certification>();
 	}
 
+
 	@JsonProperty("certifications")
 	public void setCertifications(Set<Certification> certs) {
 		this.certifications = certs;
 	}
 
+
 	public byte[] getRawFile() {
 		return rawFile;
 	}
+
 
 	public void setRawFile(byte[] rawFile) {
 		this.rawFile = rawFile;
 	}
 
+
 	public String getFileName() {
 		return fileName;
 	}
+
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+
 	public String getLastName() {
 		return lastName;
 	}
+
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+
 	public CVStatus getStatus() {
 		return status;
 	}
+
 
 	public void setStatus(CVStatus status) {
 		this.status = status;
 	}
 
+
 	public CVStatus getPreviousStatus() {
 		return previousStatus;
 	}
+
 
 	public void setPreviousStatus(CVStatus previousStatus) {
 		this.previousStatus = previousStatus;
 	}
 
+
 	public String getTempDescription() {
 		return tempDescription;
 	}
+
 
 	public void setTempDescription(String tempDescription) {
 		this.tempDescription = tempDescription;
 	}
 
+
 	public Details getDetails() {
 		return details;
 	}
+
 
 	public void setDetails(Details details) {
 		this.details = details;
@@ -289,53 +315,66 @@ public class CV extends AuditedEntity {
 		}
 	}
 
+
 	public int[] getRawInts() {
 		return rawInts;
 	}
+
 
 	public void setRawInts(int[] rawInts) {
 		this.rawInts = rawInts;
 	}
 
+
 	public String[] getRawString() {
 		return rawString;
 	}
+
 
 	public void setRawString(String[] rawString) {
 		this.rawString = rawString;
 	}
 
+
 	public Double[] getRawDoubles() {
 		return rawDoubles;
 	}
+
 
 	public void setRawDoubles(Double[] rawDoubles) {
 		this.rawDoubles = rawDoubles;
 	}
 
+
 	public Character[] getRawChars() {
 		return rawChars;
 	}
+
 
 	public void setRawChars(Character[] rawChars) {
 		this.rawChars = rawChars;
 	}
 
+
 	public Calendar getCal() {
 		return cal;
 	}
+
 
 	public void setCal(Calendar cal) {
 		this.cal = cal;
 	}
 
+
 	public Set<Certification> getCertifications() {
 		return certifications;
 	}
 
+
 	public Set<Experience> getExperiences() {
 		return experiences;
 	}
+
 
 	public Set<Education> getEducations() {
 		return educations;

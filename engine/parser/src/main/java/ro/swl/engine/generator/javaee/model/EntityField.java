@@ -2,6 +2,7 @@ package ro.swl.engine.generator.javaee.model;
 
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.model.Field;
+import ro.swl.engine.parser.ASTProperty;
 
 import com.google.common.base.CaseFormat;
 
@@ -9,11 +10,16 @@ import com.google.common.base.CaseFormat;
 public class EntityField extends Field<EntityType> {
 
 
-	public boolean owning;
+	private boolean manyToOne;
+	private boolean oneToOne;
+	private boolean oneToMany;
 
 
-	public EntityField(String name, String type, String pkg) throws GenerateException {
-		super(name, type, pkg);
+	public EntityField(ASTProperty prop, String package1) throws GenerateException {
+		super(prop.getName(), prop.getType(), package1);
+		setOneToOne(prop.isMarkedAsOneToOne());
+		setManyToOne(prop.isMarkedAsManyToOne());
+		setOneToMany(prop.isMarkedAsOneToMany());
 	}
 
 
@@ -29,15 +35,41 @@ public class EntityField extends Field<EntityType> {
 	}
 
 
+	public String getUpperCamelName() {
+		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, getName());
+	}
 
-	public boolean isOwning() {
-		return owning;
+
+	public void setManyToOne(boolean markedAsManyToOne) {
+		this.manyToOne = markedAsManyToOne;
+	}
+
+
+	public void setOneToMany(boolean markedAsOneToMany) {
+		this.oneToMany = markedAsOneToMany;
+	}
+
+
+	public void setOneToOne(boolean markedAsOneToOne) {
+		this.oneToOne = markedAsOneToOne;
 	}
 
 
 
-	public void setOwning(boolean owning) {
-		this.owning = owning;
+	public boolean isMarkedAsManyToOne() {
+		return manyToOne;
+	}
+
+
+
+	public boolean isMarkedAsOneToOne() {
+		return oneToOne;
+	}
+
+
+
+	public boolean isOneToMany() {
+		return oneToMany;
 	}
 
 

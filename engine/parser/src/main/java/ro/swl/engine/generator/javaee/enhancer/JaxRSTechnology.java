@@ -10,10 +10,9 @@ import ro.swl.engine.generator.Technology;
 import ro.swl.engine.generator.model.Resource;
 
 
-public class JPATechnology extends Technology {
+public class JaxRSTechnology extends Technology {
 
-
-	public JPATechnology(GenerationContext ctxt) {
+	public JaxRSTechnology(GenerationContext ctxt) {
 		super(ctxt);
 	}
 
@@ -21,6 +20,7 @@ public class JPATechnology extends Technology {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Enhancer<? extends Resource>> getEnhancers() {
-		return asList(new JPAEntityEnhancer(), new JPAPomXmlEnhancer(), new JPAHelperMethodEnhancer());
+		return asList(new JaxRSPomXmlEnhancer(), new JaxRSEntityEnhancer());
 	}
+
 }

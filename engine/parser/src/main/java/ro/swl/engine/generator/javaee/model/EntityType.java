@@ -17,12 +17,6 @@ public class EntityType extends Type {
 			//@formatter:off
 			internalTypes.put("Blob",    new QualifiedClassName("byte[]"));
 			internalTypes.put("Date",    new QualifiedClassName("java.util.Date"));
-//			internalTypes.put("Integer", new QualifiedClassName("java.lang.Integer"));
-//			internalTypes.put("int",     new QualifiedClassName("java.lang.Integer"));
-//			internalTypes.put("Double",  new QualifiedClassName("java.lang.Double"));
-//			internalTypes.put("double",  new QualifiedClassName("java.lang.Double"));
-//			internalTypes.put("Long",    new QualifiedClassName("java.lang.Long"));
-//			internalTypes.put("long",    new QualifiedClassName("java.lang.Long"));
 			//@formatter:on
 		} catch (GenerateException e) {
 			e.printStackTrace();

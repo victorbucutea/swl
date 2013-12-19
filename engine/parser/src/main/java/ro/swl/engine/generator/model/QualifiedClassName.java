@@ -156,4 +156,39 @@ public class QualifiedClassName {
 		return this.parameterType;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((name == null) ? 0 : name.hashCode());
+		result = (prime * result) + ((pkg == null) ? 0 : pkg.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QualifiedClassName other = (QualifiedClassName) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (pkg == null) {
+			if (other.pkg != null)
+				return false;
+		} else if (!pkg.equals(other.pkg))
+			return false;
+		return true;
+	}
+
+
+
 }

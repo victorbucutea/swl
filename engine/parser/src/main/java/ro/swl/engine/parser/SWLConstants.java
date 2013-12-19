@@ -143,13 +143,15 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int GENERIC = 72;
   /** RegularExpression Id. */
-  int MANY_TO_ONE = 73;
+  int ONE_TO_MANY = 73;
   /** RegularExpression Id. */
   int CLS_NAME = 74;
   /** RegularExpression Id. */
   int SEPARATOR = 75;
   /** RegularExpression Id. */
-  int OWNING = 76;
+  int ONE_TO_ONE = 76;
+  /** RegularExpression Id. */
+  int MANY_TO_ONE = 77;
 
   /** Lexical state. */
   int DomainState = 0;
@@ -239,10 +241,11 @@ public interface SWLConstants {
     "\"Blob\"",
     "<COLLECTION>",
     "<GENERIC>",
-    "<MANY_TO_ONE>",
+    "<ONE_TO_MANY>",
     "<CLS_NAME>",
     "\",\"",
     "\"*\"",
+    "\"&\"",
   };
 
 }

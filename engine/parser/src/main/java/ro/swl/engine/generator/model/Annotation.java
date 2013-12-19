@@ -9,7 +9,7 @@ import java.util.Map;
 import ro.swl.engine.generator.GenerateException;
 
 
-public class Annotation {
+public class Annotation implements Comparable<Annotation> {
 
 	private QualifiedClassName fqName;
 	private Map<String, AnnotationProperty> attributes;
@@ -132,5 +132,42 @@ public class Annotation {
 		}
 
 	}
+
+
+	@Override
+	public int compareTo(Annotation o) {
+		return getFqName().compareTo(o.getFqName());
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((fqName == null) ? 0 : fqName.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Annotation other = (Annotation) obj;
+		if (fqName == null) {
+			if (other.fqName != null)
+				return false;
+		} else if (!fqName.equals(other.fqName))
+			return false;
+		return true;
+	}
+
+
 
 }

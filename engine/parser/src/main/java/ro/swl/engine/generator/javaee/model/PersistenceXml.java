@@ -9,6 +9,9 @@ import ro.swl.engine.generator.model.Resource;
 
 public class PersistenceXml extends Resource {
 
+	private String provider;
+
+
 	public PersistenceXml(Resource parent, File templateFile) {
 		super(parent, templateFile);
 	}
@@ -16,6 +19,17 @@ public class PersistenceXml extends Resource {
 
 	@Override
 	protected void writeSelf(GenerationContext ctxt) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	public void addPersistenceProvider(String string) {
+		this.provider = string;
+	}
+
+
+	public void addPersistenceProperty(String string, String string2) {
 		// TODO Auto-generated method stub
 
 	}

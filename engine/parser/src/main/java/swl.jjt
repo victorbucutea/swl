@@ -164,10 +164,11 @@ PARSER_END(SWL)
 | < BLOB:   "Blob" >
 | < COLLECTION: "Set" | "List" >
 | < GENERIC: "<" < NAME > ">" >
-| < MANY_TO_ONE : < COLLECTION > <GENERIC >>
+| < ONE_TO_MANY : < COLLECTION > <GENERIC >>
 | < CLS_NAME : < IDENTIFIER >>
 | < SEPARATOR : "," >
-| < OWNING : "*" >
+| < ONE_TO_ONE : "*" >
+| < MANY_TO_ONE : "&" >
 }  
 
 
@@ -655,11 +656,12 @@ void Property() :{Token t1; Token t2;}
 	|t2 =  < STRING>
 	|t2 =  < NR>
 	|t2 =  < BLOB >
-	|t2 =  < MANY_TO_ONE > { jjtThis.setOwning(true);}
+	|t2 =  < ONE_TO_MANY > { jjtThis.setMarkedAsOneToMany(true);}
 	|t2 =  < CLS_NAME >
   )
   (
-    < OWNING >{ jjtThis.setOwning(true);}  )?
+    < ONE_TO_ONE > { jjtThis.setMarkedAsOneToOne(true);}
+  | < MANY_TO_ONE > { jjtThis.setMarkedAsManyToOne(true);}   )?
   {	jjtThis.setName(t1.image);
 	jjtThis.setType(t2.image);
   }
