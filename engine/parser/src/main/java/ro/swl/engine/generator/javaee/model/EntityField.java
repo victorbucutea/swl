@@ -1,5 +1,9 @@
 package ro.swl.engine.generator.javaee.model;
 
+import static ro.swl.engine.generator.javaee.model.Relation.MANY_TO_MANY;
+import static ro.swl.engine.generator.javaee.model.Relation.MANY_TO_ONE;
+import static ro.swl.engine.generator.javaee.model.Relation.ONE_TO_MANY;
+import static ro.swl.engine.generator.javaee.model.Relation.ONE_TO_ONE;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.model.Field;
 import ro.swl.engine.parser.ASTProperty;
@@ -9,17 +13,12 @@ import com.google.common.base.CaseFormat;
 
 public class EntityField extends Field<EntityType> {
 
-
-	private boolean manyToOne;
-	private boolean oneToOne;
-	private boolean oneToMany;
+	private ASTProperty modelProp;
 
 
 	public EntityField(ASTProperty prop, String package1) throws GenerateException {
 		super(prop.getName(), prop.getType(), package1);
-		setOneToOne(prop.isMarkedAsOneToOne());
-		setManyToOne(prop.isMarkedAsManyToOne());
-		setOneToMany(prop.isMarkedAsOneToMany());
+		this.modelProp = prop;
 	}
 
 
@@ -40,36 +39,58 @@ public class EntityField extends Field<EntityType> {
 	}
 
 
-	public void setManyToOne(boolean markedAsManyToOne) {
-		this.manyToOne = markedAsManyToOne;
-	}
-
-
-	public void setOneToMany(boolean markedAsOneToMany) {
-		this.oneToMany = markedAsOneToMany;
-	}
-
-
-	public void setOneToOne(boolean markedAsOneToOne) {
-		this.oneToOne = markedAsOneToOne;
-	}
-
-
-
-	public boolean isMarkedAsManyToOne() {
-		return manyToOne;
-	}
-
-
-
-	public boolean isMarkedAsOneToOne() {
-		return oneToOne;
-	}
-
-
 
 	public boolean isOneToMany() {
-		return oneToMany;
+		return ONE_TO_MANY.equals(modelProp.getRelationType());
+	}
+
+
+	public boolean isOwningInRelation() {
+		return modelProp.isOwning();
+	}
+
+
+
+	public boolean isManyToMany() {
+		return MANY_TO_MANY.equals(modelProp.getRelationType());
+	}
+
+
+
+	public boolean isManyToOne() {
+		return MANY_TO_ONE.equals(modelProp.getRelationType());
+	}
+
+
+
+	public boolean isOneToOne() {
+		return ONE_TO_ONE.equals(modelProp.getRelationType());
+	}
+
+
+	public ASTProperty getModelProp() {
+		return modelProp;
+	}
+
+
+	public boolean isUnidirectional() {
+		return modelProp.isUnidirManyToOne() || modelProp.isUnidirOneToOne() || modelProp.isUnidirOneToMany()
+				|| modelProp.isUnidirManyToMany();
+	}
+
+
+	public boolean isPrimitive() {
+		return modelProp.isPrimitive();
+	}
+
+
+	public boolean isDate() {
+		return "Date".equals(getType().getName());
+	}
+
+
+	public boolean isBlob() {
+		return "Blob".equals(getType().getName());
 	}
 
 

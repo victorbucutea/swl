@@ -1,13 +1,10 @@
 package ro.swl.engine.generator;
 
-import static java.util.Arrays.asList;
 import static ro.swl.engine.util.FileUtil.listFilesOrderedByTypeAndName;
 
 import java.io.File;
 import java.util.List;
 
-import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
-import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
 import ro.swl.engine.generator.javaee.factory.JavaEEResourceFactory;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
@@ -22,9 +19,10 @@ public class ProjectGenerator {
 	private List<Technology> technologies;
 
 
-	public ProjectGenerator(GenerationContext ctxt) {
+
+	public ProjectGenerator(GenerationContext ctxt, List<Technology> technologies) {
 		this.ctxt = ctxt;
-		this.technologies = asList(new JPATechnology(ctxt), new JaxRSTechnology(ctxt));
+		this.technologies = technologies;
 	}
 
 
@@ -64,17 +62,17 @@ public class ProjectGenerator {
 
 
 	public void enhance(ASTSwdlApp appModel) throws GenerateException {
-		enhanceResourceTree(root, appModel);
+		for (Technology tech : technologies) {
+			tech.enhance(root, appModel);
+			enhanceResourceTree(root, appModel, tech);
+		}
 	}
 
 
-	private void enhanceResourceTree(Resource res, ASTSwdlApp appModel) throws GenerateException {
+	private void enhanceResourceTree(Resource res, ASTSwdlApp appModel, Technology tech) throws GenerateException {
 		for (Resource r : res.getChildren()) {
-			for (Technology tech : technologies) {
-				tech.enhance(r, appModel);
-			}
-
-			enhanceResourceTree(r, appModel);
+			tech.enhance(r, appModel);
+			enhanceResourceTree(r, appModel, tech);
 		}
 	}
 

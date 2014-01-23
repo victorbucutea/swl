@@ -6,21 +6,35 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.generator.javaee.model.Relation;
+
+
 public class ASTProperty extends SWLNode {
 
 	private String name;
 
 	private String type;
 
-	private boolean markedAsOneToOne;
+	private String collectionType;
 
-	private boolean markedAsManyToOne;
+	private String relatedPropertyName;
 
-	private boolean markedAsOneToMany;
+	private boolean unidirManyToOne;
 
-	private boolean assignedToRelation;
+	private boolean unidirManyToMany;
+
+	private ASTProperty relatedField;
+
+	private Relation relationType;
 
 	private boolean owning;
+
+	private boolean bidirectional;
+
+	private boolean primitive;
+
+	private boolean markedWithStar;
+
 
 
 	public ASTProperty(int id) {
@@ -52,49 +66,126 @@ public class ASTProperty extends SWLNode {
 
 
 
-	public boolean isMarkedAsOneToOne() {
-		return markedAsOneToOne;
+	public String getRelatedPropertyName() {
+		return relatedPropertyName;
 	}
 
 
 
-	public void setMarkedAsOneToOne(boolean owning) {
-		this.markedAsOneToOne = owning;
+	public void setRelatedPropertyName(String relatedPropertyName) {
+		this.relatedPropertyName = relatedPropertyName;
 	}
 
 
 
-	public boolean isMarkedAsManyToOne() {
-		return markedAsManyToOne;
+	public boolean isCollection() {
+		return collectionType != null;
 	}
 
 
 
-	public void setMarkedAsManyToOne(boolean markedAsManyToOne) {
-		this.markedAsManyToOne = markedAsManyToOne;
-	}
-
-
-	public boolean isAssignedToRelation() {
-		return this.assignedToRelation;
-	}
-
-
-	public void setAssignedToRelation(boolean assignedToRelation) {
-		this.assignedToRelation = assignedToRelation;
+	public String getCollectionType() {
+		return collectionType;
 	}
 
 
 
-	public boolean isMarkedAsOneToMany() {
-		return markedAsOneToMany;
+	public void setCollectionType(String collectionType) {
+		this.collectionType = collectionType;
+	}
+
+
+	public boolean isXToOne() {
+
+		if (isCollection()) {
+			return false;// in this case we have an x-to-many
+		}
+
+		if (relatedPropertyName == null) {
+			return true;
+		}
+
+		// we have either a many-to-one or a one-to-one
+		return true;
+
+	}
+
+
+	public boolean isXToMany() {
+		return isCollection();
+	}
+
+
+	public boolean isUnidirOneToOne() {
+		// field can be part of a relation specified in another field (specified by '->')
+		if (isBidirectional())
+			return false;
+
+		return !isCollection() && (relatedPropertyName == null);
+	}
+
+
+	public boolean isUnidirOneToMany() {
+		// field can be part of a relation specified in another field (specified by '->')
+		if (isBidirectional())
+			return false;
+
+		if (isUnidirManyToMany())
+			return false;
+
+		return isCollection() && (relatedPropertyName == null);
+	}
+
+
+	public boolean isUnidirManyToOne() {
+		// field can be part of a relation specified in another field (specified by '->')
+		if (isBidirectional())
+			return false;
+
+		return this.unidirManyToOne;
+	}
+
+
+	public void setUnidirManyToOne(boolean unidirManyToOne) {
+		this.unidirManyToOne = unidirManyToOne;
+	}
+
+
+	public void setUnidirManyToMany(boolean b) {
+		this.unidirManyToMany = b;
+	}
+
+
+	public boolean isUnidirManyToMany() {
+		return unidirManyToMany;
+	}
+
+
+	public boolean hasDeclaredRelatedField() {
+		return relatedPropertyName != null;
 	}
 
 
 
-	public void setMarkedAsOneToMany(boolean markedAsOneToMany) {
-		this.markedAsOneToMany = markedAsOneToMany;
+	public ASTProperty getRelatedField() {
+		return relatedField;
 	}
+
+
+	public void setMarkedWithStar(boolean marked) {
+		this.markedWithStar = marked;
+	}
+
+
+	public boolean isMarkedWithStar() {
+		return this.markedWithStar;
+	}
+
+
+	public void setRelatedField(ASTProperty relatedField) {
+		this.relatedField = relatedField;
+	}
+
 
 
 	public void setOwning(boolean b) {
@@ -104,6 +195,52 @@ public class ASTProperty extends SWLNode {
 
 	public boolean isOwning() {
 		return owning;
+	}
+
+
+	public Relation getRelationType() {
+		return relationType;
+	}
+
+
+
+	public void setRelationType(Relation relationType) {
+		this.relationType = relationType;
+	}
+
+
+	public boolean hasRelation() {
+		return relationType != null;
+	}
+
+
+	@Override
+	public String toString() {
+		if (!isCollection())
+			return type + " " + name + " -> " + relatedPropertyName;
+		else
+			return type + "<" + collectionType + "> " + name + " -> " + relatedPropertyName;
+	}
+
+
+	public void setBidirectional(boolean b) {
+		this.bidirectional = b;
+	}
+
+
+
+	public boolean isBidirectional() {
+		return bidirectional;
+	}
+
+
+	public void setPrimitive(boolean b) {
+		this.primitive = b;
+	}
+
+
+	public boolean isPrimitive() {
+		return this.primitive;
 	}
 
 }

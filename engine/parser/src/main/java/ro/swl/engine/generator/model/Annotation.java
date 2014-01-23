@@ -42,6 +42,11 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
+	public void removeProperty(String name) {
+		attributes.remove(name);
+	}
+
+
 	public void setProperty(String name, String value) throws GenerateException {
 		attributes.put(name, new AnnotationProperty(value));
 	}
@@ -167,7 +172,6 @@ public class Annotation implements Comparable<Annotation> {
 			return false;
 		return true;
 	}
-
 
 
 }

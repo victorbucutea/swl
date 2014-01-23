@@ -2289,25 +2289,19 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
                   /*@bgen(jjtree) Property */
                   ASTProperty jjtn000 = new ASTProperty(JJTPROPERTY);
                   boolean jjtc000 = true;
-                  jjtree.openNodeScope(jjtn000);Token t1; Token t2;
+                  jjtree.openNodeScope(jjtn000);Token t1; Token t2; Token t3 = null;Token t4 = null;Token t5 =null;
     try {
       t1 = jj_consume_token(CLS_NAME);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case DATE:
-        t2 = jj_consume_token(DATE);
+      case PRIMITIVE:
+        t2 = jj_consume_token(PRIMITIVE);
+                              jjtn000.setPrimitive(true);
         break;
-      case STRING:
-        t2 = jj_consume_token(STRING);
-        break;
-      case NR:
-        t2 = jj_consume_token(NR);
-        break;
-      case BLOB:
-        t2 = jj_consume_token(BLOB);
-        break;
-      case ONE_TO_MANY:
-        t2 = jj_consume_token(ONE_TO_MANY);
-                                 jjtn000.setMarkedAsOneToMany(true);
+      case COLLECTION:
+        t2 = jj_consume_token(COLLECTION);
+        jj_consume_token(OPEN_ANGLE);
+        t4 = jj_consume_token(CLS_NAME);
+        jj_consume_token(CLOSE_ANGLE);
         break;
       case CLS_NAME:
         t2 = jj_consume_token(CLS_NAME);
@@ -2318,16 +2312,14 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         throw new ParseException();
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ONE_TO_ONE:
-      case MANY_TO_ONE:
+      case INDICATOR:
+        jj_consume_token(INDICATOR);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ONE_TO_ONE:
-          jj_consume_token(ONE_TO_ONE);
-                     jjtn000.setMarkedAsOneToOne(true);
+        case CLS_NAME:
+          t3 = jj_consume_token(CLS_NAME);
           break;
-        case MANY_TO_ONE:
-          jj_consume_token(MANY_TO_ONE);
-                      jjtn000.setMarkedAsManyToOne(true);
+        case MANY_MARKER:
+          t5 = jj_consume_token(MANY_MARKER);
           break;
         default:
           jj_la1[56] = jj_gen;
@@ -2343,6 +2335,25 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     jjtc000 = false;
         jjtn000.setName(t1.image);
         jjtn000.setType(t2.image);
+        if (t3 != null ) {
+            jjtn000.setRelatedPropertyName(t3.image);
+        }
+
+        if (t5 != null ) {
+                jjtn000.setMarkedWithStar(true);
+        }
+
+        if ( t5 != null && t4 == null ){
+            jjtn000.setUnidirManyToOne(true);
+        }
+
+        if ( t5 != null && t4 != null ) {
+                jjtn000.setUnidirManyToMany(true);
+        }
+
+    if (t4 != null ){
+        jjtn000.setCollectionType(t4.image);
+   }
     } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
@@ -2357,14 +2368,14 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3R_18() {
-    if (jj_scan_token(STYLE_CLASS)) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
+  private boolean jj_3_1() {
+    if (jj_3R_18()) return true;
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_18()) return true;
+  private boolean jj_3R_18() {
+    if (jj_scan_token(STYLE_CLASS)) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -2395,7 +2406,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
       jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x200000,0x200000,0x0,0x0,0x97fa7,0x97fa7,0x20000,0x40000,0x1000000,0xa0000,0x80000,0x80000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x0,0x1000000,0x800000,0x1000000,0x800000,0x2000000,0x2000000,0x4800000,0x8000000,0x1000000,0x4800000,0x1000000,0x4800000,0x1000000,0x4800000,0x18,0x18,0x8,0x1000000,0x4800000,0x90000000,0x90000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x404,0x404,0x800,0x800,0x678,0x3000,0x3000,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x24,0x24,0x80,0x80,0x38,0x120,0x40,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -2584,7 +2595,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[78];
+    boolean[] la1tokens = new boolean[75];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -2604,7 +2615,7 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants, SWLConstants {/*@b
         }
       }
     }
-    for (int i = 0; i < 78; i++) {
+    for (int i = 0; i < 75; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

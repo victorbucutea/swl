@@ -6,7 +6,7 @@ import ro.swl.engine.generator.GenerateException;
 public class RelatedEntityNotFoundException extends GenerateException {
 
 	public RelatedEntityNotFoundException(String fieldCls) {
-		super("Cannot find related entity '" + fieldCls + "' in any of the declared modules.");
+		super("Cannot find related type '" + fieldCls + "' .");
 	}
 
 	/**

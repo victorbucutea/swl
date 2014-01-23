@@ -9,6 +9,7 @@ import static ro.swl.engine.generator.GenerationContext.AUTO_DETECT_PACKAGE;
 import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,12 +17,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ro.swl.engine.AbstractTest;
-import ro.swl.engine.generator.javaee.exception.CardinalityUnkownException;
+import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
+import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
 import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 import ro.swl.engine.generator.javaee.exception.NoModuleException;
 import ro.swl.engine.generator.javaee.exception.RelatedEntityNotFoundException;
+import ro.swl.engine.generator.javaee.exception.RelatedFieldNotFoundException;
+import ro.swl.engine.generator.javaee.exception.WrongRelatedFieldTypeException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
@@ -51,7 +55,10 @@ public class GenerateResourceTreeTests extends AbstractTest {
 	@Before
 	public void setUp() throws Exception {
 		ctxt = new GenerationContext();
-		generator = new ProjectGenerator(ctxt);
+		List<Technology> techs = new ArrayList<Technology>();
+		techs.add(new InternalEnhancers(ctxt));
+		techs.add(new JPATechnology(ctxt));
+		generator = new ProjectGenerator(ctxt, techs);
 		testTemplateDir = new File(getClass().getClassLoader().getResource("generate/").toURI());
 	}
 
@@ -600,7 +607,7 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 
 
-	@Test(expected = RelatedEntityNotFoundException.class)
+	@Test(expected = RelatedFieldNotFoundException.class)
 	public void entityFieldIsCollectionOfUnkownParameter() throws ParseException, GenerateException {
 		//@formatter:off
 				SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
@@ -727,7 +734,8 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 
 	@Test
-	public void entityFieldOneToOneOwningSideSpecified() throws ParseException, GenerateException {
+	public void entityFieldOneToOne_bidirectional() throws ParseException, GenerateException {
+
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 										" module CV {" +
@@ -742,7 +750,7 @@ public class GenerateResourceTreeTests extends AbstractTest {
 													"		Customer {"+
 													"			startDate Date,"+
 													"			endDate   Date,"+
-													"			experience Experience*"+		
+													"			experience Experience -> field"+		
 													"		}"+
 													"  }" +
 										"}"));
@@ -768,7 +776,7 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		// one to one owning relation
 		assertOneToOneNonOwningAnnotations(expField);
 
-		EntityResource customer = (EntityResource) modelFolder.getChild(1);
+		EntityResource customer = modelFolder.getChildCast(1);
 		EntityField custField = customer.getFields().get(2);
 		assertEquals("experience", custField.getName());
 
@@ -793,7 +801,9 @@ public class GenerateResourceTreeTests extends AbstractTest {
 													"	    Experience {"+
 													"			startDate Date,"+
 													"			endDate   Date,"+
-													"			field 	  Customer"+
+													"			field 	  Customer -> experience," +
+													" 			anInt     Integer," +
+													"			aBlob     Blob"+
 													"		} " +
 													"  }" +
 										"}"));
@@ -817,19 +827,19 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		assertEquals("experience", expField.getName());
 
 		// one to one owning relation
-		assertOneToOneOwningAnnotations(expField);
+		assertOneToOneNonOwningAnnotations(expField);
 
 		EntityResource experience = (EntityResource) modelFolder.getChild(1);
 		EntityField custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 
 		// one to one 
-		assertOneToOneNonOwningAnnotations(custField);
+		assertOneToOneOwningAnnotations(custField);
 	}
 
 
 	@Test
-	public void entityDuplicateOneToOneRelation() throws GenerateException, ParseException {
+	public void entityField_MultipleOwningOneToOne_unidirRelations() throws GenerateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -844,9 +854,9 @@ public class GenerateResourceTreeTests extends AbstractTest {
 															"	    Experience {"+
 															"			startDate Date,"+
 															"			endDate   Date,"+
-															"			field 	  Customer*," +
-															"			field2    Customer*," +
-															"			field3    Customer*"+
+															"			field 	  Customer," +
+															"			field2    Customer," +
+															"			field3    Customer"+
 															"		} " +
 															"  }" +
 												"}"));
@@ -866,7 +876,7 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		assertDateFieldIsOk(customer.getFields().get(1));
 
 		assertEquals("experience", expField.getName());
-		assertOneToOneNonOwningAnnotations(expField);
+		assertOneToOneOwningAnnotations(expField);
 
 
 		// one to one owning relation
@@ -884,60 +894,11 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		assertOneToOneOwningAnnotations(custField3);
 
 	}
+
 
 
 	@Test
-	public void entityFieldOneToOneUnidirectional() throws ParseException, GenerateException {
-		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
-												" module CV {" +
-															"  ui     {} " +
-															"  logic  {}" +
-															"  domain {" +
-															"		Customer {"+
-															"			startDate Date,"+
-															"			endDate   Date"+	
-															"		}"+
-															"	    Experience {"+
-															"			startDate Date,"+
-															"			endDate   Date,"+
-															"			field 	  Customer*," +
-															"			field2    Customer*," +
-															"			field3    Customer*"+
-															"		} " +
-															"  }" +
-												"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
-		ProjectRoot root = generator.getProjectRoot();
-		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-
-
-
-		// one to one owning relation
-		EntityField custField = experience.getFields().get(2);
-		assertEquals("field", custField.getName());
-		assertOneToOneOwningAnnotations(custField);
-
-		EntityField custField2 = experience.getFields().get(3);
-		assertEquals("field2", custField2.getName());
-		assertOneToOneOwningAnnotations(custField2);
-
-		EntityField custField3 = experience.getFields().get(4);
-		assertEquals("field3", custField3.getName());
-		assertOneToOneOwningAnnotations(custField3);
-
-
-	}
-
-
-	@Test(expected = CardinalityUnkownException.class)
-	public void entityOneToOneNoOwningSide() throws GenerateException, ParseException {
+	public void entityField_noRelatedFields() throws GenerateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -951,9 +912,9 @@ public class GenerateResourceTreeTests extends AbstractTest {
 																	"	    Experience {"+
 																	"			startDate Date,"+
 																	"			endDate   Date,"+
-																	"			field 	  Customer*," +
-																	"			field2    Customer*," +
-																	"			field3    Customer"+// no owning side
+																	"			field 	  Customer," +
+																	"			field2    Set<Customer>," +
+																	"			field3    Set<Customer> -> *"+
 																	"		} " +
 																	"  }" +
 														"}"));
@@ -962,11 +923,27 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
 		generator.enhance(appModel);
+		ProjectRoot root = generator.getProjectRoot();
+		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
+
+		// one to one owning relation
+		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityField custField = experience.getFields().get(2);
+		assertEquals("field", custField.getName());
+		assertOneToOneOwningAnnotations(custField);
+
+		custField = experience.getFields().get(3);
+		assertEquals("field2", custField.getName());
+		assertOneToManyOwningAnnotations(custField);
+
+		custField = experience.getFields().get(4);
+		assertEquals("field3", custField.getName());
+		assertManyToManyOwningAnnotations(custField);
 	}
 
 
 	@Test
-	public void entityFieldOneToOneMultipleRelations_OwningSideSpecified() throws ParseException, GenerateException {
+	public void entityField_MultipleOneToOneRelations_OwningSideSpecified() throws ParseException, GenerateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -983,9 +960,9 @@ public class GenerateResourceTreeTests extends AbstractTest {
 															"	    Experience {"+
 															"			startDate Date,"+
 															"			endDate   Date,"+
-															"			field 	  Customer*," +
-															"			field2    Customer*," +
-															"			field3    Customer*"+
+															"			field 	  Customer -> experience1," +
+															"			field2    Customer -> experience2," +
+															"			field3    Customer -> experience3"+
 															"		} " +
 															"  }" +
 												"}"));
@@ -997,10 +974,21 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource cust = (EntityResource) modelFolder.getChild(0);
+		EntityField exp1 = cust.getFields().get(2);
+		assertEquals("experience1", exp1.getName());
+		assertOneToOneNonOwningAnnotations(exp1);
 
+		EntityField exp2 = cust.getFields().get(3);
+		assertEquals("experience2", exp2.getName());
+		assertOneToOneNonOwningAnnotations(exp2);
+
+		EntityField exp3 = cust.getFields().get(4);
+		assertEquals("experience3", exp3.getName());
+		assertOneToOneNonOwningAnnotations(exp3);
 
 		// one to one owning relation
+		EntityResource experience = (EntityResource) modelFolder.getChild(1);
 		EntityField custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 		assertOneToOneOwningAnnotations(custField);
@@ -1016,7 +1004,7 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 
 	@Test
-	public void entityFieldOneToOneMultipleRelations_() throws ParseException, GenerateException {
+	public void entityFieldManyToOneRelations() throws ParseException, GenerateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -1026,52 +1014,28 @@ public class GenerateResourceTreeTests extends AbstractTest {
 															"		Customer {"+
 															"			startDate Date,"+
 															"			endDate   Date," +
-															"			experience1 Experience" +
+															"			experience1 Experience," +
+															"			experience2 Order," +
 															"			order Order"+	
 															"		}"+
 															"	    Experience {"+
 															"			startDate Date,"+
 															"			endDate   Date,"+
-															"			field 	  Customer * -> experience1," +
-															"			field2    Customer," +
-															"			field3    Customer * ->  "+
+															"			field 	  Customer -> experience1," +
+															"			field2    Order -> field2," +
+															"			field3    Customer -> * "+
 															"		} " +
+															// field names are the same as the ones in Experience
 															"	    Order {"+
 															"			startDate Date,"+
 															"			endDate   Date,"+
-															"			field 	  Customer * -> experience1," +
-															"			field2    Customer," +
-															"			field3    Customer * ->  "+
+															"			field 	  Set<Customer> -> experience2," +
+															"			field2    Experience," +
+															"			field3    Customer -> *  "+
 															"		} " +
 															"  }" +
 												"}"));
-	}
-
-
-	@Test
-	public void entityFieldOneToOneMultipleRelations_OwningSideNotSpecified() throws ParseException, GenerateException {
-		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
-												" module CV {" +
-															"  ui     {} " +
-															"  logic  {}" +
-															"  domain {" +
-															"		Customer {"+
-															"			startDate Date,"+
-															"			endDate   Date," +
-															"			experience1 Experience,"+
-															"			experience2 Experience,"+	
-															"			experience3 Experience"+	
-															"		}"+
-															"	    Experience {"+
-															"			startDate Date,"+
-															"			endDate   Date,"+
-															"			field 	  Customer," +
-															"			field2    Customer," +
-															"			field3    Customer"+
-															"		} " +
-															"  }" +
-												"}"));
+		
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
 		ASTSwdlApp appModel = swl.SwdlApp();
@@ -1080,43 +1044,82 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-
-
-		// one to one owning relation
-		EntityField custField = experience.getFields().get(2);
-		assertEquals("field", custField.getName());
-		assertOneToOneNonOwningAnnotations(custField);
-
-		EntityField custField2 = experience.getFields().get(3);
-		assertEquals("field2", custField2.getName());
-		assertOneToOneNonOwningAnnotations(custField2);
-
-		EntityField custField3 = experience.getFields().get(4);
-		assertEquals("field3", custField3.getName());
-		assertOneToOneNonOwningAnnotations(custField3);
-
 
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
+		EntityField exp1 = customer.getFields().get(2);
+		assertOneToOneNonOwningAnnotations(exp1);
+
+		EntityField exp2 = customer.getFields().get(3);
+		assertManyToOneOwningAnnotations(exp2);
+
+		EntityResource exp = modelFolder.getChildCast(1);
+		EntityField field = exp.getFields().get(2);
+		assertOneToOneOwningAnnotations(field);
+
+		EntityField field2 = exp.getFields().get(3);
+		assertOneToOneOwningAnnotations(field2);
+
+		EntityField field3 = exp.getFields().get(4);
+		assertManyToOneOwningAnnotations(field3);
 
 
-		// one to one owning relation
-		EntityField expField1 = customer.getFields().get(2);
-		assertEquals("experience1", expField1.getName());
-		assertOneToOneOwningAnnotations(expField1);
+		EntityResource order = modelFolder.getChildCast(2);
+		EntityField ordField = order.getFields().get(2);
+		assertOneToManyNonOwningAnnotations(ordField);
 
-		EntityField expField2 = customer.getFields().get(3);
-		assertEquals("experience2", expField2.getName());
-		assertOneToOneOwningAnnotations(expField2);
+		EntityField ordField2 = order.getFields().get(3);
+		assertOneToOneNonOwningAnnotations(ordField2);
 
-		EntityField expField3 = customer.getFields().get(4);
-		assertEquals("experience3", expField3.getName());
-		assertOneToOneOwningAnnotations(expField3);
+		EntityField ordField3 = order.getFields().get(4);
+		assertManyToOneOwningAnnotations(ordField3);
+	}
+
+
+	@Test(expected = WrongRelatedFieldTypeException.class)
+	public void entityFieldManyToOneRelations_wrongRelatedFieldType() throws ParseException, GenerateException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+												" module CV {" +
+															"  ui     {} " +
+															"  logic  {}" +
+															"  domain {" +
+															"		Customer {"+
+															"			startDate Date,"+
+															"			endDate   Date," +
+															"			experience1 Experience," +
+															"			experience2 Order," +
+															"			order Order"+	
+															"		}"+
+															"	    Experience {"+
+															"			startDate Date,"+
+															"			endDate   Date,"+
+															"			field 	  Customer -> experience1," +
+															"			field2    Order -> field2," +
+															"			field3    Customer -> * "+
+															"		} " +
+															// field names are the same as the ones in Experience
+															"	    Order {"+
+															"			startDate Date,"+
+															"			endDate   Date,"+
+															"			field 	  Set<Customer> -> experience2," +
+															// this field is referenced by Experience.field2
+															// it should be of type Experience
+															"			field2    Customer," + 
+															"			field3    Customer -> *  "+
+															"		} " +
+															"  }" +
+												"}"));
+		
+		//@formatter:on
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.enhance(appModel);
 	}
 
 
 	@Test
-	public void entityFieldManyToOne() throws GenerateException, ParseException {
+	public void entityFieldOneToMany() throws GenerateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 													" module CV {" +
@@ -1133,8 +1136,9 @@ public class GenerateResourceTreeTests extends AbstractTest {
 																"	    Experience {"+
 																"			startDate Date,"+
 																"			endDate   Date,"+
-																"			field 	  Set<Customer>," +
-																"			field2    Set<Customer>*," +
+																"			field 	  Set<Customer> -> experience1," +
+																// fields below are unidirectional one-to-many
+																"			field2    Set<Customer>," +
 																"			field3    Set<Customer>"+
 																"		} " +
 																"  }" +
@@ -1148,40 +1152,30 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		// one to many side of relation
 		EntityField exp1 = customer.getFields().get(2);
 		assertManyToOneAnnotations(exp1);
 
-		EntityField exp2 = customer.getFields().get(2);
-		assertManyToOneAnnotations(exp2);
+		EntityField exp2 = customer.getFields().get(3);
+		assertOneToOneOwningAnnotations(exp2);
 
-		EntityField exp3 = customer.getFields().get(2);
-		assertManyToOneAnnotations(exp3);
+		EntityField exp3 = customer.getFields().get(4);
+		assertOneToOneOwningAnnotations(exp3);
 
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-		// many to one owning relation
+		EntityResource experience = modelFolder.getChildCast(1);
 		EntityField custField = experience.getFields().get(2);
-		assertEquals("field", custField.getName());
-		assertOneToManyAnnotationsOk(custField);
+		assertOneToManyNonOwningAnnotations(custField);
 
 		EntityField custField2 = experience.getFields().get(3);
-		assertEquals("field2", custField2.getName());
-		assertOneToManyAnnotationsOk(custField);
+		assertOneToManyOwningAnnotations(custField2);
+		assertTrue(custField2.isUnidirectional());
 
 		EntityField custField3 = experience.getFields().get(4);
-		assertEquals("field3", custField3.getName());
-		assertOneToManyAnnotationsOk(custField3);
+		assertOneToManyOwningAnnotations(custField3);
+		assertTrue(custField3.isUnidirectional());
 	}
 
 
-	/**
-	 * This is something that should be supported in some time. It cannot be
-	 * achieved by simple declarations,
-	 * because if the other side is not declared, we can't know what the
-	 * relation is a one-to-one or a one-to-many
-	 * 
-	 */
-	@Test(expected = CardinalityUnkownException.class)
+	@Test
 	public void entityFieldManyToOneUnidirectional() throws GenerateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
@@ -1192,81 +1186,14 @@ public class GenerateResourceTreeTests extends AbstractTest {
 															"		Customer {"+
 															"			startDate Date,"+
 															"			endDate   Date," +
-															"			experience1 Experience,"+
-															"			experience2 Experience,"+	
-															"			experience3 Experience"+	
+															"			experience1 Experience ->*,"+
+															"			experience2 Experience ->*,"+	
+															"			experience3 Experience ->*"+	
 															"		}"+
 															"	    Experience {"+
 															"			startDate Date,"+
 															"			endDate   Date"+
-															         // experience3 is unidirectional - no corresponding many-to-one
-															"		} " +
-															"  }" +
-												"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-	}
-
-
-	@Test(expected = CardinalityUnkownException.class)
-	public void entityFieldManyToOneUnidirectionalForSomeFields() throws GenerateException, ParseException {
-		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
-												" module CV {" +
-															"  ui     {} " +
-															"  logic  {}" +
-															"  domain {" +
-															"		Customer {"+
-															"			startDate Date,"+
-															"			endDate   Date," +
-															"			experience1 Experience,"+
-															"			experience2 Experience,"+	
-															"			experience3 Experience"+// no owning side
-															"		}"+
-															"	    Experience {"+
-															"			startDate Date,"+
-															"			endDate   Date,"+
-															"			customers1 Set<Customer>,"+
-															"			customers2 Set<Customer>"+
-															         // experience3 is unidirectional - no corresponding many-to-one
-															"		} " +
-															"  }" +
-												"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
-	}
-
-
-	@Test
-	public void entityFieldManyToOneUnidirectionalForSomeFields_ButOneToOneOwningSideSpecified()
-			throws GenerateException, ParseException {
-		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
-												" module CV {" +
-															"  ui     {} " +
-															"  logic  {}" +
-															"  domain {" +
-															"		Customer {"+
-															"			startDate Date,"+
-															"			endDate   Date," +
-															"			experience1 Experience,"+
-															"			experience2 Experience,"+
-															// unidirectional owning side oneToOne
-															"			experience3 Experience*"+
-															"		}"+
-															"	    Experience {"+
-															"			startDate Date,"+
-															"			endDate   Date,"+
-															"			customers1 Set<Customer>,"+
-															"			customers2 Set<Customer>"+
-															         // experience3 is unidirectional - no corresponding many-to-one
+															         // experience 1,2,3 is unidirectional - no corresponding one-to-many here
 															"		} " +
 															"  }" +
 												"}"));
@@ -1278,30 +1205,21 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		// one to many side of relation
+		EntityResource customer = modelFolder.getChildCast(0);
+
 		EntityField exp1 = customer.getFields().get(2);
-		assertManyToOneAnnotations(exp1);
+		assertManyToOneOwningAnnotations(exp1);
 
 		EntityField exp2 = customer.getFields().get(3);
-		assertManyToOneAnnotations(exp2);
+		assertManyToOneOwningAnnotations(exp2);
 
 		EntityField exp3 = customer.getFields().get(4);
-		assertOneToOneOwningAnnotations(exp3);
-
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-
-		EntityField cust1 = experience.getFields().get(2);
-		assertOneToManyAnnotationsOk(cust1);
-
-		EntityField cust2 = experience.getFields().get(2);
-		assertOneToManyAnnotationsOk(cust2);
+		assertManyToOneOwningAnnotations(exp3);
 	}
 
 
-	@Test
-	public void entityFieldManyToOneUnidirectionalForSomeFields_ButManyToOneOwningSideSpecified()
-			throws GenerateException, ParseException {
+	@Test()
+	public void entityFieldManyToMany() throws GenerateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -1311,17 +1229,16 @@ public class GenerateResourceTreeTests extends AbstractTest {
 															"		Customer {"+
 															"			startDate Date,"+
 															"			endDate   Date," +
-															"			experience1 Experience,"+
-															"			experience2 Experience,"+
-															// unidirectional one-to-many
-															"			experience3 Experience &"+
+															"			experience1 Set<Experience> -> *,"+
+															"			experience2 Set<Experience>,"+	
+															"			experience3 Set<Experience> -> customers1, "+
+															"			experience4 Set<Experience> "+
 															"		}"+
 															"	    Experience {"+
 															"			startDate Date,"+
 															"			endDate   Date,"+
 															"			customers1 Set<Customer>,"+
-															"			customers2 Set<Customer>"+
-															         // experience3 is unidirectional - no corresponding many-to-one
+															"			customers2 Set<Customer> -> experience4"+
 															"		} " +
 															"  }" +
 												"}"));
@@ -1333,30 +1250,54 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		// one to many side of relation
+		EntityResource customer = modelFolder.getChildCast(0);
+
 		EntityField exp1 = customer.getFields().get(2);
-		assertManyToOneAnnotations(exp1);
+		assertManyToManyOwningAnnotations(exp1);
 
 		EntityField exp2 = customer.getFields().get(3);
-		assertManyToOneAnnotations(exp2);
+		assertOneToManyOwningAnnotations(exp2);
 
 		EntityField exp3 = customer.getFields().get(4);
-		assertManyToOneAnnotations(exp3);
+		assertManyToManyOwningAnnotations(exp3);
 
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityField exp4 = customer.getFields().get(5);
+		assertManyToManyNonOwningAnnotations(exp4);
 
-		EntityField cust1 = experience.getFields().get(2);
-		assertOneToManyAnnotationsOk(cust1);
 
-		EntityField cust2 = experience.getFields().get(2);
-		assertOneToManyAnnotationsOk(cust2);
+
+		EntityResource experience = modelFolder.getChildCast(1);
+
+		EntityField cus1 = experience.getFields().get(2);
+		assertManyToManyNonOwningAnnotations(cus1);
+
+		EntityField cus2 = experience.getFields().get(3);
+		assertManyToManyOwningAnnotations(cus2);
+	}
+
+
+	public void entityManyToOneInDifferentModules() {
+
+	}
+
+
+	public void entityManyToOneInDifferentPackages() {
+
+	}
+
+
+	public void entityManyToOneInDifferentPackageInSameModule() {
 
 	}
 
 
 	@Test
 	public void jaxRs_OneToOne() throws GenerateException, ParseException {
+		List<Technology> techs = new ArrayList<Technology>();
+		techs.add(new JaxRSTechnology(ctxt));
+		generator = new ProjectGenerator(ctxt, techs);
+
+
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -1406,96 +1347,18 @@ public class GenerateResourceTreeTests extends AbstractTest {
 
 
 	private void assertJaxRsOneToOneOwningAnotation(EntityField field) {
-		Annotation managedRef = field.getAnnotations().get(1);
+		assertEquals(1, field.getAnnotations().size());
+		Annotation managedRef = field.getAnnotations().get(0);
 		assertEquals("JsonManagedReference", managedRef.getSimpleName());
 		assertEquals("org.codehaus.jackson.annotate.JsonManagedReference", managedRef.getFqName());
 	}
 
 
 	private void assertJaxRsOneToOneNonOwningAnotation(EntityField field) {
-		Annotation managedRef = field.getAnnotations().get(1);
+		assertEquals(1, field.getAnnotations().size());
+		Annotation managedRef = field.getAnnotations().get(0);
 		assertEquals("JsonBackReference", managedRef.getSimpleName());
 		assertEquals("org.codehaus.jackson.annotate.JsonBackReference", managedRef.getFqName());
-	}
-
-
-	@Test
-	public void entityFieldManyToOneMultipleRelations() throws GenerateException, ParseException {
-		//@formatter:off
-				SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
-															" module CV {" +
-																		"  ui     {} " +
-																		"  logic  {}" +
-																		"  domain {" +
-																		"		Customer {"+
-																		"			startDate Date,"+
-																		"			endDate   Date," +
-																		"			experience1 Experience,"+
-																		"			experience2 Experience,"+	
-																		"			experience3 Experience"+	
-																		"		}"+
-																		"	    Experience {"+
-																		"			startDate Date,"+
-																		"			endDate   Date,"+
-																		"			field 	  Set<Customer>," +
-																		"			field2    Set<Customer>*," +
-																		"			field3    Set<Customer>"+
-																		"		} " +
-																		"  }" +
-															"}"));
-				//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
-		ProjectRoot root = generator.getProjectRoot();
-		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		// one to many side of relation
-		EntityField exp1 = customer.getFields().get(2);
-		assertManyToOneAnnotations(exp1);
-
-	}
-
-
-	public void entityManyToOneInDifferentModules() {
-
-	}
-
-
-	public void entityManyToOneInDifferentPackages() {
-
-	}
-
-
-	public void entityManyToOneInDifferentPackageInSameModule() {
-
-	}
-
-
-	public void entityFieldOneToMany() {
-
-	}
-
-
-	public void entityFieldOneToManyUnidirectional() {
-
-	}
-
-
-	public void entityFieldOneToManyMultipleRelations() {
-
-	}
-
-
-	public void entityFieldManyToMany() {
-
-	}
-
-
-	public void entityFieldManyToManyUnidirectional() {
-
 	}
 
 
@@ -1515,7 +1378,6 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		assertEquals(custField.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
 		assertEquals(2, annotations.size());
-
 	}
 
 
@@ -1530,11 +1392,100 @@ public class GenerateResourceTreeTests extends AbstractTest {
 		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
 		AnnotationProperty orphanRemove = onetoOne.getAttribute("orphanRemoval");
 		assertEquals("true", orphanRemove.getValueLiterals().get(0));
+		assertEquals(1, annotations.size());
+	}
+
+
+	private void assertManyToManyNonOwningAnnotations(EntityField field) {
+		List<Annotation> annotations = field.getAnnotations();
+		Annotation manyToMany = annotations.get(0);
+		assertEquals("ManyToMany", manyToMany.getSimpleName());
+		assertEquals("javax.persistence.ManyToMany", manyToMany.getFqName());
+		Collection<AnnotationProperty> attributes = manyToMany.getAttributes();
+		assertEquals(2, attributes.size());
+		AnnotationProperty cascade = manyToMany.getAttribute("cascade");
+		assertNotNull(cascade);
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
 
 		assertEquals(1, annotations.size());
+	}
+
+
+	private void assertManyToManyOwningAnnotations(EntityField field) {
+		List<Annotation> annotations = field.getAnnotations();
+		Annotation manyToMany = annotations.get(0);
+		assertEquals("ManyToMany", manyToMany.getSimpleName());
+		assertEquals("javax.persistence.ManyToMany", manyToMany.getFqName());
+		Collection<AnnotationProperty> attributes = manyToMany.getAttributes();
+		assertEquals(0, attributes.size());
+
+		Annotation joinColumn = annotations.get(1);
+		assertEquals("JoinColumn", joinColumn.getSimpleName());
+		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
+		AnnotationProperty name = joinColumn.getAttribute("name");
+		assertNotNull(name.getValueLiterals().get(0));
+		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
+
+		assertEquals(2, annotations.size());
+	}
+
+
+	private void assertOneToManyOwningAnnotations(EntityField field) {
+		List<Annotation> annotations = field.getAnnotations();
+		Annotation onetoMany = annotations.get(0);
+		assertEquals("OneToMany", onetoMany.getSimpleName());
+		assertEquals("javax.persistence.OneToMany", onetoMany.getFqName());
+		Collection<AnnotationProperty> attributes = onetoMany.getAttributes();
+
+		assertEquals(2, attributes.size());
+		assertEquals(2, annotations.size());
+
+		AnnotationProperty cascade = onetoMany.getAttribute("cascade");
+		assertNotNull(cascade);
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		AnnotationProperty orphanRemove = onetoMany.getAttribute("orphanRemoval");
+		assertEquals("true", orphanRemove.getValueLiterals().get(0));
+
+		Annotation joinColumn = annotations.get(1);
+		assertEquals("JoinColumn", joinColumn.getSimpleName());
+		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
+		AnnotationProperty name = joinColumn.getAttribute("name");
+		assertNotNull(name.getValueLiterals().get(0));
+		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
 	}
 
+
+	private void assertManyToOneOwningAnnotations(EntityField field) {
+		List<Annotation> annotations = field.getAnnotations();
+		Annotation onetoOne = annotations.get(0);
+		assertEquals("ManyToOne", onetoOne.getSimpleName());
+		assertEquals("javax.persistence.ManyToOne", onetoOne.getFqName());
+		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		assertEquals(0, attributes.size());
+
+		Annotation joinColumn = annotations.get(1);
+		assertEquals("JoinColumn", joinColumn.getSimpleName());
+		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
+		AnnotationProperty name = joinColumn.getAttribute("name");
+		assertNotNull(name.getValueLiterals().get(0));
+		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
+		assertEquals(2, annotations.size());
+	}
+
+
+	private void assertOneToManyNonOwningAnnotations(EntityField field) {
+		List<Annotation> annotations = field.getAnnotations();
+		Annotation onetoOne = annotations.get(0);
+		assertEquals("OneToMany", onetoOne.getSimpleName());
+		assertEquals("javax.persistence.OneToMany", onetoOne.getFqName());
+		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		assertEquals(2, attributes.size());
+		AnnotationProperty cascade = onetoOne.getAttribute("cascade");
+		assertNotNull(cascade);
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		assertEquals(1, annotations.size());
+	}
 
 
 	private void assertOneToOneOwningAnnotations(EntityField field) {
@@ -1562,11 +1513,16 @@ public class GenerateResourceTreeTests extends AbstractTest {
 	private void assertOneToOneNonOwningAnnotations(EntityField custField) {
 		List<Annotation> relation = custField.getAnnotations();
 		assertEquals(1, relation.size());
-		Annotation onetoOne2 = relation.get(0);
-		assertEquals("OneToOne", onetoOne2.getSimpleName());
-		assertEquals("javax.persistence.OneToOne", onetoOne2.getFqName());
+		Annotation onetoOne = relation.get(0);
+		assertEquals("OneToOne", onetoOne.getSimpleName());
+		assertEquals("javax.persistence.OneToOne", onetoOne.getFqName());
+		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
 		// no cascade
-		assertEquals(0, onetoOne2.getAttributes().size());
+		assertEquals(1, attributes.size());
+		AnnotationProperty cascade = onetoOne.getAttribute("cascade");
+		assertNotNull(cascade);
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+
 	}
 
 

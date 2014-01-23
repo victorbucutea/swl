@@ -78,6 +78,12 @@ public abstract class Resource {
 	}
 
 
+	@SuppressWarnings("unchecked")
+	public <T extends Resource> T getChildCast(int idx) {
+		return (T) children.get(idx);
+	}
+
+
 	public List<Resource> getChildren() {
 		return children;
 	}

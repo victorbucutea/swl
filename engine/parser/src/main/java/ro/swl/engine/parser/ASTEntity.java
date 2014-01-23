@@ -6,8 +6,6 @@
  */
 package ro.swl.engine.parser;
 
-import static org.apache.commons.lang3.StringUtils.substringBetween;
-
 import java.util.List;
 
 
@@ -50,34 +48,9 @@ public class ASTEntity extends SWLNode {
 	}
 
 
-	public ASTProperty getUnassignedFieldCollectionOf(String genericType) {
-		for (ASTProperty prop : getFields()) {
-
-			if (prop.isAssignedToRelation())
-				continue;
-
-			String propType = prop.getType();
-			String collectionParam = substringBetween(propType, "<", ">");
-			if (genericType.equals(collectionParam)) {
-				return prop;
-			}
-		}
-		return null;
-	}
-
-
-	public ASTProperty getUnassignedFieldWithType(String name) {
-		for (ASTProperty prop : getFields()) {
-
-			if (prop.isAssignedToRelation())
-				continue;
-
-			String propType = prop.getType();
-			if (name.equals(propType)) {
-				return prop;
-			}
-		}
-		return null;
+	@Override
+	public String toString() {
+		return getImage();
 	}
 
 

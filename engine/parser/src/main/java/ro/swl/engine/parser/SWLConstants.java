@@ -131,27 +131,21 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int ENUM = 66;
   /** RegularExpression Id. */
-  int DATE = 67;
+  int PRIMITIVE = 67;
   /** RegularExpression Id. */
-  int STRING = 68;
+  int COLLECTION = 68;
   /** RegularExpression Id. */
-  int NR = 69;
+  int CLS_NAME = 69;
   /** RegularExpression Id. */
-  int BLOB = 70;
+  int INDICATOR = 70;
   /** RegularExpression Id. */
-  int COLLECTION = 71;
+  int SEPARATOR = 71;
   /** RegularExpression Id. */
-  int GENERIC = 72;
+  int MANY_MARKER = 72;
   /** RegularExpression Id. */
-  int ONE_TO_MANY = 73;
+  int OPEN_ANGLE = 73;
   /** RegularExpression Id. */
-  int CLS_NAME = 74;
-  /** RegularExpression Id. */
-  int SEPARATOR = 75;
-  /** RegularExpression Id. */
-  int ONE_TO_ONE = 76;
-  /** RegularExpression Id. */
-  int MANY_TO_ONE = 77;
+  int CLOSE_ANGLE = 74;
 
   /** Lexical state. */
   int DomainState = 0;
@@ -235,17 +229,14 @@ public interface SWLConstants {
     "<CLOSE_QUOTE>",
     "<ANY_NO_SEMICOLON>",
     "\"enum\"",
-    "\"Date\"",
-    "\"String\"",
-    "<NR>",
-    "\"Blob\"",
+    "<PRIMITIVE>",
     "<COLLECTION>",
-    "<GENERIC>",
-    "<ONE_TO_MANY>",
     "<CLS_NAME>",
+    "\"->\"",
     "\",\"",
     "\"*\"",
-    "\"&\"",
+    "\"<\"",
+    "\">\"",
   };
 
 }

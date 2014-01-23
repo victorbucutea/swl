@@ -36,24 +36,14 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 
 			if (field.getType().isObject()) {
 
-
-				if (field.isMarkedAsManyToOne()) {
-					// owning side will be the back-reference
-					field.addAnotation("org.codehaus.jackson.annotate.JsonBackReference");
-					continue;
-				}
-
-				if (field.isMarkedAsOneToOne()) {
+				if (field.isOwningInRelation()) {
 					// owning side will be the back-reference
 					field.addAnotation("org.codehaus.jackson.annotate.JsonBackReference");
 				} else {
 					field.addAnotation("org.codehaus.jackson.annotate.JsonManagedReference");
 				}
 
-				continue;
 			}
-
-
 
 		}
 

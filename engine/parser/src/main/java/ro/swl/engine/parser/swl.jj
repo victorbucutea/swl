@@ -9,8 +9,8 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
                          
-//  DEBUG_PARSER=true;
-  //DEBUG_TOKEN_MANAGER=true;
+ // DEBUG_PARSER=true;
+ // DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -162,18 +162,14 @@ PARSER_END(SWL)
 < DomainState > TOKEN :
 {
   < ENUM:   "enum" >
-| < DATE:   "Date" >
-| < STRING: "String" >
-| < NR:     "int" | "Integer" |"Double" | "double" | "long" | "Long" >
-| < BLOB:   "Blob" >
+| < PRIMITIVE: "Date" | "String" | "int" | "Integer" |"Double" | "double" | "long" | "Long" | "Blob" >
 | < COLLECTION: "Set" | "List" >
-| < GENERIC: "<" < NAME > ">" >
-| < ONE_TO_MANY : < COLLECTION > <GENERIC >>
 | < CLS_NAME : < IDENTIFIER >>
+| < INDICATOR : "->" >
 | < SEPARATOR : "," >
-| < ONE_TO_ONE : "*" >
-| < MANY_TO_ONE : "&" >
-}  
+| < MANY_MARKER : "*" >
+| < OPEN_ANGLE: "<" >
+| < CLOSE_ANGLE: ">" >}  
 
 
 /** ******************************************************************** */
@@ -2144,27 +2140,40 @@ void Property() :{/*@bgen(jjtree) Property */
                   ASTProperty jjtn000 = new ASTProperty(JJTPROPERTY);
                   boolean jjtc000 = true;
                   jjtree.openNodeScope(jjtn000);
-/*@egen*/Token t1; Token t2;}
+/*@egen*/Token t1; Token t2; Token t3 = null;Token t4 = null;Token t5 =null;}
 {/*@bgen(jjtree) Property */
   try {
 /*@egen*/  t1 = < CLS_NAME >
-  ( t2 = < DATE >
-	|t2 =  < STRING>
-	|t2 =  < NR>
-	|t2 =  < BLOB >
-	|t2 =  < ONE_TO_MANY > { jjtn000.setMarkedAsOneToMany(true);}
+  ( 
+	t2 =  < PRIMITIVE > { jjtn000.setPrimitive(true);}	|t2 =  < COLLECTION > <OPEN_ANGLE > t4 = < CLS_NAME > <CLOSE_ANGLE >  
 	|t2 =  < CLS_NAME >
   )
   (
-    < ONE_TO_ONE > { jjtn000.setMarkedAsOneToOne(true);}
-  | < MANY_TO_ONE > { jjtn000.setMarkedAsManyToOne(true);}   )?/*@bgen(jjtree)*/
+    < INDICATOR >
+    (       t3 = < CLS_NAME > | 	t5 = < MANY_MARKER > 
+  	)  )?/*@bgen(jjtree)*/
   {
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
   }
 /*@egen*/
-  {	jjtn000.setName(t1.image);
-	jjtn000.setType(t2.image);
+  {
+	jjtn000.setName(t1.image);	jjtn000.setType(t2.image);
+	if (t3 != null ) {
+	    jjtn000.setRelatedPropertyName(t3.image);
+	}
+
+	if (t5 != null ) {
+	  	jjtn000.setMarkedWithStar(true);	}
+
+	if ( t5 != null && t4 == null ){
+	    jjtn000.setUnidirManyToOne(true);	}
+
+	if ( t5 != null && t4 != null ) {		jjtn000.setUnidirManyToMany(true);
+	}
+	  
+    if (t4 != null ){    	jjtn000.setCollectionType(t4.image);
+   }
   }/*@bgen(jjtree)*/
   } finally {
     if (jjtc000) {
