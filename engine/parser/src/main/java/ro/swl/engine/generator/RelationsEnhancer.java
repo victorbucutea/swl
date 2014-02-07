@@ -101,6 +101,8 @@ public class RelationsEnhancer extends Enhancer<ProjectRoot> {
 					continue;
 				}
 
+				checkFieldTypeExists(appModel, field);
+
 				if (field.isUnidirManyToOne()) {
 					field.setRelationType(MANY_TO_ONE);
 					field.setOwning(true);
@@ -126,6 +128,18 @@ public class RelationsEnhancer extends Enhancer<ProjectRoot> {
 				}
 			}
 		}
+	}
+
+
+	private void checkFieldTypeExists(ASTSwdlApp appModel, ASTProperty field) throws RelatedEntityNotFoundException {
+		if (field.isPrimitive())
+			return;
+
+
+		if (field.isCollection())
+			findEntity(appModel, field.getCollectionType());
+		else
+			findEntity(appModel, field.getType());
 	}
 
 

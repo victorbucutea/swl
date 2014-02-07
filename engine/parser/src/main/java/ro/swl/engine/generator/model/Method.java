@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import ro.swl.engine.generator.GenerateException;
 
@@ -17,7 +16,7 @@ public class Method {
 
 	private Set<Parameter> parameters;
 
-	private Set<Annotation> annotations = new TreeSet<Annotation>();
+	private List<Annotation> annotations = new ArrayList<Annotation>();
 
 	private List<Statement> body = new ArrayList<Statement>();
 
@@ -333,6 +332,12 @@ public class Method {
 
 	public void setAccessModifier(String accessModifier) {
 		this.accessModifier = accessModifier;
+	}
+
+
+
+	public List<Annotation> getAnnotations() {
+		return annotations;
 	}
 
 }

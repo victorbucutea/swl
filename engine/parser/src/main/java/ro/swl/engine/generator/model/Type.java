@@ -1,10 +1,21 @@
 package ro.swl.engine.generator.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ro.swl.engine.generator.GenerateException;
 
 
 public class Type {
 
+	protected static Map<String, String> internalTypes = new HashMap<String, String>();
+
+	static {
+		internalTypes.put("Blob", "byte[]");
+		internalTypes.put("Date", "java.util.Date");
+		internalTypes.put("Set", "java.util.Set");
+		internalTypes.put("List", "java.util.List");
+	}
 
 	protected String swlDeclaredName;
 
@@ -13,7 +24,12 @@ public class Type {
 
 	public Type(String name, String pkg) throws GenerateException {
 		this.swlDeclaredName = name;
-		this.clsName = new QualifiedClassName(name, pkg);
+		String internalType = internalTypes.get(name);
+		if (internalType != null) {
+			this.clsName = new QualifiedClassName(internalType);
+		} else {
+			this.clsName = new QualifiedClassName(name, pkg);
+		}
 	}
 
 

@@ -1,8 +1,5 @@
 package ro.swl.engine.generator.javaee.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.model.QualifiedClassName;
 import ro.swl.engine.generator.model.Type;
@@ -10,32 +7,14 @@ import ro.swl.engine.generator.model.Type;
 
 public class EntityType extends Type {
 
-	private static final Map<String, QualifiedClassName> internalTypes = new HashMap<String, QualifiedClassName>();
-
-	static {
-		try {
-			//@formatter:off
-			internalTypes.put("Blob",    new QualifiedClassName("byte[]"));
-			internalTypes.put("Date",    new QualifiedClassName("java.util.Date"));
-			//@formatter:on
-		} catch (GenerateException e) {
-			e.printStackTrace();
-		}
+	public EntityType(String collectionType, String genericType, String pkg) throws GenerateException {
+		super(collectionType + "<" + genericType + ">", pkg);
+		clsName = new QualifiedClassName("java.util." + collectionType + "<" + genericType + ">");
 	}
 
 
 	public EntityType(String declaredName, String pkg) throws GenerateException {
 		super(declaredName, pkg);
-
-		clsName = internalTypes.get(declaredName);
-
-		if (clsName == null) {
-			if (declaredName.contains("Set") || declaredName.contains("List")) {
-				clsName = new QualifiedClassName("java.util." + declaredName);
-			} else {
-				clsName = new QualifiedClassName(declaredName, pkg);
-			}
-		}
 	}
 
 
@@ -61,12 +40,6 @@ public class EntityType extends Type {
 
 	public boolean isLong() {
 		return getName().equals("Long") || getName().equals("long");
-	}
-
-
-	@Override
-	public boolean isInternalType() {
-		return internalTypes.containsKey(swlDeclaredName);
 	}
 
 }

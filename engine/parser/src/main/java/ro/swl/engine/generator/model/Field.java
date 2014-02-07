@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.parser.ASTProperty;
+
+import com.google.common.base.CaseFormat;
 
 
 public abstract class Field<T extends Type> extends ResourceProperty {
@@ -27,13 +30,19 @@ public abstract class Field<T extends Type> extends ResourceProperty {
 
 	private T type;
 
+	private String pkg;
 
-	public Field(String name, String type, String pkg) throws GenerateException {
-		this.name = name;
-		this.type = initFieldType(type, pkg);
+	protected ASTProperty modelProp;
+
+
+	public Field(ASTProperty modelProp, String pkg) throws GenerateException {
+		this.modelProp = modelProp;
+		this.name = modelProp.getName();
+		this.pkg = pkg;
 		this.annotations = new LinkedHashSet<Annotation>();
 		this.getterAnnotations = new LinkedHashSet<Annotation>();
 		this.setterAnnotations = new LinkedHashSet<Annotation>();
+		this.type = initFieldType(modelProp.getType(), pkg);
 	}
 
 
@@ -72,6 +81,16 @@ public abstract class Field<T extends Type> extends ResourceProperty {
 
 	public void addSetterAnnotation(String fqAnnName) throws GenerateException {
 		this.setterAnnotations.add(new Annotation(fqAnnName));
+	}
+
+
+	public List<Annotation> getGetterAnnotations() {
+		return new ArrayList<Annotation>(getterAnnotations);
+	}
+
+
+	public List<Annotation> getSetterAnnotations() {
+		return new ArrayList<Annotation>(setterAnnotations);
 	}
 
 
@@ -132,6 +151,28 @@ public abstract class Field<T extends Type> extends ResourceProperty {
 
 	public void setHasSetter(boolean hasSetter) {
 		this.hasSetter = hasSetter;
+	}
+
+
+
+	public String getPkg() {
+		return pkg;
+	}
+
+
+
+	public void setPkg(String pkg) {
+		this.pkg = pkg;
+	}
+
+
+	public String getUpperUnderscoreName() {
+		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, getName());
+	}
+
+
+	public String getUpperCamelName() {
+		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, getName());
 	}
 
 }

@@ -11,6 +11,7 @@ import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.generator.model.Annotation;
+import ro.swl.engine.generator.model.Field;
 import ro.swl.engine.generator.model.Method;
 import ro.swl.engine.generator.model.Method.IfStatement;
 import ro.swl.engine.generator.model.Method.Statement;
@@ -25,6 +26,34 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 
 
 		for (EntityField field : entity.getFields()) {
+
+			if (field.isUnidirectional()) {
+				if (!field.isOneToOne()) {
+					field.addAnotation("org.codehaus.jackson.annotate.JsonIgnore");
+					addSerializerMethod(entity, field);
+					addDeserializerMethod(entity, field);
+				}
+				continue;
+			}
+
+			if (field.isManyToMany()) {
+
+				if (!field.isUnidirectional())
+					throw new GenerateException(
+							"Bidirectional Many to many relations are not supported by current Jackson implementation.");
+
+				field.addAnotation("org.codehaus.jackson.annotate.JsonIgnore");
+				addSerializerMethod(entity, field);
+				addDeserializerMethod(entity, field);
+				continue;
+			}
+
+			if (field.isManyToOne()) {
+				field.addAnotation("org.codehaus.jackson.annotate.JsonBackReference");
+				continue;
+			}
+
+
 
 			if (field.isOneToMany()) {
 				field.addAnotation("org.codehaus.jackson.annotate.JsonIgnore");
@@ -50,7 +79,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addDeserializerMethod(EntityResource entity, EntityField field) throws GenerateException {
+	private void addDeserializerMethod(EntityResource entity, Field<EntityType> field) throws GenerateException {
 		Annotation jsonProp = new Annotation("org.codehaus.jackson.annotate.JsonProperty");
 		jsonProp.addProperty("value", field.getName());
 		field.addSetterAnnotation(jsonProp);
@@ -58,7 +87,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addSerializerMethod(EntityResource resource, EntityField field) throws GenerateException {
+	private void addSerializerMethod(EntityResource resource, Field<EntityType> field) throws GenerateException {
 		/*
 		 * @JsonProperty("experiences")
 		 * 

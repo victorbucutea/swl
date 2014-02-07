@@ -102,4 +102,19 @@ public class EntityResource extends Resource {
 	public void addAnnotation(Annotation ann) {
 		this.annotations.add(ann);
 	}
+
+
+	public List<Method> getMethods() {
+		return methods;
+	}
+
+
+	public Method getMethod(String name) {
+		for (Method m : methods) {
+			if (m.getName().equals(name))
+				return m;
+		}
+
+		return null;
+	}
 }

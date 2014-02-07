@@ -2,6 +2,7 @@ package ro.swl.engine.generator;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
@@ -9,16 +10,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import ro.swl.engine.AbstractTest;
+import ro.swl.engine.GeneratorTest;
 import ro.swl.engine.generator.javaee.exception.DuplicateDeclaredRelation;
 import ro.swl.engine.generator.javaee.exception.RelatedEntityNotFoundException;
 import ro.swl.engine.generator.javaee.exception.RelatedFieldNotFoundException;
 import ro.swl.engine.generator.javaee.exception.WrongRelatedFieldTypeException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
+import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -26,21 +27,85 @@ import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
 
 
-public class RelationsEnhancerTest extends AbstractTest {
+public class RelationsEnhancerTest extends GeneratorTest {
 
 
-	private ProjectGenerator generator;
-	private GenerationContext ctxt;
-	private File testTemplateDir;
-
-
-	@Before
-	public void setUp() throws Exception {
-		ctxt = new GenerationContext();
+	@Override
+	public List<Technology> getTechsUnderTest() {
 		List<Technology> techs = new ArrayList<Technology>();
 		techs.add(new InternalEnhancers(ctxt));
-		generator = new ProjectGenerator(ctxt, techs);
-		testTemplateDir = new File(getClass().getClassLoader().getResource("generate/").toURI());
+		return techs;
+	}
+
+
+	@Test
+	public void entityFieldInternalTypes() throws ParseException, GenerateException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+						" module CV {" +
+									"  ui     {} " +
+									"  logic  {}" +
+									"  domain {" +
+									"		Customer {"+
+									"			startDate Date,"+
+									"			endDate   Date"+
+									"		}"+
+									"	    Experience {"+
+									"			startDt Date,"+
+									"			blob    Blob,"+
+									"			field2  List<Customer>,"+
+									"			field   Set<Customer>,"+
+									"			field3  Integer,"+
+									"			field4  int," +
+									"			field5  Long,"+
+									"			field6  long,"+
+									"			field7  Double,"+
+									"			field8  double," +
+									"			field9  String"+
+									"		} " +
+									"  }" +
+						"}"));
+		//@formatter:on
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.enhance(appModel);
+
+		Resource module = generator.getProjectRoot().getChild(0);
+		Resource modelFolder = module.getChild(0).getChild(0);
+
+		assertEquals(2, modelFolder.getChildren().size());
+
+		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+
+		assertEquals(11, experience.getFields().size());
+
+		assertNull(experience.getFields().get(9).getType().getImport());
+		assertEquals("double", experience.getFields().get(9).getType().getFqName());
+
+		assertNull(experience.getFields().get(7).getType().getImport());
+		assertEquals("long", experience.getFields().get(7).getType().getFqName());
+
+		assertNull(experience.getFields().get(5).getType().getImport());
+		assertEquals("int", experience.getFields().get(5).getType().getFqName());
+
+		EntityType set = experience.getFields().get(3).getType();
+		assertEquals("java.util.Set", set.getImport());
+		assertEquals("Customer", set.getParameter());
+
+		EntityType list = experience.getFields().get(2).getType();
+		assertEquals("java.util.List", list.getImport());
+		assertEquals("Customer", list.getParameter());
+
+
+		assertEquals("java.util.Date", experience.getFields().get(0).getType().getImport());
+		assertEquals("java.util.Date", experience.getFields().get(0).getType().getFqName());
+		assertEquals("Date", experience.getFields().get(0).getType().getSimpleClassName());
+
+		assertNull(experience.getFields().get(1).getType().getImport());
+		assertEquals("byte[]", experience.getFields().get(1).getType().getFqName());
+		assertEquals("byte[]", experience.getFields().get(1).getType().getSimpleClassName());
+
 	}
 
 
@@ -549,6 +614,63 @@ public class RelationsEnhancerTest extends AbstractTest {
 																	"		} " +
 																	"  }" +
 														"}"));
+		//@formatter:on
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.enhance(appModel);
+	}
+
+
+	@Test(expected = RelatedEntityNotFoundException.class)
+	public void entityFieldOfUknownType() throws ParseException, GenerateException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+						" module CV {" +
+									"  ui     {} " +
+									"  logic  {}" +
+									"  domain {" +
+									"		Customer {"+
+									"			startDate Date,"+
+									"			endDate   Date"+
+									"		}"+
+									""+	
+									"	    Experience {"+
+									"			startDate Date,"+
+									"			endDate   Date,"+
+									"			field 	  InexistingType"+
+									"		} " +
+									"  }" +
+						"}"));
+		//@formatter:on
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.enhance(appModel);
+
+	}
+
+
+	@Test(expected = RelatedEntityNotFoundException.class)
+	public void entityFieldIsCollectionOfUnkownParameter() throws ParseException, GenerateException {
+		//@formatter:off
+				SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+								" module CV {" +
+											"  ui     {} " +
+											"  logic  {}" +
+											"  domain {" +
+											"		Customer {"+
+											"			startDate Date,"+
+											"			endDate   Date"+
+											"		}"+
+											""+	
+											"	    Experience {"+
+											"			startDate Date,"+
+											"			endDate   Date,"+
+											"			field 	  Set<SomeParam>"+
+											"		} " +
+											"  }" +
+								"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
 		ASTSwdlApp appModel = swl.SwdlApp();

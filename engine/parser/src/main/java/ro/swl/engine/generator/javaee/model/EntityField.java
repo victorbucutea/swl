@@ -8,36 +8,23 @@ import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.model.Field;
 import ro.swl.engine.parser.ASTProperty;
 
-import com.google.common.base.CaseFormat;
 
 
 public class EntityField extends Field<EntityType> {
 
-	private ASTProperty modelProp;
-
-
 	public EntityField(ASTProperty prop, String package1) throws GenerateException {
-		super(prop.getName(), prop.getType(), package1);
-		this.modelProp = prop;
+		super(prop, package1);
 	}
 
 
 	@Override
 	protected EntityType initFieldType(String type, String pkg) throws GenerateException {
-		return new EntityType(type, pkg);
+		if (modelProp.isCollection()) {
+			return new EntityType(modelProp.getType(), modelProp.getCollectionType(), pkg);
+		} else {
+			return new EntityType(modelProp.getType(), pkg);
+		}
 	}
-
-
-
-	public String getUpperUnderscoreName() {
-		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, getName());
-	}
-
-
-	public String getUpperCamelName() {
-		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, getName());
-	}
-
 
 
 	public boolean isOneToMany() {
