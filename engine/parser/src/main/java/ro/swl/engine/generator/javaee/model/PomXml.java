@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.model.Resource;
 
 
@@ -21,12 +20,6 @@ public class PomXml extends Resource {
 		this.dependencies = new ArrayList<PomXml.Dependency>();
 		this.repositories = new ArrayList<PomXml.Repository>();
 		this.dependencyManagement = new ArrayList<PomXml.Dependency>();
-	}
-
-
-	@Override
-	protected void writeSelf(GenerationContext ctxt) {
-
 	}
 
 

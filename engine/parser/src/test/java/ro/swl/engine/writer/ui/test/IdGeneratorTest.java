@@ -1,4 +1,4 @@
-package ro.swl.engine.writer.test;
+package ro.swl.engine.writer.ui.test;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -17,9 +17,9 @@ import ro.swl.engine.parser.ASTRadio;
 import ro.swl.engine.parser.ASTVerticalLayout;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.IdGenerator;
-import ro.swl.engine.writer.TagWriter;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.IdGenerator;
+import ro.swl.engine.writer.ui.TagWriter;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class IdGeneratorTest extends AbstractTest {

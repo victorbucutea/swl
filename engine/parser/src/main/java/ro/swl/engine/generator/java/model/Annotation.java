@@ -1,12 +1,15 @@
-package ro.swl.engine.generator.model;
+package ro.swl.engine.generator.java.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.model.QualifiedClassName;
 
 
 public class Annotation implements Comparable<Annotation> {
@@ -57,8 +60,8 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public List<String> getImports() {
-		List<String> imports = new ArrayList<String>();
+	public Set<String> getImports() {
+		Set<String> imports = new HashSet<String>();
 		imports.add(fqName.getImport());
 
 		for (AnnotationProperty prop : attributes.values()) {

@@ -7,14 +7,14 @@ import java.util.List;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.java.model.Annotation;
+import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Method;
+import ro.swl.engine.generator.java.model.Method.IfStatement;
+import ro.swl.engine.generator.java.model.Method.Statement;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
-import ro.swl.engine.generator.model.Annotation;
-import ro.swl.engine.generator.model.Field;
-import ro.swl.engine.generator.model.Method;
-import ro.swl.engine.generator.model.Method.IfStatement;
-import ro.swl.engine.generator.model.Method.Statement;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
@@ -79,7 +79,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addDeserializerMethod(EntityResource entity, Field<EntityType> field) throws GenerateException {
+	private void addDeserializerMethod(EntityResource entity, AbstractField<EntityType> field) throws GenerateException {
 		Annotation jsonProp = new Annotation("org.codehaus.jackson.annotate.JsonProperty");
 		jsonProp.addProperty("value", field.getName());
 		field.addSetterAnnotation(jsonProp);
@@ -87,7 +87,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addSerializerMethod(EntityResource resource, Field<EntityType> field) throws GenerateException {
+	private void addSerializerMethod(EntityResource resource, AbstractField<EntityType> field) throws GenerateException {
 		/*
 		 * @JsonProperty("experiences")
 		 * 

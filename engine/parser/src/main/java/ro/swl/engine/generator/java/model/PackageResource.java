@@ -1,4 +1,4 @@
-package ro.swl.engine.generator.javaee.model;
+package ro.swl.engine.generator.java.model;
 
 import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
@@ -31,15 +31,24 @@ public class PackageResource extends Resource {
 	}
 
 
-
-	@Override
-	protected void writeSelf(GenerationContext ctxt) {
-
+	public String getNamespace() {
+		return namespace;
 	}
 
 
-	public String getNamespace() {
-		return namespace;
+	public String getNamespaceAsDir() {
+		return namespace.replace('.', File.separatorChar);
+	}
+
+
+	@Override
+	public String getOutputFilePath() {
+
+		if (getParent() == null) {
+			getNamespaceAsDir();
+		}
+
+		return getParent().getOutputFilePath() + File.separator + getNamespaceAsDir();
 	}
 
 }

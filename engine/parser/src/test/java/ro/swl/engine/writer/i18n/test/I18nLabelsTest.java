@@ -5,8 +5,8 @@ import org.junit.Test;
 import ro.swl.engine.parser.ASTVerticalLayout;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.WriteException;
-import ro.swl.engine.writer.test.IdGeneratorTest;
+import ro.swl.engine.writer.ui.WriteException;
+import ro.swl.engine.writer.ui.test.IdGeneratorTest;
 
 public class I18nLabelsTest extends IdGeneratorTest {
 

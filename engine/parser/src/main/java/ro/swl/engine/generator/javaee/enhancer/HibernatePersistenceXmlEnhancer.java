@@ -12,7 +12,7 @@ public class HibernatePersistenceXmlEnhancer extends Enhancer<PersistenceXml> {
 	@Override
 	public void enhance(ASTSwdlApp appModel, PersistenceXml r, GenerationContext ctxt) throws GenerateException {
 
-		r.addPersistenceProvider("org.hibernate.ejb.HibernatePersistence");
+		r.setPersistenceProvider("org.hibernate.ejb.HibernatePersistence");
 
 		/*
 		 * <property name="hibernate.dialect"

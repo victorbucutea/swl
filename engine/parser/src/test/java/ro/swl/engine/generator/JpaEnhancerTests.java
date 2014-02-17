@@ -13,14 +13,14 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
+import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Annotation;
+import ro.swl.engine.generator.java.model.Annotation.AnnotationProperty;
 import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
 import ro.swl.engine.generator.javaee.exception.WrongRelatedFieldTypeException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
-import ro.swl.engine.generator.model.Annotation;
-import ro.swl.engine.generator.model.Annotation.AnnotationProperty;
-import ro.swl.engine.generator.model.Field;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -37,6 +37,16 @@ public class JpaEnhancerTests extends GeneratorTest {
 		techs.add(new JPATechnology(ctxt));
 		return techs;
 	}
+
+
+	private void setUpResourceTree(SWL swl) throws ParseException, GenerateException {
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel);
+		generator.enhance(appModel);
+	}
+
 
 
 	@Test
@@ -60,17 +70,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 													"		}"+
 													"  }" +
 										"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 
 		EntityResource experience = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> expField = experience.getFields().get(2);
+		AbstractField<EntityType> expField = experience.getFields().get(2);
 
 		assertDateFieldIsOk(experience.getFields().get(0));
 		assertDateFieldIsOk(experience.getFields().get(1));
@@ -83,7 +89,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 		assertOneToOneNonOwningAnnotations(expField);
 
 		EntityResource customer = modelFolder.getChildCast(1);
-		Field<EntityType> custField = customer.getFields().get(2);
+		AbstractField<EntityType> custField = customer.getFields().get(2);
 		assertEquals("experience", custField.getName());
 
 		// one to one 
@@ -113,17 +119,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 													"		} " +
 													"  }" +
 										"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> expField = customer.getFields().get(2);
+		AbstractField<EntityType> expField = customer.getFields().get(2);
 
 		assertDateFieldIsOk(customer.getFields().get(0));
 		assertDateFieldIsOk(customer.getFields().get(1));
@@ -136,7 +138,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 		assertOneToOneNonOwningAnnotations(expField);
 
 		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-		Field<EntityType> custField = experience.getFields().get(2);
+		AbstractField<EntityType> custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 
 		// one to one 
@@ -166,17 +168,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 															"		} " +
 															"  }" +
 												"}"));
-		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> expField = customer.getFields().get(2);
+		AbstractField<EntityType> expField = customer.getFields().get(2);
 
 		assertDateFieldIsOk(customer.getFields().get(0));
 		assertDateFieldIsOk(customer.getFields().get(1));
@@ -187,15 +185,15 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 		// one to one owning relation
 		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-		Field<EntityType> custField = experience.getFields().get(2);
+		AbstractField<EntityType> custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 		assertOneToOneOwningAnnotations(custField);
 
-		Field<EntityType> custField2 = experience.getFields().get(3);
+		AbstractField<EntityType> custField2 = experience.getFields().get(3);
 		assertEquals("field2", custField2.getName());
 		assertOneToOneOwningAnnotations(custField2);
 
-		Field<EntityType> custField3 = experience.getFields().get(4);
+		AbstractField<EntityType> custField3 = experience.getFields().get(4);
 		assertEquals("field3", custField3.getName());
 		assertOneToOneOwningAnnotations(custField3);
 
@@ -225,16 +223,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 
 		// one to one owning relation
 		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-		Field<EntityType> custField = experience.getFields().get(2);
+		AbstractField<EntityType> custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 		assertOneToOneOwningAnnotations(custField);
 
@@ -273,37 +268,34 @@ public class JpaEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 		EntityResource cust = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> exp1 = cust.getFields().get(2);
+		AbstractField<EntityType> exp1 = cust.getFields().get(2);
 		assertEquals("experience1", exp1.getName());
 		assertOneToOneNonOwningAnnotations(exp1);
 
-		Field<EntityType> exp2 = cust.getFields().get(3);
+		AbstractField<EntityType> exp2 = cust.getFields().get(3);
 		assertEquals("experience2", exp2.getName());
 		assertOneToOneNonOwningAnnotations(exp2);
 
-		Field<EntityType> exp3 = cust.getFields().get(4);
+		AbstractField<EntityType> exp3 = cust.getFields().get(4);
 		assertEquals("experience3", exp3.getName());
 		assertOneToOneNonOwningAnnotations(exp3);
 
 		// one to one owning relation
 		EntityResource experience = (EntityResource) modelFolder.getChild(1);
-		Field<EntityType> custField = experience.getFields().get(2);
+		AbstractField<EntityType> custField = experience.getFields().get(2);
 		assertEquals("field", custField.getName());
 		assertOneToOneOwningAnnotations(custField);
 
-		Field<EntityType> custField2 = experience.getFields().get(3);
+		AbstractField<EntityType> custField2 = experience.getFields().get(3);
 		assertEquals("field2", custField2.getName());
 		assertOneToOneOwningAnnotations(custField2);
 
-		Field<EntityType> custField3 = experience.getFields().get(4);
+		AbstractField<EntityType> custField3 = experience.getFields().get(4);
 		assertEquals("field3", custField3.getName());
 		assertOneToOneOwningAnnotations(custField3);
 	}
@@ -343,40 +335,37 @@ public class JpaEnhancerTests extends GeneratorTest {
 												"}"));
 		
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> exp1 = customer.getFields().get(2);
+		AbstractField<EntityType> exp1 = customer.getFields().get(2);
 		assertOneToOneNonOwningAnnotations(exp1);
 
-		Field<EntityType> exp2 = customer.getFields().get(3);
+		AbstractField<EntityType> exp2 = customer.getFields().get(3);
 		assertManyToOneOwningAnnotations(exp2);
 
 		EntityResource exp = modelFolder.getChildCast(1);
-		Field<EntityType> field = exp.getFields().get(2);
+		AbstractField<EntityType> field = exp.getFields().get(2);
 		assertOneToOneOwningAnnotations(field);
 
-		Field<EntityType> field2 = exp.getFields().get(3);
+		AbstractField<EntityType> field2 = exp.getFields().get(3);
 		assertOneToOneOwningAnnotations(field2);
 
-		Field<EntityType> field3 = exp.getFields().get(4);
+		AbstractField<EntityType> field3 = exp.getFields().get(4);
 		assertManyToOneOwningAnnotations(field3);
 
 
 		EntityResource order = modelFolder.getChildCast(2);
-		Field<EntityType> ordField = order.getFields().get(2);
+		AbstractField<EntityType> ordField = order.getFields().get(2);
 		assertOneToManyNonOwningAnnotations(ordField);
 
-		Field<EntityType> ordField2 = order.getFields().get(3);
+		AbstractField<EntityType> ordField2 = order.getFields().get(3);
 		assertOneToOneNonOwningAnnotations(ordField2);
 
-		Field<EntityType> ordField3 = order.getFields().get(4);
+		AbstractField<EntityType> ordField3 = order.getFields().get(4);
 		assertManyToOneOwningAnnotations(ordField3);
 	}
 
@@ -417,10 +406,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 												"}"));
 		
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 	}
 
 
@@ -450,25 +436,22 @@ public class JpaEnhancerTests extends GeneratorTest {
 																"  }" +
 													"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		Field<EntityType> exp1 = customer.getFields().get(2);
+		AbstractField<EntityType> exp1 = customer.getFields().get(2);
 		assertManyToOneAnnotations(exp1);
 
-		Field<EntityType> exp2 = customer.getFields().get(3);
+		AbstractField<EntityType> exp2 = customer.getFields().get(3);
 		assertOneToOneOwningAnnotations(exp2);
 
-		Field<EntityType> exp3 = customer.getFields().get(4);
+		AbstractField<EntityType> exp3 = customer.getFields().get(4);
 		assertOneToOneOwningAnnotations(exp3);
 
 		EntityResource experience = modelFolder.getChildCast(1);
-		Field<EntityType> custField = experience.getFields().get(2);
+		AbstractField<EntityType> custField = experience.getFields().get(2);
 		assertOneToManyNonOwningAnnotations(custField);
 
 		EntityField custField2 = experience.getFields().get(3);
@@ -504,22 +487,19 @@ public class JpaEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 		EntityResource customer = modelFolder.getChildCast(0);
 
-		Field<EntityType> exp1 = customer.getFields().get(2);
+		AbstractField<EntityType> exp1 = customer.getFields().get(2);
 		assertManyToOneOwningAnnotations(exp1);
 
-		Field<EntityType> exp2 = customer.getFields().get(3);
+		AbstractField<EntityType> exp2 = customer.getFields().get(3);
 		assertManyToOneOwningAnnotations(exp2);
 
-		Field<EntityType> exp3 = customer.getFields().get(4);
+		AbstractField<EntityType> exp3 = customer.getFields().get(4);
 		assertManyToOneOwningAnnotations(exp3);
 	}
 
@@ -549,35 +529,32 @@ public class JpaEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTree(swl);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
 		EntityResource customer = modelFolder.getChildCast(0);
 
-		Field<EntityType> exp1 = customer.getFields().get(2);
+		AbstractField<EntityType> exp1 = customer.getFields().get(2);
 		assertManyToManyOwningAnnotations(exp1);
 
-		Field<EntityType> exp2 = customer.getFields().get(3);
+		AbstractField<EntityType> exp2 = customer.getFields().get(3);
 		assertOneToManyOwningAnnotations(exp2);
 
-		Field<EntityType> exp3 = customer.getFields().get(4);
+		AbstractField<EntityType> exp3 = customer.getFields().get(4);
 		assertManyToManyOwningAnnotations(exp3);
 
-		Field<EntityType> exp4 = customer.getFields().get(5);
+		AbstractField<EntityType> exp4 = customer.getFields().get(5);
 		assertManyToManyNonOwningAnnotations(exp4);
 
 
 
 		EntityResource experience = modelFolder.getChildCast(1);
 
-		Field<EntityType> cus1 = experience.getFields().get(2);
+		AbstractField<EntityType> cus1 = experience.getFields().get(2);
 		assertManyToManyNonOwningAnnotations(cus1);
 
-		Field<EntityType> cus2 = experience.getFields().get(3);
+		AbstractField<EntityType> cus2 = experience.getFields().get(3);
 		assertManyToManyOwningAnnotations(cus2);
 	}
 
@@ -597,7 +574,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertManyToOneAnnotations(Field<EntityType> custField) {
+	private void assertManyToOneAnnotations(AbstractField<EntityType> custField) {
 		List<Annotation> annotations = custField.getAnnotations();
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("ManyToOne", onetoOne.getSimpleName());
@@ -616,7 +593,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertManyToManyNonOwningAnnotations(Field<EntityType> field) {
+	private void assertManyToManyNonOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation manyToMany = annotations.get(0);
 		assertEquals("ManyToMany", manyToMany.getSimpleName());
@@ -631,7 +608,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertManyToManyOwningAnnotations(Field<EntityType> field) {
+	private void assertManyToManyOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation manyToMany = annotations.get(0);
 		assertEquals("ManyToMany", manyToMany.getSimpleName());
@@ -650,7 +627,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertOneToManyOwningAnnotations(Field<EntityType> field) {
+	private void assertOneToManyOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation onetoMany = annotations.get(0);
 		assertEquals("OneToMany", onetoMany.getSimpleName());
@@ -676,7 +653,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertManyToOneOwningAnnotations(Field<EntityType> field) {
+	private void assertManyToOneOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("ManyToOne", onetoOne.getSimpleName());
@@ -694,7 +671,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertOneToManyNonOwningAnnotations(Field<EntityType> field) {
+	private void assertOneToManyNonOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("OneToMany", onetoOne.getSimpleName());
@@ -708,7 +685,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertOneToOneOwningAnnotations(Field<EntityType> field) {
+	private void assertOneToOneOwningAnnotations(AbstractField<EntityType> field) {
 		List<Annotation> annotations = field.getAnnotations();
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("OneToOne", onetoOne.getSimpleName());
@@ -730,7 +707,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertOneToOneNonOwningAnnotations(Field<EntityType> custField) {
+	private void assertOneToOneNonOwningAnnotations(AbstractField<EntityType> custField) {
 		List<Annotation> relation = custField.getAnnotations();
 		assertEquals(1, relation.size());
 		Annotation onetoOne = relation.get(0);
@@ -746,7 +723,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertDateFieldIsOk(Field<EntityType> entityField) {
+	private void assertDateFieldIsOk(AbstractField<EntityType> entityField) {
 
 		List<Annotation> annotations = entityField.getAnnotations();
 

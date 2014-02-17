@@ -1,4 +1,4 @@
-package ro.swl.engine.writer.test;
+package ro.swl.engine.writer.ui.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
@@ -20,7 +20,7 @@ import ro.swl.engine.parser.ASTText;
 import ro.swl.engine.parser.ASTVerticalLayout;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class InputTest extends WriterTest {

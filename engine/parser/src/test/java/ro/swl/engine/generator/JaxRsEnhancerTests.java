@@ -11,13 +11,13 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
+import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Annotation;
+import ro.swl.engine.generator.java.model.Method;
 import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
-import ro.swl.engine.generator.model.Annotation;
-import ro.swl.engine.generator.model.Field;
-import ro.swl.engine.generator.model.Method;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -60,14 +60,15 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 												"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource customer = modelFolder.getChildCast(0);
+		EntityResource experience = modelFolder.getChildCast(1);
 
 
 		EntityField experience1 = customer.getField(2);
@@ -107,14 +108,15 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 												"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource customer = modelFolder.getChildCast(0);
+		EntityResource experience = modelFolder.getChildCast(1);
 
 
 		EntityField experience1 = customer.getField(2);
@@ -124,12 +126,12 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 		assertJaxRsOwningAnotation(experience2);
 
 
-		Field<EntityType> customer1 = experience.getField(2);
+		AbstractField<EntityType> customer1 = experience.getField(2);
 		// one-to-many should have json ignore and a serializer method
 		assertJsonIgnoreAndSerializerMethod(experience, customer1);
 		//assertJaxRsNonOwningAnotation(customer1);
 
-		Field<EntityType> customer2 = experience.getField(3);
+		AbstractField<EntityType> customer2 = experience.getField(3);
 		assertJsonIgnoreAndSerializerMethod(experience, customer2);
 		//assertJaxRsNonOwningAnotation(customer1);
 
@@ -160,19 +162,20 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 												"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource customer = modelFolder.getChildCast(0);
+		EntityResource experience = modelFolder.getChildCast(1);
 
 		EntityField experience1 = customer.getField(2);
 		assertJaxRsOwningAnotation(experience1);
 
-		Field<EntityType> experience2 = customer.getField(3);
+		AbstractField<EntityType> experience2 = customer.getField(3);
 		assertJaxRsNonOwningAnotation(experience2);
 
 
@@ -206,14 +209,15 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 												"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource customer = (EntityResource) modelFolder.getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource customer = modelFolder.getChildCast(0);
+		EntityResource experience = modelFolder.getChildCast(1);
 
 
 		EntityField experience1 = customer.getField(2);
@@ -247,19 +251,20 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 												"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 
 	}
 
 
-	private void assertNoAnnotationsPresent(Field<EntityType> field) {
+	private void assertNoAnnotationsPresent(AbstractField<EntityType> field) {
 		assertEquals(0, field.getAnnotations().size());
 	}
 
 
-	private void assertJaxRsNonOwningAnotation(Field<EntityType> field) {
+	private void assertJaxRsNonOwningAnotation(AbstractField<EntityType> field) {
 		assertEquals(1, field.getAnnotations().size());
 		Annotation managedRef = field.getAnnotations().get(0);
 		assertEquals("JsonManagedReference", managedRef.getSimpleName());
@@ -267,7 +272,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertJsonIgnoreAndSerializerMethod(EntityResource resource, Field<EntityType> field) {
+	private void assertJsonIgnoreAndSerializerMethod(EntityResource resource, AbstractField<EntityType> field) {
 		assertEquals(1, field.getAnnotations().size());
 
 		Annotation managedRef = field.getAnnotations().get(0);

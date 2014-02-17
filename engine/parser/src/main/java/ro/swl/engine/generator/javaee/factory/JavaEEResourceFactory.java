@@ -10,6 +10,7 @@ import java.util.List;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.ResourceFactory;
+import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
 import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
@@ -17,7 +18,6 @@ import ro.swl.engine.generator.javaee.exception.NoModuleException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
-import ro.swl.engine.generator.javaee.model.PackageResource;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.generator.javaee.model.ServiceBeanResource;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
@@ -42,7 +42,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	public List<? extends Resource> createResource(Resource parent, File templateFile) throws GenerateException {
 
 		if (isWebXml(templateFile)) {
-			return asList(new WebXml(parent, templateFile));
+			return createWebXmlResource(parent, templateFile);
 
 		} else if (isModuleTemplate(templateFile)) {
 			return createModuleResources(parent, templateFile);
@@ -54,18 +54,33 @@ public class JavaEEResourceFactory extends ResourceFactory {
 			return createServiceResource(parent, templateFile);
 
 		} else if (isPersistenceXml(templateFile)) {
-			return asList(new PersistenceXml(parent, templateFile));
+			return createPersistenceXmlResource(parent, templateFile);
 
 		} else if (isEntityTemplate(templateFile)) {
 			return createEntityResources(parent, templateFile);
 
 		} else if (isPackageTemplate(templateFile)) {
-			return asList(new PackageResource(parent, templateFile));
+			return createPackageResource(parent, templateFile);
 
 		}
 
 		return super.createResource(parent, templateFile);
 
+	}
+
+
+	private List<WebXml> createWebXmlResource(Resource parent, File templateFile) {
+		return asList(new WebXml(parent, templateFile));
+	}
+
+
+	private List<PackageResource> createPackageResource(Resource parent, File templateFile) {
+		return asList(new PackageResource(parent, templateFile));
+	}
+
+
+	private List<PersistenceXml> createPersistenceXmlResource(Resource parent, File templateFile) {
+		return asList(new PersistenceXml(parent, templateFile));
 	}
 
 
@@ -125,7 +140,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 		for (ASTProperty prop : entity.getFields()) {
 			checkFieldUnique(entity, prop.getName());
 			EntityField field = new EntityField(prop, res.getPackage());
-			res.addEntityProperty(field);
+			res.addProperty(field);
 		}
 		newResources.add(res);
 	}

@@ -65,7 +65,8 @@ public class EntityTest extends AbstractTest {
 		assertEquals("responsabilities", properties.get(3).getName());
 		assertEquals("String", properties.get(3).getType());
 		assertEquals("projects", properties.get(4).getName());
-		assertEquals("Set<Project>", properties.get(4).getType());
+		assertEquals("Set", properties.get(4).getType());
+		assertEquals("Project", properties.get(4).getCollectionType());
 
 		List<ASTEnum> enums = cvDomain.getEnums();
 		assertEquals(1, enums.size());

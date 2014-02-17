@@ -1,9 +1,10 @@
-package ro.swl.engine.generator.model;
+package ro.swl.engine.generator.java.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.model.QualifiedClassName;
 
 
 public class Type {

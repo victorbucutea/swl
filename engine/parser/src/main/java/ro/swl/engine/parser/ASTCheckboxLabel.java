@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.TagWriter;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.TagWriter;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class ASTCheckboxLabel extends ASTLabel {

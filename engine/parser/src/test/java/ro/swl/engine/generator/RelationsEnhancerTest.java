@@ -13,13 +13,15 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
+import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.JavaResource;
+import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.javaee.exception.DuplicateDeclaredRelation;
 import ro.swl.engine.generator.javaee.exception.RelatedEntityNotFoundException;
 import ro.swl.engine.generator.javaee.exception.RelatedFieldNotFoundException;
 import ro.swl.engine.generator.javaee.exception.WrongRelatedFieldTypeException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -35,6 +37,15 @@ public class RelationsEnhancerTest extends GeneratorTest {
 		List<Technology> techs = new ArrayList<Technology>();
 		techs.add(new InternalEnhancers(ctxt));
 		return techs;
+	}
+
+
+	private void setUpResourceTreeAndEnhance(SWL swl) throws ParseException, GenerateException {
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel);
+		generator.enhance(appModel);
 	}
 
 
@@ -66,17 +77,14 @@ public class RelationsEnhancerTest extends GeneratorTest {
 									"  }" +
 						"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
 
 		Resource module = generator.getProjectRoot().getChild(0);
 		Resource modelFolder = module.getChild(0).getChild(0);
 
 		assertEquals(2, modelFolder.getChildren().size());
 
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		JavaResource<Type, AbstractField<Type>> experience = modelFolder.getChildCast(1);
 
 		assertEquals(11, experience.getFields().size());
 
@@ -89,11 +97,11 @@ public class RelationsEnhancerTest extends GeneratorTest {
 		assertNull(experience.getFields().get(5).getType().getImport());
 		assertEquals("int", experience.getFields().get(5).getType().getFqName());
 
-		EntityType set = experience.getFields().get(3).getType();
+		Type set = experience.getFields().get(3).getType();
 		assertEquals("java.util.Set", set.getImport());
 		assertEquals("Customer", set.getParameter());
 
-		EntityType list = experience.getFields().get(2).getType();
+		Type list = experience.getFields().get(2).getType();
 		assertEquals("java.util.List", list.getImport());
 		assertEquals("Customer", list.getParameter());
 
@@ -130,14 +138,11 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
-		EntityResource experience = (EntityResource) modelFolder.getChild(1);
+		EntityResource experience = modelFolder.getChildCast(1);
 
 
 		// one to one owning relation
@@ -174,10 +179,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
@@ -227,10 +230,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
@@ -274,10 +275,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
@@ -329,10 +328,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 
 		ProjectRoot root = generator.getProjectRoot();
 		Resource modelFolder = root.getChild(0).getChild(0).getChild(0);
@@ -381,11 +378,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -410,11 +403,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -439,10 +428,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 
 	}
 
@@ -468,10 +455,8 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
+
 	}
 
 
@@ -500,10 +485,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -528,11 +510,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -557,11 +535,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -586,11 +560,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -615,10 +585,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 																	"  }" +
 														"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -643,11 +610,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 									"  }" +
 						"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
-
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 
@@ -672,10 +635,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 											"  }" +
 								"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
-		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
-		generator.enhance(appModel);
+		setUpResourceTreeAndEnhance(swl);
 	}
 
 

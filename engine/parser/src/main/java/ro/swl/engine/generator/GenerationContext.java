@@ -1,5 +1,6 @@
 package ro.swl.engine.generator;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,10 @@ public class GenerationContext {
 	private String currentPackage = "";
 
 	private Map<String, String> generationProps = new HashMap<String, String>();
+
+	private File destinationDir;
+
+	private File templateRootDir;
 
 
 	public GenerationContext() {
@@ -55,5 +60,27 @@ public class GenerationContext {
 
 	public boolean isAutoDetectPackage() {
 		return Boolean.valueOf(generationProps.get(AUTO_DETECT_PACKAGE));
+	}
+
+
+	public void setDestinationDir(File destinationDir) {
+		this.destinationDir = destinationDir;
+	}
+
+
+	public File getDestinationDir() {
+		return this.destinationDir;
+	}
+
+
+
+	public File getTemplateRootDir() {
+		return templateRootDir;
+	}
+
+
+
+	public void setTemplateRootDir(File templateRootDir) {
+		this.templateRootDir = templateRootDir;
 	}
 }

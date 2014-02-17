@@ -1,6 +1,6 @@
-package ro.swl.engine.generator.model;
+package ro.swl.engine.generator.java.model;
 
-import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.model.ResourceProperty;
 import ro.swl.engine.parser.ASTProperty;
 
 import com.google.common.base.CaseFormat;
 
 
-public abstract class Field<T extends Type> extends ResourceProperty {
+public abstract class AbstractField<T extends Type> extends ResourceProperty {
 
 
 	private String name;
@@ -35,14 +36,14 @@ public abstract class Field<T extends Type> extends ResourceProperty {
 	protected ASTProperty modelProp;
 
 
-	public Field(ASTProperty modelProp, String pkg) throws GenerateException {
+	public AbstractField(ASTProperty modelProp, String typePkg) throws GenerateException {
 		this.modelProp = modelProp;
 		this.name = modelProp.getName();
-		this.pkg = pkg;
+		this.pkg = typePkg;
 		this.annotations = new LinkedHashSet<Annotation>();
 		this.getterAnnotations = new LinkedHashSet<Annotation>();
 		this.setterAnnotations = new LinkedHashSet<Annotation>();
-		this.type = initFieldType(modelProp.getType(), pkg);
+		this.type = initFieldType(modelProp.getType(), typePkg);
 	}
 
 
@@ -110,8 +111,8 @@ public abstract class Field<T extends Type> extends ResourceProperty {
 
 
 
-	public List<String> getImports() {
-		List<String> list = newArrayList();
+	public Set<String> getImports() {
+		Set<String> list = newHashSet();
 		// add import for current field type
 		list.add(type.getImport());
 

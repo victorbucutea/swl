@@ -23,8 +23,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import ro.swl.engine.writer.IdGenerator;
-import ro.swl.engine.writer.TagWriter;
+import ro.swl.engine.writer.ui.IdGenerator;
+import ro.swl.engine.writer.ui.TagWriter;
 
 
 public class WriterTest extends AbstractTest {

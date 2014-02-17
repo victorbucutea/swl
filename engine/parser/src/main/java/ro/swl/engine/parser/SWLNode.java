@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.Signal;
+import ro.swl.engine.writer.ui.Signal;
 
 
 public class SWLNode extends SimpleNode {

@@ -9,6 +9,7 @@ import ro.swl.engine.generator.javaee.factory.JavaEEResourceFactory;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class ProjectGenerator {
@@ -26,8 +27,11 @@ public class ProjectGenerator {
 	}
 
 
-	public void generate(ASTSwdlApp appModel, File templateRootFolder) throws GenerateException {
+	public void generate(ASTSwdlApp appModel) throws GenerateException {
 
+		File templateRootFolder = ctxt.getTemplateRootDir();
+
+		// TODO move validation outside generate cycle
 		if (!templateRootFolder.exists() || !templateRootFolder.isDirectory()) {
 			throw new GenerateException(templateRootFolder + " does not exist or is not a directory");
 		}
@@ -41,26 +45,6 @@ public class ProjectGenerator {
 	}
 
 
-	private void generateResourceTree(Resource parent, File folder) throws GenerateException {
-		List<File> files = listFilesOrderedByTypeAndName(folder);
-		for (File f : files) {
-			List<? extends Resource> childRes = resourceFactory.createResource(parent, f);
-
-			parent.addChildren(childRes);
-
-			if (f.isDirectory()) {
-				parent.registerStateInContext(ctxt);
-				for (Resource r : childRes) {
-					generateResourceTree(r, f);
-				}
-				parent.unregisterStateInContext(ctxt);
-			}
-
-		}
-	}
-
-
-
 	public void enhance(ASTSwdlApp appModel) throws GenerateException {
 		for (Technology tech : technologies) {
 			tech.enhance(root, appModel);
@@ -69,17 +53,37 @@ public class ProjectGenerator {
 	}
 
 
+	public void write(ASTSwdlApp appModel) throws WriteException {
+		root.write(ctxt);
+	}
+
+
+	private void generateResourceTree(Resource parent, File folder) throws GenerateException {
+		List<File> files = listFilesOrderedByTypeAndName(folder);
+		for (File f : files) {
+			List<? extends Resource> childRes = resourceFactory.createResource(parent, f);
+
+			parent.addChildren(childRes);
+
+			if (f.isDirectory()) {
+				for (Resource r : childRes) {
+					r.registerStateInContext(ctxt);
+					generateResourceTree(r, f);
+					r.unregisterStateInContext(ctxt);
+				}
+			}
+
+		}
+	}
+
+
+
 	private void enhanceResourceTree(Resource res, ASTSwdlApp appModel, Technology tech) throws GenerateException {
 		for (Resource r : res.getChildren()) {
 			tech.enhance(r, appModel);
 			enhanceResourceTree(r, appModel, tech);
 		}
 	}
-
-
-	public void write(File destinationRootFolder) throws GenerateException {
-	}
-
 
 
 	public ProjectRoot getProjectRoot() {

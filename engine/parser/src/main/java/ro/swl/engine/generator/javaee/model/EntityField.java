@@ -5,12 +5,12 @@ import static ro.swl.engine.generator.javaee.model.Relation.MANY_TO_ONE;
 import static ro.swl.engine.generator.javaee.model.Relation.ONE_TO_MANY;
 import static ro.swl.engine.generator.javaee.model.Relation.ONE_TO_ONE;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.model.Field;
+import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.parser.ASTProperty;
 
 
 
-public class EntityField extends Field<EntityType> {
+public class EntityField extends AbstractField<EntityType> {
 
 	public EntityField(ASTProperty prop, String package1) throws GenerateException {
 		super(prop, package1);

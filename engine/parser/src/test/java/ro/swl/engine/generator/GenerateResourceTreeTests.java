@@ -3,6 +3,7 @@ package ro.swl.engine.generator;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static ro.swl.engine.generator.GenerationContext.AUTO_DETECT_PACKAGE;
 import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
@@ -13,13 +14,13 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
+import ro.swl.engine.generator.java.model.JavaResource;
+import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
 import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 import ro.swl.engine.generator.javaee.exception.NoModuleException;
-import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
-import ro.swl.engine.generator.javaee.model.PackageResource;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.generator.javaee.model.ServiceBeanResource;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
@@ -46,9 +47,8 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		String string = " name \"x\" \n\t\n  module CV { logic{} } module some_other { ui{}}";
 		SWL swl = new SWL(createInputStream(string));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		File testDir = new File(testTemplateDir, "simple-template");
-
-		generator.generate(appModel, testDir);
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "simple-template"));
+		generator.generate(appModel);
 
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -93,10 +93,11 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 	@Test
 	public void moduleWithNoEntitiesInModel() throws GenerateException, ParseException {
 		String string = " name \"x\" \n\t\n  module CV { logic{} } module some_other { ui{}}";
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		SWL swl = new SWL(createInputStream(string));
 		ASTSwdlApp appModel = swl.SwdlApp();
 
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 
 		ProjectRoot projectRoot = generator.getProjectRoot();
 
@@ -147,8 +148,8 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 							"  }" +
 				"}"));
 		//@formatter:on
-
-		generator.generate(swl.SwdlApp(), new File(testTemplateDir, "entity-no-module"));
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "entity-no-module"));
+		generator.generate(swl.SwdlApp());
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource modelFolder = root.getChild(0).getChild(0);
@@ -171,9 +172,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 									"		} " +
 									"  }" +
 						"}"));
-				//@formatter:on
-
-		generator.generate(swl.SwdlApp(), new File(testTemplateDir, "module-no-entity"));
+		//@formatter:on
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-no-entity"));
+		generator.generate(swl.SwdlApp());
 
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -182,7 +183,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 
 		Resource file = module.getChild(0).getChild(0);
 
-		assertFalse(file instanceof EntityResource);
+		assertFalse(file instanceof JavaResource);
 	}
 
 
@@ -191,8 +192,8 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		String string = " name \"x\" \n\t\n module SS {} ";
 		SWL swl = new SWL(createInputStream(string));
 		ASTSwdlApp appModel = swl.SwdlApp();
-
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 
 		ProjectRoot root = generator.getProjectRoot();
 		assertTrue(root.getChild(0) instanceof ModuleResource);
@@ -205,8 +206,8 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		String string = " name \"x\" \n\t\n  module CV { logic{} } module some_other { ui{}}";
 		SWL swl = new SWL(createInputStream(string));
 		ASTSwdlApp appModel = swl.SwdlApp();
-
-		generator.generate(appModel, new File(testTemplateDir, "entity-no-module"));
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "entity-no-module"));
+		generator.generate(appModel);
 
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -225,7 +226,8 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 
 	@Test(expected = GenerateException.class)
 	public void templateRootNotFound() throws Exception {
-		generator.generate(new ASTSwdlApp(0), new File(testTemplateDir, "module"));
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module"));
+		generator.generate(new ASTSwdlApp(0));
 	}
 
 
@@ -273,8 +275,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 						"}"));
 				//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.recruiter");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 	}
 
 
@@ -322,8 +325,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 						"}"));
 				//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.recruiter");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 	}
 
 
@@ -371,8 +375,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 				"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.recruiter");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 
 		ProjectRoot projectRoot = generator.getProjectRoot();
 		List<Resource> children = projectRoot.getChildren();
@@ -391,14 +396,14 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertTrue(modelFolder instanceof FolderResource);
 
 		Resource entity1 = modelFolder.getChildren().get(0);
-		assertTrue(entity1 instanceof EntityResource);
-		EntityResource ent1 = (EntityResource) entity1;
+		assertTrue(entity1 instanceof JavaResource);
+		JavaResource ent1 = (JavaResource) entity1;
 		assertEquals("SomeEntity", ent1.getName());
 		assertEquals(2, ent1.getFields().size());
 
 		Resource entity2 = modelFolder.getChildren().get(1);
-		assertTrue(entity2 instanceof EntityResource);
-		EntityResource ent2 = (EntityResource) entity2;
+		assertTrue(entity2 instanceof JavaResource);
+		JavaResource ent2 = (JavaResource) entity2;
 		assertEquals(6, ent2.getFields().size());
 
 
@@ -413,14 +418,14 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertTrue(modelFolder instanceof FolderResource);
 
 		Resource entity21 = modelFolder.getChildren().get(0);
-		assertTrue(entity21 instanceof EntityResource);
-		EntityResource ent21 = (EntityResource) entity21;
+		assertTrue(entity21 instanceof JavaResource);
+		JavaResource ent21 = (JavaResource) entity21;
 		assertEquals("SomeDifferentEntity", ent21.getName());
 		assertEquals(2, ent21.getFields().size());
 
 		Resource entity22 = modelFolder.getChildren().get(1);
-		assertTrue(entity22 instanceof EntityResource);
-		EntityResource ent22 = (EntityResource) entity22;
+		assertTrue(entity22 instanceof JavaResource);
+		JavaResource ent22 = (JavaResource) entity22;
 		assertEquals(6, ent22.getFields().size());
 
 	}
@@ -453,9 +458,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 											"  }" +
 								"}"));
 				//@formatter:on
-
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "entity-no-package"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "entity-no-package"));
+		generator.generate(appModel);
 	}
 
 
@@ -463,7 +468,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 	@Test(expected = ParseException.class)
 	public void entityFieldArrayOfUnkown() throws ParseException, GenerateException {
 		//@formatter:off
-					SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 									" module CV {" +
 												"  ui     {} " +
 												"  logic  {}" +
@@ -482,8 +487,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 									"}"));
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 	}
 
@@ -511,8 +517,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 				//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
 		ctxt.setProperty(AUTO_DETECT_PACKAGE, "true");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity-no-package"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "module-and-entity-no-package"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -531,15 +538,14 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertEquals(2, pkgFolder4.getChildren().size());
 		assertEquals(3, pkgFolder3.getChildren().size());
 
-		EntityResource customer = (EntityResource) pkgFolder4.getChild(0);
-		EntityResource experience = (EntityResource) pkgFolder4.getChild(1);
+		JavaResource customer = (JavaResource) pkgFolder4.getChild(0);
+		JavaResource experience = (JavaResource) pkgFolder4.getChild(1);
 
 		assertEquals(2, customer.getFields().size());
 		assertEquals(3, experience.getFields().size());
 
 		assertEquals("ro.sft.example.model", customer.getPackage());
 		assertEquals("ro.sft.example.model", experience.getPackage());
-
 	}
 
 
@@ -566,8 +572,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		//@formatter:on
 		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
 		ctxt.setProperty(AUTO_DETECT_PACKAGE, "true");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "entity-child-of-package"));
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel, new File(testTemplateDir, "entity-child-of-package"));
+		generator.generate(appModel);
 		generator.enhance(appModel);
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -575,13 +582,18 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 
 		assertEquals("ro.sft.somepackage", pkg.getNamespace());
 
-		assertTrue(pkg.getChild(0) instanceof FolderResource);
-		assertTrue(pkg.getChild(1) instanceof EntityResource);
-		assertTrue(pkg.getChild(2) instanceof EntityResource);
-		assertTrue(pkg.getChild(3) instanceof ServiceResource);
-		assertTrue(pkg.getChild(4) instanceof ServiceBeanResource);
+		assertTrue(pkg.getChild(1) instanceof FolderResource);
+		assertTrue(pkg.getChild(2) instanceof JavaResource);
+		assertTrue(pkg.getChild(3) instanceof JavaResource);
+		assertTrue(pkg.getChild(4) instanceof ServiceResource);
+		assertTrue(pkg.getChild(5) instanceof ServiceBeanResource);
 	}
 
+
+	@Test
+	public void importsTest() throws Exception {
+		fail("Not implemented");
+	}
 
 
 }

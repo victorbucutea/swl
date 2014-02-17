@@ -6,9 +6,9 @@ import java.util.Set;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.generator.model.Annotation;
 import ro.swl.engine.parser.ASTModule;
 import ro.swl.engine.parser.ASTSwdlApp;
 

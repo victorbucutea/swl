@@ -10,8 +10,8 @@ import static ro.swl.engine.parser.SWLConstants.LABEL;
 import static ro.swl.engine.parser.SWLConstants.tokenImage;
 import static ro.swl.engine.parser.SWLTreeConstants.JJTLABEL;
 import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.TagWriter;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.TagWriter;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class ASTLabel extends Component {

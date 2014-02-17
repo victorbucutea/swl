@@ -10,7 +10,7 @@ import ro.swl.engine.WriterTest;
 import ro.swl.engine.parser.ASTSection;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.WriteException;
 
 public class SectionTest extends WriterTest {
 

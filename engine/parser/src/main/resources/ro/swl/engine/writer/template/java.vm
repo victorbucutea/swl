@@ -1,0 +1,34 @@
+package $model.Package;
+
+
+#foreach( $import in $model.Imports )
+import $import;
+#end
+
+#foreach( $annotation in $annotations )
+$annotation
+#end
+public $classType $className { 
+
+#foreach( $field in $fields )
+#foreach( $annotation in $field.annotations )
+$annotation
+#end
+$field;
+#end
+
+
+#foreach( $method in $methods )
+#foreach( $annotation in $method.annotations )
+$annotation
+#end
+public $method.returnType ${method.name}(#foreach(${param} in ${method.parameters}) ${param.type} ${param.name}, #end ){ 
+
+#foreach($stmt in $method.body)
+$stmt
+#end
+
+}
+#end
+
+}

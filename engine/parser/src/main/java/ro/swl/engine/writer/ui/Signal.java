@@ -1,4 +1,4 @@
-package ro.swl.engine.writer;
+package ro.swl.engine.writer.ui;
 
 public enum Signal {
 

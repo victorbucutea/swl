@@ -1,4 +1,4 @@
-package ro.swl.engine.writer;
+package ro.swl.engine.writer.ui;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 

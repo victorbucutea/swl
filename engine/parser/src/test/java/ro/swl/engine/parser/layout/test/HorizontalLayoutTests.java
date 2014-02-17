@@ -11,7 +11,7 @@ import ro.swl.engine.parser.ASTHorizontalLayout;
 import ro.swl.engine.parser.ASTLayoutColumn;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 public class HorizontalLayoutTests extends WriterTest {

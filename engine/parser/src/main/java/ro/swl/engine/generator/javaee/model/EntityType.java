@@ -1,8 +1,8 @@
 package ro.swl.engine.generator.javaee.model;
 
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.model.QualifiedClassName;
-import ro.swl.engine.generator.model.Type;
 
 
 public class EntityType extends Type {

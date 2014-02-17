@@ -17,18 +17,18 @@ public class ModuleResource extends Resource {
 
 
 	@Override
-	protected void writeSelf(GenerationContext ctxt) {
-
-	}
-
-
-	@Override
 	public void registerStateInContext(GenerationContext ctxt) {
 		ctxt.setCurrentModule(moduleName);
 	}
 
 
 	public String getModuleName() {
+		return moduleName;
+	}
+
+
+	@Override
+	public String getOutputFileName() {
 		return moduleName;
 	}
 

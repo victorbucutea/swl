@@ -6,13 +6,13 @@ import java.util.Set;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Method;
+import ro.swl.engine.generator.java.model.Method.ForStatement;
+import ro.swl.engine.generator.java.model.Method.IfStatement;
+import ro.swl.engine.generator.java.model.Method.Statement;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
-import ro.swl.engine.generator.model.Field;
-import ro.swl.engine.generator.model.Method;
-import ro.swl.engine.generator.model.Method.ForStatement;
-import ro.swl.engine.generator.model.Method.IfStatement;
-import ro.swl.engine.generator.model.Method.Statement;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
@@ -24,7 +24,7 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 	public void enhance(ASTSwdlApp appModel, EntityResource entity, GenerationContext ctxt) throws GenerateException {
 
 
-		for (Field<EntityType> field : entity.getFields()) {
+		for (AbstractField<EntityType> field : entity.getFields()) {
 			if (!field.getType().isCollection()) {
 				continue;
 			}
@@ -38,7 +38,7 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private Set<Method.Statement> getAdderStmts(EntityResource res, Field<EntityType> field, String paramName) {
+	private Set<Method.Statement> getAdderStmts(EntityResource res, AbstractField<EntityType> field, String paramName) {
 		Set<Method.Statement> stmts = new HashSet<Method.Statement>();
 		/*
 		 * if (certs == null) {

@@ -12,7 +12,7 @@ import ro.swl.engine.parser.ASTLayoutRow;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
 import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.WriteException;
 
 public class HorizontalFormTest extends WriterTest {
 

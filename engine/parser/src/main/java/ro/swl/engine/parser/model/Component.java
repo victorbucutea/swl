@@ -11,9 +11,9 @@ import ro.swl.engine.grammar.AngularJSGrammar;
 import ro.swl.engine.grammar.Grammar;
 import ro.swl.engine.parser.ASTModelVariable;
 import ro.swl.engine.parser.SWLNode;
-import ro.swl.engine.writer.IdGenerator;
-import ro.swl.engine.writer.TagWriter;
-import ro.swl.engine.writer.WriteException;
+import ro.swl.engine.writer.ui.IdGenerator;
+import ro.swl.engine.writer.ui.TagWriter;
+import ro.swl.engine.writer.ui.WriteException;
 
 
 /**

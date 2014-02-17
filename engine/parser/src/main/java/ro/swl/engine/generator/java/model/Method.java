@@ -1,4 +1,4 @@
-package ro.swl.engine.generator.model;
+package ro.swl.engine.generator.java.model;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 

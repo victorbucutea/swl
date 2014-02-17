@@ -1,8 +1,9 @@
 package ro.swl.engine.generator.javaee.model;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.model.Resource;
 
 
@@ -11,27 +12,28 @@ public class PersistenceXml extends Resource {
 
 	private String provider;
 
+	private Map<String, String> persistenceProperties = new HashMap<String, String>();
+
 
 	public PersistenceXml(Resource parent, File templateFile) {
 		super(parent, templateFile);
 	}
 
 
-	@Override
-	protected void writeSelf(GenerationContext ctxt) {
-		// TODO Auto-generated method stub
-
+	public void addPersistenceProperty(String key, String value) {
+		persistenceProperties.put(key, value);
 	}
 
 
-	public void addPersistenceProvider(String string) {
-		this.provider = string;
+
+	public String getProvider() {
+		return provider;
 	}
 
 
-	public void addPersistenceProperty(String string, String string2) {
-		// TODO Auto-generated method stub
 
+	public void setPersistenceProvider(String provider) {
+		this.provider = provider;
 	}
 
 }
