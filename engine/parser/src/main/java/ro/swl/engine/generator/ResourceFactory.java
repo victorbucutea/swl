@@ -24,16 +24,16 @@ public abstract class ResourceFactory {
 	}
 
 
-	public ProjectRoot createRootResource(File f) {
-		return new ProjectRoot(f);
+	public ProjectRoot createRootResource(File templateFile) {
+		return new ProjectRoot(templateFile);
 	}
 
 
-	public List<? extends Resource> createResource(Resource parent, File f) throws GenerateException {
-		if (f.isDirectory()) {
-			return asList(new FolderResource(parent, f));
+	public List<? extends Resource> createResource(Resource parent, File templateFile) throws GenerateException {
+		if (templateFile.isDirectory()) {
+			return asList(new FolderResource(parent, templateFile));
 		} else {
-			return asList(new FileResource(parent, f));
+			return asList(new FileResource(parent, templateFile));
 		}
 	}
 

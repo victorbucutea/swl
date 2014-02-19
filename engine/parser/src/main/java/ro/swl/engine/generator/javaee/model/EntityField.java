@@ -72,12 +72,12 @@ public class EntityField extends AbstractField<EntityType> {
 
 
 	public boolean isDate() {
-		return "Date".equals(getType().getName());
+		return "Date".equals(getType().getSwlName());
 	}
 
 
 	public boolean isBlob() {
-		return "Blob".equals(getType().getName());
+		return "Blob".equals(getType().getSwlName());
 	}
 
 

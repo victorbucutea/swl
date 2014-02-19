@@ -1,5 +1,6 @@
 package ro.swl.engine.generator.java.model;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.parser.ASTProperty;
 
@@ -13,7 +14,7 @@ public class Field extends AbstractField<Type> {
 
 	@Override
 	protected Type initFieldType(String type, String pkg) throws GenerateException {
-		return new Type(type, pkg);
+		return new Type(isNotEmpty(pkg) ? pkg + "." + type : type);
 	}
 
 }

@@ -15,9 +15,6 @@ import org.junit.Test;
 import ro.swl.engine.GeneratorTest;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.Technology;
-import ro.swl.engine.generator.java.model.Annotation;
-import ro.swl.engine.generator.java.model.Field;
-import ro.swl.engine.parser.ASTProperty;
 import ro.swl.engine.parser.ASTSwdlApp;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
@@ -101,82 +98,11 @@ public class WriteResourceTreeTest extends GeneratorTest {
 	}
 
 
-	/**
-	 * Java resource was added by custom code. It is not present in template
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void javaResourceNotInTemplate() throws Exception {
-
-
-	}
-
-
-	@Test
-	public void fieldsTest() throws Exception {
-
-		Field f = new Field(createProp("prop1", "Customer"), "ro.sft.otherpkg");
-		f.addAnotation(new Annotation("javax.persistence.Column"));
-
-		Field f1 = new Field(createProp("prop2", "Customer"), "ro.sft.otherpkg");
-		f1.addAnotation(createAnnotation());
-
-
-		Field f2 = new Field(createProp("prop3", "Experience"), "ro.sft.pkg");
-		f2.addGetterAnotation("org.codehaus.jackson.annotate.JsonIgnore");
-		f2.addSetterAnnotation("org.codehaus.jackson.annotate.JsonIgnore");
-
-		//	res.addProperty(f);
-		//res.addProperty(f1);
-		//	res.addProperty(f2);
-
-		//res.write(ctxt);
-
-	}
-
-
-
-	private void assertFolderStructureCorrect() {
-		Collection<File> list = listFilesAndDirs(generateDestDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-		List<File> files = new ArrayList<File>(list);
-
-
-		assertEquals("my-app", files.get(0).getName());
-		assertEquals(new File(generateDestDir, "my-app"), files.get(0).getAbsoluteFile());
-		assertEquals("CV", files.get(1).getName());
-		assertEquals("ro", files.get(2).getName());
-		assertEquals("sft", files.get(3).getName());
-		assertEquals("somepackage", files.get(4).getName());
-		assertEquals("img.jpg", files.get(5).getName());
-		assertEquals(347796, files.get(5).length());
-		assertEquals("model", files.get(6).getName());
-		assertEquals("Customer.java", files.get(7).getName());
-		assertEquals("Experience.java", files.get(8).getName());
-		assertEquals("somefile.txt", files.get(9).getName());
-		assertEquals(12, files.size());
-
-	}
-
-
-	private Annotation createAnnotation() throws GenerateException {
-		Annotation ann = new Annotation("javax.persistence.OneToMany");
-		ann.addProperty("cascade", "CascadeType.ALL");
-		ann.addProperty("orphanRemoval", "true");
-		return null;
-	}
-
-
-	private ASTProperty createProp(String name, String type) {
-		ASTProperty prop = new ASTProperty(0);
-		prop.setName(name);
-		prop.setType(type);
-		return prop;
-	}
-
-
 	@Override
 	public List<Technology> getTechsUnderTest() {
 		return new ArrayList<Technology>();
 	}
+
+
+
 }

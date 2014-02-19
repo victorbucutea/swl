@@ -1,6 +1,5 @@
 package ro.swl.engine.generator.java.model;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,9 +11,9 @@ import ro.swl.engine.generator.GenerateException;
 
 public class Method {
 
-	private Set<String> imports;
+	private Set<String> imports = new HashSet<String>();
 
-	private Set<Parameter> parameters;
+	private Set<Parameter> parameters = new HashSet<Parameter>();
 
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 
@@ -22,13 +21,21 @@ public class Method {
 
 	private String name;
 
-	private Type returnType;
+	private Type returnType = Type.VOID;
 
 	private String accessModifier = "public";
 
 
 	public Method(String name) {
 		this.name = name;
+	}
+
+
+	public Method(String name, List<Statement> body) {
+		this.name = name;
+		if (body != null) {
+			body.addAll(body);
+		}
 	}
 
 
@@ -42,12 +49,6 @@ public class Method {
 	}
 
 
-	public Method(String name, List<Statement> body) {
-		this.name = name;
-		if (body != null) {
-			body.addAll(body);
-		}
-	}
 
 	public static class Parameter {
 
@@ -96,180 +97,26 @@ public class Method {
 		}
 
 
-	}
-
-
-	public static class Statement {
-
-		private Set<String> imports = new HashSet<String>();
-
-		private String statement;
-
-
-		public Statement(String content, Set<String> imports) {
-			this.statement = content;
-			this.imports = imports;
-		}
-
-
-		public Statement(String content, String imprt) {
-			this.statement = content;
-			if (!isNotEmpty(imprt))
-				this.imports.add(imprt);
-		}
-
-
-		public Statement() {
-
-		}
-
-
-		public String getStatement() {
-			return statement;
-		}
-
-
-		public void setStatement(String statement) {
-			this.statement = statement;
-		}
-
-
-		public String render() {
-			return statement + ";\n";
-		}
-
-
 		public Set<String> getImports() {
-			return imports;
+			return type.getImports();
 		}
 
-
-		public void addImport(String imprt) {
-			this.imports.add(imprt);
-		}
-
-	}
-
-
-	public static class IfStatement extends Statement {
-
-		private String condition;
-
-		private Set<Statement> childStmts = new HashSet<Method.Statement>();
-
-
-		public IfStatement(String condition) {
-			this.condition = condition;
-		}
-
-
-
-		public Set<Statement> getChildStmts() {
-			return childStmts;
-		}
-
-
-		public void addChildStmt(Statement childStmts) {
-			this.childStmts.add(childStmts);
-		}
-
-
-		@Override
-		public String render() {
-			StringBuilder blder = new StringBuilder();
-			for (Statement stmt : childStmts) {
-				blder.append(stmt);
-			}
-			//@formatter:off
-			return "if ( " + condition + " ) {\n" +
-						blder +
-				"}";
-			//@formatter:on
-		}
-	}
-
-
-	public static class ForStatement extends Statement {
-
-		private Type itType;
-
-		private String itVar;
-
-		private Statement expression;
-
-		private Set<Statement> childStmts = new HashSet<Method.Statement>();
-
-
-		public ForStatement(Type iteratingType, String iteratingVar, Statement expression) {
-			this.itType = iteratingType;
-			this.itVar = iteratingVar;
-			this.expression = expression;
-		}
-
-
-		public Set<Statement> getChildStmts() {
-			return childStmts;
-		}
-
-
-		public void addChildStmt(Statement childStmts) {
-			this.childStmts.add(childStmts);
-		}
-
-
-		@Override
-		public String render() {
-			StringBuilder blder = new StringBuilder();
-			for (Statement stmt : childStmts) {
-				blder.append(stmt);
-			}
-			//@formatter:off
-			return "for ( " +itType.getSimpleClassName()  + " "+itVar+ ":"+ expression+" ) {\n" +
-						blder +
-				"}\n\n";
-			//@formatter:on
-		}
-
-
-
-		public Type getItType() {
-			return itType;
-		}
-
-
-
-		public void setItType(Type itType) {
-			this.itType = itType;
-		}
-
-
-
-		public String getItVar() {
-			return itVar;
-		}
-
-
-
-		public void setItVar(String itVar) {
-			this.itVar = itVar;
-		}
-
-
-
-		public Statement getExpression() {
-			return expression;
-		}
-
-
-
-		public void setExpression(Statement expression) {
-			this.expression = expression;
-		}
 
 	}
 
 
 	public Set<String> getImports() {
+
+		for (Parameter param : getParameters()) {
+			imports.addAll(param.getImports());
+		}
+
+		for (Statement stmt : getBody()) {
+			imports.addAll(stmt.getImports());
+		}
+
+		imports.addAll(returnType.getImports());
+
 		return imports;
 	}
 
@@ -284,13 +131,23 @@ public class Method {
 	}
 
 
-	public void setParameters(Set<Parameter> parameters) {
-		this.parameters = parameters;
+	public void addParameter(Parameter param) {
+		this.parameters.add(param);
+	}
+
+
+	public void addParameter(String name, Type type) {
+		this.parameters.add(new Parameter(name, type));
 	}
 
 
 	public List<Statement> getBody() {
 		return body;
+	}
+
+
+	public List<Statement> getStatements() {
+		return getBody();
 	}
 
 

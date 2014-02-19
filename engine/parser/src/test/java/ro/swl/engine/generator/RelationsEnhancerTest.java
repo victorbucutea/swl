@@ -88,29 +88,29 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 		assertEquals(11, experience.getFields().size());
 
-		assertNull(experience.getFields().get(9).getType().getImport());
+		assertNull(experience.getFields().get(9).getType().getImports());
 		assertEquals("double", experience.getFields().get(9).getType().getFqName());
 
-		assertNull(experience.getFields().get(7).getType().getImport());
+		assertNull(experience.getFields().get(7).getType().getImports());
 		assertEquals("long", experience.getFields().get(7).getType().getFqName());
 
-		assertNull(experience.getFields().get(5).getType().getImport());
+		assertNull(experience.getFields().get(5).getType().getImports());
 		assertEquals("int", experience.getFields().get(5).getType().getFqName());
 
 		Type set = experience.getFields().get(3).getType();
-		assertEquals("java.util.Set", set.getImport());
+		assertEquals("java.util.Set", set.getImports());
 		assertEquals("Customer", set.getParameter());
 
 		Type list = experience.getFields().get(2).getType();
-		assertEquals("java.util.List", list.getImport());
+		assertEquals("java.util.List", list.getImports());
 		assertEquals("Customer", list.getParameter());
 
 
-		assertEquals("java.util.Date", experience.getFields().get(0).getType().getImport());
+		assertEquals("java.util.Date", experience.getFields().get(0).getType().getImports());
 		assertEquals("java.util.Date", experience.getFields().get(0).getType().getFqName());
 		assertEquals("Date", experience.getFields().get(0).getType().getSimpleClassName());
 
-		assertNull(experience.getFields().get(1).getType().getImport());
+		assertNull(experience.getFields().get(1).getType().getImports());
 		assertEquals("byte[]", experience.getFields().get(1).getType().getFqName());
 		assertEquals("byte[]", experience.getFields().get(1).getType().getSimpleClassName());
 

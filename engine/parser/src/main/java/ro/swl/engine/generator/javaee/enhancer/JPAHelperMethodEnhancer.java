@@ -7,10 +7,11 @@ import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.CompoundStatement;
+import ro.swl.engine.generator.java.model.ForStatement;
+import ro.swl.engine.generator.java.model.IfStatement;
 import ro.swl.engine.generator.java.model.Method;
-import ro.swl.engine.generator.java.model.Method.ForStatement;
-import ro.swl.engine.generator.java.model.Method.IfStatement;
-import ro.swl.engine.generator.java.model.Method.Statement;
+import ro.swl.engine.generator.java.model.Statement;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -38,8 +39,8 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private Set<Method.Statement> getAdderStmts(EntityResource res, AbstractField<EntityType> field, String paramName) {
-		Set<Method.Statement> stmts = new HashSet<Method.Statement>();
+	private Set<Statement> getAdderStmts(EntityResource res, AbstractField<EntityType> field, String paramName) {
+		Set<Statement> stmts = new HashSet<Statement>();
 		/*
 		 * if (certs == null) {
 		 * return;
@@ -54,11 +55,11 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 		 * certifications.add(cert);
 		 * }
 		 */
-		IfStatement nullChk = new IfStatement(paramName + " == null");
+		CompoundStatement nullChk = new IfStatement(paramName + " == null");
 		nullChk.addChildStmt(new Statement("return", ""));
 
 
-		IfStatement initSet = new IfStatement(field.getUpperCamelName() + " == null");
+		CompoundStatement initSet = new IfStatement(field.getUpperCamelName() + " == null");
 		if (field.getType().equals("Set")) {
 			String importStmt = "java.util.HashSet";
 			initSet.addChildStmt(new Statement(field.getName() + " = new HashSet<"

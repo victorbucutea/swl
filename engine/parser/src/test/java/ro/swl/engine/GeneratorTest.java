@@ -3,7 +3,6 @@ package ro.swl.engine;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 
@@ -33,7 +32,7 @@ public abstract class GeneratorTest extends AbstractTest {
 
 	@After
 	public void tearDown() throws Exception {
-		FileUtils.cleanDirectory(generateDestDir);
+		//FileUtils.cleanDirectory(generateDestDir);
 	}
 
 

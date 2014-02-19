@@ -15,7 +15,7 @@ import org.junit.Test;
 import ro.swl.engine.GeneratorTest;
 import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.Annotation;
-import ro.swl.engine.generator.java.model.Annotation.AnnotationProperty;
+import ro.swl.engine.generator.java.model.Annotation.AnnotationPropertyValue;
 import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
 import ro.swl.engine.generator.javaee.exception.WrongRelatedFieldTypeException;
 import ro.swl.engine.generator.javaee.model.EntityField;
@@ -579,13 +579,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("ManyToOne", onetoOne.getSimpleName());
 		assertEquals("javax.persistence.ManyToOne", onetoOne.getFqName());
-		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoOne.getAttributes();
 		assertEquals(0, attributes.size());
 
 		Annotation joinColumn = annotations.get(1);
 		assertEquals("JoinColumn", joinColumn.getSimpleName());
 		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
-		AnnotationProperty name = joinColumn.getAttribute("name");
+		AnnotationPropertyValue name = joinColumn.getAttribute("name");
 		assertNotNull(name.getValueLiterals().get(0));
 		assertEquals(custField.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
@@ -598,11 +598,11 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation manyToMany = annotations.get(0);
 		assertEquals("ManyToMany", manyToMany.getSimpleName());
 		assertEquals("javax.persistence.ManyToMany", manyToMany.getFqName());
-		Collection<AnnotationProperty> attributes = manyToMany.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = manyToMany.getAttributes();
 		assertEquals(2, attributes.size());
-		AnnotationProperty cascade = manyToMany.getAttribute("cascade");
+		AnnotationPropertyValue cascade = manyToMany.getAttribute("cascade");
 		assertNotNull(cascade);
-		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getTypeValues().get(0).getFqName());
 
 		assertEquals(1, annotations.size());
 	}
@@ -613,13 +613,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation manyToMany = annotations.get(0);
 		assertEquals("ManyToMany", manyToMany.getSimpleName());
 		assertEquals("javax.persistence.ManyToMany", manyToMany.getFqName());
-		Collection<AnnotationProperty> attributes = manyToMany.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = manyToMany.getAttributes();
 		assertEquals(0, attributes.size());
 
 		Annotation joinColumn = annotations.get(1);
 		assertEquals("JoinColumn", joinColumn.getSimpleName());
 		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
-		AnnotationProperty name = joinColumn.getAttribute("name");
+		AnnotationPropertyValue name = joinColumn.getAttribute("name");
 		assertNotNull(name.getValueLiterals().get(0));
 		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
@@ -632,21 +632,21 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoMany = annotations.get(0);
 		assertEquals("OneToMany", onetoMany.getSimpleName());
 		assertEquals("javax.persistence.OneToMany", onetoMany.getFqName());
-		Collection<AnnotationProperty> attributes = onetoMany.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoMany.getAttributes();
 
 		assertEquals(2, attributes.size());
 		assertEquals(2, annotations.size());
 
-		AnnotationProperty cascade = onetoMany.getAttribute("cascade");
+		AnnotationPropertyValue cascade = onetoMany.getAttribute("cascade");
 		assertNotNull(cascade);
-		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
-		AnnotationProperty orphanRemove = onetoMany.getAttribute("orphanRemoval");
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getTypeValues().get(0).getFqName());
+		AnnotationPropertyValue orphanRemove = onetoMany.getAttribute("orphanRemoval");
 		assertEquals("true", orphanRemove.getValueLiterals().get(0));
 
 		Annotation joinColumn = annotations.get(1);
 		assertEquals("JoinColumn", joinColumn.getSimpleName());
 		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
-		AnnotationProperty name = joinColumn.getAttribute("name");
+		AnnotationPropertyValue name = joinColumn.getAttribute("name");
 		assertNotNull(name.getValueLiterals().get(0));
 		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
@@ -658,13 +658,13 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("ManyToOne", onetoOne.getSimpleName());
 		assertEquals("javax.persistence.ManyToOne", onetoOne.getFqName());
-		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoOne.getAttributes();
 		assertEquals(0, attributes.size());
 
 		Annotation joinColumn = annotations.get(1);
 		assertEquals("JoinColumn", joinColumn.getSimpleName());
 		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
-		AnnotationProperty name = joinColumn.getAttribute("name");
+		AnnotationPropertyValue name = joinColumn.getAttribute("name");
 		assertNotNull(name.getValueLiterals().get(0));
 		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 		assertEquals(2, annotations.size());
@@ -676,11 +676,11 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("OneToMany", onetoOne.getSimpleName());
 		assertEquals("javax.persistence.OneToMany", onetoOne.getFqName());
-		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoOne.getAttributes();
 		assertEquals(2, attributes.size());
-		AnnotationProperty cascade = onetoOne.getAttribute("cascade");
+		AnnotationPropertyValue cascade = onetoOne.getAttribute("cascade");
 		assertNotNull(cascade);
-		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getTypeValues().get(0).getFqName());
 		assertEquals(1, annotations.size());
 	}
 
@@ -690,16 +690,16 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoOne = annotations.get(0);
 		assertEquals("OneToOne", onetoOne.getSimpleName());
 		assertEquals("javax.persistence.OneToOne", onetoOne.getFqName());
-		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoOne.getAttributes();
 		assertEquals(1, attributes.size());
-		AnnotationProperty cascade = onetoOne.getAttribute("cascade");
+		AnnotationPropertyValue cascade = onetoOne.getAttribute("cascade");
 		assertNotNull(cascade);
-		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getTypeValues().get(0).getFqName());
 
 		Annotation joinColumn = annotations.get(1);
 		assertEquals("JoinColumn", joinColumn.getSimpleName());
 		assertEquals("javax.persistence.JoinColumn", joinColumn.getFqName());
-		AnnotationProperty name = joinColumn.getAttribute("name");
+		AnnotationPropertyValue name = joinColumn.getAttribute("name");
 		assertNotNull(name.getValueLiterals().get(0));
 		assertEquals(field.getUpperUnderscoreName() + "_ID", name.getValueLiterals().get(0));
 
@@ -713,12 +713,12 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation onetoOne = relation.get(0);
 		assertEquals("OneToOne", onetoOne.getSimpleName());
 		assertEquals("javax.persistence.OneToOne", onetoOne.getFqName());
-		Collection<AnnotationProperty> attributes = onetoOne.getAttributes();
+		Collection<AnnotationPropertyValue> attributes = onetoOne.getAttributes();
 		// no cascade
 		assertEquals(1, attributes.size());
-		AnnotationProperty cascade = onetoOne.getAttribute("cascade");
+		AnnotationPropertyValue cascade = onetoOne.getAttribute("cascade");
 		assertNotNull(cascade);
-		assertEquals("javax.persistence.CascadeType.ALL", cascade.getValues().get(0).getFqName());
+		assertEquals("javax.persistence.CascadeType.ALL", cascade.getTypeValues().get(0).getFqName());
 
 	}
 
@@ -730,7 +730,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 		Annotation column = annotations.get(0);
 		assertEquals("Column", column.getSimpleName());
 		assertEquals("javax.persistence.Column", column.getFqName());
-		AnnotationProperty columnName = column.getAttribute("name");
+		AnnotationPropertyValue columnName = column.getAttribute("name");
 		assertNotNull(columnName.getValueLiterals().get(0));
 		assertEquals(entityField.getUpperUnderscoreName(), columnName.getValueLiterals().get(0));
 
@@ -738,9 +738,9 @@ public class JpaEnhancerTests extends GeneratorTest {
 		assertEquals("Temporal", temporal.getSimpleName());
 		assertEquals("javax.persistence.Temporal", temporal.getFqName());
 
-		AnnotationProperty temporalValue = temporal.getAttribute("value");
-		assertNotNull(temporalValue.getValues().get(0));
-		assertEquals("javax.persistence.TemporalType.TIMESTAMP", temporalValue.getValues().get(0).getFqName());
+		AnnotationPropertyValue temporalValue = temporal.getAttribute("value");
+		assertNotNull(temporalValue.getTypeValues().get(0));
+		assertEquals("javax.persistence.TemporalType.TIMESTAMP", temporalValue.getTypeValues().get(0).getFqName());
 	}
 
 

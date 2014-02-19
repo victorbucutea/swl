@@ -1,8 +1,13 @@
 package ro.swl.engine.generator.model;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+
+import java.util.Set;
+
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.javaee.exception.EmptyFqNameException;
+import ro.swl.engine.generator.javaee.exception.InvalidFqNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 
 
@@ -23,7 +28,7 @@ public class QualifiedClassName {
 
 	private String name;
 
-	private String parameterType;
+	private QualifiedClassName parameterType;
 
 
 	public QualifiedClassName(String fqName) throws GenerateException {
@@ -32,6 +37,7 @@ public class QualifiedClassName {
 			throw new EmptyFqNameException();
 
 		int firstCapIdx = indexOfCapLetter(fqName);
+
 
 		if (!fqName.contains(".")) {
 			// it's a simple name 
@@ -42,6 +48,10 @@ public class QualifiedClassName {
 		if (firstCapIdx == 0) {
 			this.name = fqName;
 			return;
+		}
+
+		if (firstCapIdx == -1) {
+			throw new InvalidFqNameException(fqName);
 		}
 
 
@@ -62,7 +72,7 @@ public class QualifiedClassName {
 		} else {
 			name = fqName.substring(firstCapIdx, firstAngBrkt);
 			int lastAngBrkt = fqName.lastIndexOf(">");
-			parameterType = fqName.substring(firstAngBrkt + 1, lastAngBrkt);
+			parameterType = new QualifiedClassName(fqName.substring(firstAngBrkt + 1, lastAngBrkt));
 
 		}
 	}
@@ -102,16 +112,24 @@ public class QualifiedClassName {
 	}
 
 
-	public String getImport() {
+	public Set<String> getImports() {
+		Set<String> imports = newHashSet();
+
 		if (isEmpty(pkg) || "java.lang".equals(pkg))
-			return null;
+			return imports;
 
 		if (isInternalClass()) {
 			int idx = getSimpleName().indexOf(".");
-			return pkg + "." + getSimpleName().substring(0, idx);
+			imports.add(pkg + "." + getSimpleName().substring(0, idx));
+		} else {
+			imports.add(getFqName());
 		}
 
-		return getFqName();
+		if (parameterType != null) {
+			imports.addAll(parameterType.getImports());
+		}
+
+		return imports;
 	}
 
 
@@ -129,7 +147,7 @@ public class QualifiedClassName {
 		if (parameterType == null)
 			return name;
 
-		return name + "<" + parameterType + ">";
+		return name + "<" + parameterType.getSimpleName() + ">";
 	}
 
 
@@ -153,7 +171,18 @@ public class QualifiedClassName {
 
 
 	public String getParameterType() {
-		return this.parameterType;
+		if (this.parameterType == null) {
+			return null;
+		}
+		return this.parameterType.getSimpleName();
+	}
+
+
+	public String getFqParameterType() {
+		if (this.parameterType == null) {
+			return null;
+		}
+		return this.parameterType.getFqName();
 	}
 
 

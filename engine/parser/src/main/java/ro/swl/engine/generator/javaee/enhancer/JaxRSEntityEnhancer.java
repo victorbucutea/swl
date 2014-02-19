@@ -7,11 +7,12 @@ import java.util.List;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
-import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Annotation;
+import ro.swl.engine.generator.java.model.CompoundStatement;
+import ro.swl.engine.generator.java.model.IfStatement;
 import ro.swl.engine.generator.java.model.Method;
-import ro.swl.engine.generator.java.model.Method.IfStatement;
-import ro.swl.engine.generator.java.model.Method.Statement;
+import ro.swl.engine.generator.java.model.Statement;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.generator.javaee.model.EntityType;
@@ -116,9 +117,9 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 		m.addAnnotation(jsonProp);
 		m.addAnnotation("org.codehaus.jackson.annotate.JsonManagedReference");
 
-		List<Method.Statement> stmts = new ArrayList<Method.Statement>();
+		List<Statement> stmts = new ArrayList<Statement>();
 
-		IfStatement initSet = new IfStatement(field.getUpperCamelName() + " == null");
+		CompoundStatement initSet = new IfStatement(field.getUpperCamelName() + " == null");
 
 
 		if (type.equals("Set")) {
@@ -129,7 +130,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 			initSet.addChildStmt(new Statement("return new ArrayList<" + splClsName + ">()", importStmt));
 		}
 
-		IfStatement isInitIf = new IfStatement("isinitialized(" + fieldName + ")");
+		CompoundStatement isInitIf = new IfStatement("isinitialized(" + fieldName + ")");
 		if (type.equals("Set")) {
 			initSet.addChildStmt(new Statement("return " + fieldName, ""));
 		} else if (type.equals("List")) {

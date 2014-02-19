@@ -1,5 +1,7 @@
 package ro.swl.engine.generator.java.model;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -43,14 +45,6 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 	private List<Method> methods;
 
 	private Set<Annotation> annotations;
-
-
-	public JavaResource(Resource parent, String name, String pkg) {
-		super(parent, name + ".java");
-		this.pkg = pkg;
-		annotations = new LinkedHashSet<Annotation>();
-		methods = new ArrayList<Method>();
-	}
 
 
 	public JavaResource(Resource parent, File template, String pkg) {
@@ -150,8 +144,8 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 	}
 
 
-	public List<String> getImports() {
-		List<String> imports = new ArrayList<String>();
+	public Set<String> getImports() {
+		Set<String> imports = newHashSet();
 
 		for (Method m : getMethods()) {
 			imports.addAll(m.getImports());

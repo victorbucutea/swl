@@ -2,6 +2,7 @@ package ro.swl.engine.generator.java.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.model.QualifiedClassName;
@@ -9,13 +10,24 @@ import ro.swl.engine.generator.model.QualifiedClassName;
 
 public class Type {
 
+	public static Type VOID;
+
 	protected static Map<String, String> internalTypes = new HashMap<String, String>();
 
 	static {
 		internalTypes.put("Blob", "byte[]");
 		internalTypes.put("Date", "java.util.Date");
-		internalTypes.put("Set", "java.util.Set");
-		internalTypes.put("List", "java.util.List");
+		internalTypes.put("int", "int");
+		internalTypes.put("Integer", "java.lang.Integer");
+		internalTypes.put("double", "double");
+		internalTypes.put("Double", "java.lang.Double");
+		internalTypes.put("long", "long");
+		internalTypes.put("Long", "java.lang.Long");
+		try {
+			VOID = new Type("void");
+		} catch (GenerateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected String swlDeclaredName;
@@ -23,18 +35,27 @@ public class Type {
 	protected QualifiedClassName clsName;
 
 
-	public Type(String name, String pkg) throws GenerateException {
-		this.swlDeclaredName = name;
-		String internalType = internalTypes.get(name);
+	public Type(String simpleName, String pkg) {
+
+	}
+
+
+	/**
+	 * 
+	 * @param name
+	 * @throws GenerateException
+	 */
+	public Type(String fqName) throws GenerateException {
+		this.clsName = new QualifiedClassName(fqName);
+		this.swlDeclaredName = clsName.getSimpleName();
+		String internalType = internalTypes.get(swlDeclaredName);
 		if (internalType != null) {
 			this.clsName = new QualifiedClassName(internalType);
-		} else {
-			this.clsName = new QualifiedClassName(name, pkg);
 		}
 	}
 
 
-	public String getName() {
+	public String getSwlName() {
 		return swlDeclaredName;
 	}
 
@@ -83,8 +104,8 @@ public class Type {
 	}
 
 
-	public String getImport() {
-		return clsName.getImport();
+	public Set<String> getImports() {
+		return clsName.getImports();
 	}
 
 
@@ -96,7 +117,7 @@ public class Type {
 
 	@Override
 	public String toString() {
-		return getImport();
+		return getParameterizedName();
 	}
 
 }

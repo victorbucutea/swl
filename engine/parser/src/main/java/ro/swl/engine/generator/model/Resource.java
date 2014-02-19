@@ -50,7 +50,8 @@ public abstract class Resource {
 	public Resource(Resource parent, File template) {
 		this.parent = parent;
 		this.templateFile = template;
-		this.outputFileName = template.getName();
+		if (template != null)
+			this.outputFileName = template.getName();
 		this.writer = initWriter();
 	}
 
@@ -103,12 +104,9 @@ public abstract class Resource {
 
 
 	/**
-	 * The name can come from 3 sources:
+	 * The name can come from 2 sources:
 	 * 1. The setter was called during the generation phase, so the
 	 * {@link #templateFile} has no correlation with this name
-	 * 
-	 * 2. The {@link #Resource(Resource, String)} constructor was called and the
-	 * {@link #templateFile} does not exist.
 	 * 
 	 * 3. The {@link #Resource(Resource, File)} was called and it was deduced
 	 * from the {@link #templateFile}

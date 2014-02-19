@@ -54,7 +54,7 @@ public class DefaultResourceWriter implements ResourceWriter {
 		this.destinationFile = calculateDestinationFile();
 
 		try {
-			if (sourceFile.isDirectory()) {
+			if ((sourceFile != null) && sourceFile.isDirectory()) {
 				destinationFile.mkdirs();
 				return;
 			} else {

@@ -54,7 +54,7 @@ public class QualifiedClassNameTests {
 	public void simpleClassesAndPrimitives() throws GenerateException {
 
 		QualifiedClassName cname = new QualifiedClassName("SomeClass");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
 		assertEquals("SomeClass", cname.getFqName());
 		assertEquals("SomeClass", cname.getSimpleName());
@@ -63,7 +63,7 @@ public class QualifiedClassNameTests {
 		assertFalse(cname.isPrimitive());
 
 		cname = new QualifiedClassName("int");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
 		assertEquals("int", cname.getFqName());
 		assertEquals("int", cname.getSimpleName());
@@ -72,7 +72,7 @@ public class QualifiedClassNameTests {
 		assertTrue(cname.isPrimitive());
 
 		cname = new QualifiedClassName("int[]");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
 		assertEquals("int[]", cname.getFqName());
 		assertEquals("int[]", cname.getSimpleName());
@@ -81,8 +81,9 @@ public class QualifiedClassNameTests {
 		assertFalse(cname.isPrimitive());
 
 		cname = new QualifiedClassName("byte");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("byte", cname.getFqName());
 		assertEquals("byte", cname.getSimpleName());
 		assertFalse(cname.isObject());
@@ -90,8 +91,9 @@ public class QualifiedClassNameTests {
 		assertTrue(cname.isPrimitive());
 
 		cname = new QualifiedClassName("long");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("long", cname.getFqName());
 		assertEquals("long", cname.getSimpleName());
 		assertFalse(cname.isObject());
@@ -99,8 +101,9 @@ public class QualifiedClassNameTests {
 		assertTrue(cname.isPrimitive());
 
 		cname = new QualifiedClassName("double");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("double", cname.getFqName());
 		assertEquals("double", cname.getSimpleName());
 		assertFalse(cname.isObject());
@@ -108,8 +111,9 @@ public class QualifiedClassNameTests {
 		assertTrue(cname.isPrimitive());
 
 		cname = new QualifiedClassName("randomString");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("randomString", cname.getFqName());
 		assertEquals("randomString", cname.getSimpleName());
 		assertTrue(cname.isObject());
@@ -117,8 +121,9 @@ public class QualifiedClassNameTests {
 		assertFalse(cname.isPrimitive());
 
 		cname = new QualifiedClassName("true");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("true", cname.getFqName());
 		assertEquals("true", cname.getSimpleName());
 		assertTrue(cname.isObject());
@@ -131,8 +136,10 @@ public class QualifiedClassNameTests {
 	public void qualifiedClass() throws GenerateException {
 
 		QualifiedClassName cname = new QualifiedClassName("javax.persistence.Column");
-		assertEquals("javax.persistence.Column", cname.getImport());
+		assertImportContains(cname, "javax.persistence.Column");
+		assertImportSize(cname, 1);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("javax.persistence.Column", cname.getFqName());
 		assertEquals("Column", cname.getSimpleName());
 		assertTrue(cname.isObject());
@@ -145,8 +152,10 @@ public class QualifiedClassNameTests {
 	public void innerClasses() throws GenerateException {
 
 		QualifiedClassName cname = new QualifiedClassName("javax.persistence.TemporalType.TIMESTAMP");
-		assertEquals("javax.persistence.TemporalType", cname.getImport());
+		assertImportContains(cname, "javax.persistence.TemporalType");
+		assertImportSize(cname, 1);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("javax.persistence.TemporalType.TIMESTAMP", cname.getFqName());
 		assertEquals("TemporalType.TIMESTAMP", cname.getSimpleName());
 		assertTrue(cname.isObject());
@@ -155,8 +164,9 @@ public class QualifiedClassNameTests {
 
 
 		cname = new QualifiedClassName("TemporalType.TIMESTAMP");
-		assertNull(cname.getImport());
+		assertImportSize(cname, 0);
 		assertNull(cname.getParameterType());
+		assertNull(cname.getFqParameterType());
 		assertEquals("TemporalType.TIMESTAMP", cname.getFqName());
 		assertEquals("TemporalType.TIMESTAMP", cname.getSimpleName());
 		assertTrue(cname.isObject());
@@ -168,9 +178,11 @@ public class QualifiedClassNameTests {
 
 	@Test
 	public void parameterizedClasses() throws GenerateException {
-		QualifiedClassName cname = new QualifiedClassName("java.util.Set<SomeClass>");
-		assertEquals("java.util.Set", cname.getImport());
+		QualifiedClassName cname = new QualifiedClassName("java.util.Set<ro.sft.SomeClass>");
+		assertImportContains(cname, "java.util.Set", "ro.sft.SomeClass");
+		assertImportSize(cname, 2);
 		assertEquals("SomeClass", cname.getParameterType());
+		assertEquals("ro.sft.SomeClass", cname.getFqParameterType());
 		assertEquals("java.util.Set", cname.getFqName());
 		assertEquals("Set", cname.getSimpleName());
 		assertEquals("Set<SomeClass>", cname.getParameterizedName());
@@ -179,14 +191,40 @@ public class QualifiedClassNameTests {
 		assertFalse(cname.isPrimitive());
 
 		cname = new QualifiedClassName("java.util.List<SomeClass>");
-		assertEquals("java.util.List", cname.getImport());
+		assertImportContains(cname, "java.util.List");
+		assertImportSize(cname, 1);
 		assertEquals("SomeClass", cname.getParameterType());
+		assertEquals("SomeClass", cname.getFqParameterType());
 		assertEquals("java.util.List", cname.getFqName());
 		assertEquals("List", cname.getSimpleName());
 		assertEquals("List<SomeClass>", cname.getParameterizedName());
 		assertTrue(cname.isObject());
 		assertFalse(cname.isArray());
 		assertFalse(cname.isPrimitive());
+
+
+		cname = new QualifiedClassName("java.pkg.ParameterizedCls<SomeClass>");
+		assertImportContains(cname, "java.pkg.ParameterizedCls");
+		assertImportSize(cname, 1);
+		assertEquals("SomeClass", cname.getParameterType());
+		assertEquals("java.pkg.ParameterizedCls", cname.getFqName());
+		assertEquals("ParameterizedCls", cname.getSimpleName());
+		assertEquals("ParameterizedCls<SomeClass>", cname.getParameterizedName());
+		assertTrue(cname.isObject());
+		assertFalse(cname.isArray());
+		assertFalse(cname.isPrimitive());
+	}
+
+
+	private void assertImportSize(QualifiedClassName cname, int size) {
+		assertEquals(size, cname.getImports().size());
+	}
+
+
+	private void assertImportContains(QualifiedClassName cname, String... literalClsNames) {
+		for (String imprt : literalClsNames) {
+			assertTrue(cname.getImports().contains(imprt));
+		}
 	}
 
 }

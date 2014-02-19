@@ -40,6 +40,8 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 		this.modelProp = modelProp;
 		this.name = modelProp.getName();
 		this.pkg = typePkg;
+		this.hasGetter = true;
+		this.hasSetter = true;
 		this.annotations = new LinkedHashSet<Annotation>();
 		this.getterAnnotations = new LinkedHashSet<Annotation>();
 		this.setterAnnotations = new LinkedHashSet<Annotation>();
@@ -114,10 +116,22 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 	public Set<String> getImports() {
 		Set<String> list = newHashSet();
 		// add import for current field type
-		list.add(type.getImport());
+		list.addAll(type.getImports());
 
 		for (Annotation ann : annotations) {
 			list.addAll(ann.getImports());
+		}
+
+		if (hasGetter) {
+			for (Annotation ann : getterAnnotations) {
+				list.addAll(ann.getImports());
+			}
+		}
+
+		if (hasSetter) {
+			for (Annotation ann : setterAnnotations) {
+				list.addAll(ann.getImports());
+			}
 		}
 
 
