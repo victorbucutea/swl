@@ -198,6 +198,12 @@ public class SWLNode extends SimpleNode {
 	}
 
 
+	@Override
+	public String toString() {
+		return super.toString() + " - " + image;
+	}
+
+
 	public String getNodeName() {
 		return SWLTreeConstants.jjtNodeName[id];
 	}

@@ -1,5 +1,6 @@
 package ro.swl.engine.generator.javaee.factory;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -191,9 +192,42 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	}
 
 
-	private List<ServiceBeanResource> createServiceBeanResources(Resource parent, File templateFile) {
-		// iterate through module's services and generate a service bean resource
+	/**
+	 * /Iterate through module's services and generate a service bean resource
+	 * 
+	 * @param parent
+	 * @param templateFile
+	 * @return
+	 * @throws GenerateException
+	 */
+	private List<ServiceBeanResource> createServiceBeanResources(Resource parent, File templateFile)
+			throws GenerateException {
+		List<ServiceBeanResource> services = newArrayList();
+
+
+		if (isEmpty(getCtxt().getCurrentModule()))
+			throw new NoModuleException();
+
+		ASTModule module = getCurrentModule();
+
+		//module.getChildNodesOfType(ASTSe, recursive)
+
+
 		return asList(new ServiceBeanResource(parent, templateFile));
+	}
+
+
+	private ASTModule getCurrentModule() throws GenerateException {
+		String currentModule = getCtxt().getCurrentModule();
+		List<ASTModule> modules = getAppModel().getModules();
+
+		for (ASTModule module : modules) {
+			if (currentModule.equals(module.getName())) {
+				return module;
+			}
+		}
+		throw new NoModuleException("Current module " + currentModule + " does not match any of the modules(" + modules
+				+ ")");
 	}
 
 

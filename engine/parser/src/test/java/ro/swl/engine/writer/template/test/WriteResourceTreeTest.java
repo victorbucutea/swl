@@ -41,20 +41,23 @@ public class WriteResourceTreeTest extends GeneratorTest {
 	@Test
 	public void entityWrite() throws Exception {
 		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
 						" module cv {" +
 									"  ui     {} " +
 									"  logic  {}" +
 									"  domain {" +
 									"		Customer {"+
 									"			startDate Date,"+
-									"			endDate   Date"+
+									"			endDate   Date," +
+									"			exp		  Experience -> *"+
 									"		}"+
 									""+	
 									"	    Experience {"+
 									"			startDate Date,"+
 									"			endDate   Date,"+
-									"			field 	  Blob"+
+									"			field 	  Blob," +
+									"			someProp  String," +
+									"			someProp2 double"+
 									"		} " +
 									"  }" +
 									"}" +
@@ -64,13 +67,15 @@ public class WriteResourceTreeTest extends GeneratorTest {
 										"  domain {" +
 										"		Client {"+
 										"			startDate Date,"+
-										"			endDate   Date"+
+										"			endDate   Date,"+
+										"			orders Set<Order> -> client"+		
 										"		}"+
 										""+	
 										"	    Order {"+
 										"			startDate Date,"+
 										"			endDate   Date,"+
-										"			field 	  Blob"+
+										"			field 	  Blob," +
+										"			client    Client"+
 										"		} " +
 										"  }"+
 						"}"));
@@ -84,15 +89,26 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 		assertEquals("my-app", files.get(1).getName());
 		assertEquals(new File(generated, "my-app"), files.get(1).getAbsoluteFile());
-		assertEquals("cv", files.get(2).getName());
+		assertEquals("customer", files.get(2).getName());
 		assertEquals("ro", files.get(3).getName());
 		assertEquals("sft", files.get(4).getName());
 		assertEquals("somepackage", files.get(5).getName());
 		assertEquals("img.jpg", files.get(6).getName());
 		assertEquals(347796, files.get(6).length());
 		assertEquals("model", files.get(7).getName());
-		assertEquals("Customer.java", files.get(8).getName());
-		assertEquals("Experience.java", files.get(9).getName());
+		assertEquals("Client.java", files.get(8).getName());
+		assertEquals("Order.java", files.get(9).getName());
+		assertEquals("somefile.xml", files.get(10).getName());
+
+		assertEquals("cv", files.get(11).getName());
+		assertEquals("ro", files.get(12).getName());
+		assertEquals("sft", files.get(13).getName());
+		assertEquals("somepackage", files.get(5).getName());
+		assertEquals("img.jpg", files.get(6).getName());
+		assertEquals(347796, files.get(6).length());
+		assertEquals("model", files.get(7).getName());
+		assertEquals("Client.java", files.get(8).getName());
+		assertEquals("Order.java", files.get(9).getName());
 		assertEquals("somefile.txt", files.get(10).getName());
 		assertEquals(14, files.size());
 	}

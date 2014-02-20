@@ -12,7 +12,12 @@ public class NoModuleException extends GenerateException {
 
 
 	public NoModuleException() {
-		super("Cannot create entities which are not part of any module. Add a '__module__' folder");
+		super("Cannot create entities/services which are not part of any module. Put them in a '__module__' folder");
+	}
+
+
+	public NoModuleException(String expl) {
+		super(expl);
 	}
 
 }

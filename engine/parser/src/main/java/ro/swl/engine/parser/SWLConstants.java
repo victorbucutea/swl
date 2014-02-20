@@ -43,122 +43,134 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int SCREEN = 22;
   /** RegularExpression Id. */
-  int SERVICE = 23;
+  int UI = 23;
   /** RegularExpression Id. */
-  int UI = 24;
+  int CONTROLLER = 24;
   /** RegularExpression Id. */
-  int CONTROLLER = 25;
+  int MODEL = 25;
   /** RegularExpression Id. */
-  int MODEL = 26;
+  int IDENTIFIER = 26;
   /** RegularExpression Id. */
-  int IDENTIFIER = 27;
+  int QUOTED_IDENTIFIER = 27;
   /** RegularExpression Id. */
-  int QUOTED_IDENTIFIER = 28;
+  int QUOTED_TEXT = 28;
   /** RegularExpression Id. */
-  int QUOTED_TEXT = 29;
+  int INPUT = 29;
   /** RegularExpression Id. */
-  int INPUT = 30;
+  int INPUT_AREA = 30;
   /** RegularExpression Id. */
-  int INPUT_AREA = 31;
+  int INPUT_FILE = 31;
   /** RegularExpression Id. */
-  int INPUT_FILE = 32;
+  int CHECKBOX = 32;
   /** RegularExpression Id. */
-  int CHECKBOX = 33;
+  int SELECTBOX = 33;
   /** RegularExpression Id. */
-  int SELECTBOX = 34;
+  int SELECTOPTION = 34;
   /** RegularExpression Id. */
-  int SELECTOPTION = 35;
+  int SELECTOPTIONGROUP = 35;
   /** RegularExpression Id. */
-  int SELECTOPTIONGROUP = 36;
+  int TEXT = 36;
   /** RegularExpression Id. */
-  int TEXT = 37;
+  int LABEL = 37;
   /** RegularExpression Id. */
-  int LABEL = 38;
+  int RADIO = 38;
   /** RegularExpression Id. */
-  int RADIO = 39;
+  int RADIOS = 39;
   /** RegularExpression Id. */
-  int RADIOS = 40;
+  int BUTTON = 40;
   /** RegularExpression Id. */
-  int BUTTON = 41;
+  int BUTTONGROUP = 41;
   /** RegularExpression Id. */
-  int BUTTONGROUP = 42;
+  int IMG = 42;
   /** RegularExpression Id. */
-  int IMG = 43;
+  int VERTICAL_LAYOUT = 43;
   /** RegularExpression Id. */
-  int VERTICAL_LAYOUT = 44;
+  int HORIZONTAL_LAYOUT = 44;
   /** RegularExpression Id. */
-  int HORIZONTAL_LAYOUT = 45;
+  int HORIZONTAL_FORM = 45;
   /** RegularExpression Id. */
-  int HORIZONTAL_FORM = 46;
+  int GROUP = 46;
   /** RegularExpression Id. */
-  int GROUP = 47;
+  int SECTION = 47;
   /** RegularExpression Id. */
-  int SECTION = 48;
+  int ROW = 48;
   /** RegularExpression Id. */
-  int ROW = 49;
+  int COLUMN = 49;
   /** RegularExpression Id. */
-  int COLUMN = 50;
+  int NO_LABEL_FLAG = 50;
   /** RegularExpression Id. */
-  int NO_LABEL_FLAG = 51;
+  int NAME = 51;
   /** RegularExpression Id. */
-  int NAME = 52;
+  int ANY_NON_OPEN_CLOSE = 52;
   /** RegularExpression Id. */
-  int ANY_NON_OPEN_CLOSE = 53;
+  int NUMBER = 53;
   /** RegularExpression Id. */
-  int NUMBER = 54;
+  int VARIABLE = 54;
   /** RegularExpression Id. */
-  int VARIABLE = 55;
+  int COMMA = 55;
   /** RegularExpression Id. */
-  int COMMA = 56;
+  int DOT = 56;
   /** RegularExpression Id. */
-  int DOT = 57;
+  int LITERAL = 57;
   /** RegularExpression Id. */
-  int LITERAL = 58;
+  int DESC_QUOTE = 58;
   /** RegularExpression Id. */
-  int DESC_QUOTE = 59;
+  int STYLE_CLASS = 59;
   /** RegularExpression Id. */
-  int STYLE_CLASS = 60;
+  int COLON = 60;
   /** RegularExpression Id. */
-  int COLON = 61;
+  int SEMICOLON = 61;
   /** RegularExpression Id. */
-  int SEMICOLON = 62;
+  int ASTERISK = 62;
   /** RegularExpression Id. */
-  int ASTERISK = 63;
+  int CLOSE_QUOTE = 63;
   /** RegularExpression Id. */
-  int CLOSE_QUOTE = 64;
+  int ANY_NO_SEMICOLON = 64;
   /** RegularExpression Id. */
-  int ANY_NO_SEMICOLON = 65;
+  int ENUM = 65;
   /** RegularExpression Id. */
-  int ENUM = 66;
+  int PRIMITIVE = 66;
   /** RegularExpression Id. */
-  int PRIMITIVE = 67;
+  int COLLECTION = 67;
   /** RegularExpression Id. */
-  int COLLECTION = 68;
+  int CLS_NAME = 68;
   /** RegularExpression Id. */
-  int CLS_NAME = 69;
+  int INDICATOR = 69;
   /** RegularExpression Id. */
-  int INDICATOR = 70;
+  int SEPARATOR = 70;
   /** RegularExpression Id. */
-  int SEPARATOR = 71;
+  int MANY_MARKER = 71;
   /** RegularExpression Id. */
-  int MANY_MARKER = 72;
+  int OPEN_ANGLE = 72;
   /** RegularExpression Id. */
-  int OPEN_ANGLE = 73;
+  int CLOSE_ANGLE = 73;
   /** RegularExpression Id. */
-  int CLOSE_ANGLE = 74;
+  int CRUD = 74;
+  /** RegularExpression Id. */
+  int SEARCHER = 75;
+  /** RegularExpression Id. */
+  int SERVICE = 76;
+  /** RegularExpression Id. */
+  int S_DOT = 77;
+  /** RegularExpression Id. */
+  int S_NAME = 78;
+  /** RegularExpression Id. */
+  int S_QUOTED_TEXT = 79;
 
   /** Lexical state. */
-  int DomainState = 0;
+  int LogicState = 0;
   /** Lexical state. */
-  int CssStyleValueState = 1;
+  int DomainState = 1;
   /** Lexical state. */
-  int CssStyleState = 2;
+  int CssStyleValueState = 2;
   /** Lexical state. */
-  int InputDescriptionState = 3;
+  int CssStyleState = 3;
   /** Lexical state. */
-  int JsContentState = 4;
+  int InputDescriptionState = 4;
   /** Lexical state. */
-  int DEFAULT = 5;
+  int JsContentState = 5;
+  /** Lexical state. */
+  int DEFAULT = 6;
 
   /** Literal token values. */
   String[] tokenImage = {
@@ -185,7 +197,6 @@ public interface SWLConstants {
     "\"domain\"",
     "\"logic\"",
     "\"screen\"",
-    "\"service\"",
     "\"ui\"",
     "\"controller\"",
     "\"model\"",
@@ -237,6 +248,12 @@ public interface SWLConstants {
     "\"*\"",
     "\"<\"",
     "\">\"",
+    "\"crud\"",
+    "\"searcher\"",
+    "\"service\"",
+    "\".\"",
+    "<S_NAME>",
+    "<S_QUOTED_TEXT>",
   };
 
 }

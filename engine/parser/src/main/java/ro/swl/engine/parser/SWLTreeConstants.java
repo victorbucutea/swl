@@ -54,11 +54,16 @@ public interface SWLTreeConstants
   public int JJTCSSSTYLENAME = 48;
   public int JJTCSSSTYLEVALUE = 49;
   public int JJTLOGIC = 50;
-  public int JJTDOMAIN = 51;
-  public int JJTENUM = 52;
-  public int JJTENUMLITERAL = 53;
-  public int JJTENTITY = 54;
-  public int JJTPROPERTY = 55;
+  public int JJTSERVICE = 51;
+  public int JJTCRUD = 52;
+  public int JJTSEARCHER = 53;
+  public int JJTSEARCHERARGUMENT = 54;
+  public int JJTACTION = 55;
+  public int JJTDOMAIN = 56;
+  public int JJTENUM = 57;
+  public int JJTENUMLITERAL = 58;
+  public int JJTENTITY = 59;
+  public int JJTPROPERTY = 60;
 
 
   public String[] jjtNodeName = {
@@ -113,6 +118,11 @@ public interface SWLTreeConstants
     "CssStyleName",
     "CssStyleValue",
     "Logic",
+    "Service",
+    "Crud",
+    "Searcher",
+    "SearcherArgument",
+    "Action",
     "Domain",
     "Enum",
     "EnumLiteral",
@@ -120,4 +130,4 @@ public interface SWLTreeConstants
     "Property",
   };
 }
-/* JavaCC - OriginalChecksum=ffb6182bf2cd8dfb01c7a3a66de4cfac (do not edit this line) */
+/* JavaCC - OriginalChecksum=fd8e11303b92af19634c8e6879a41f55 (do not edit this line) */

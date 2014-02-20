@@ -1,0 +1,24 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<div class="clearfix relative open padBottom">
+	<ul class="dropdown-menu relative no-hover-color" role="menu" >
+ 		<li ng-repeat="value in data"  ng-class="{active : selectedValue == value}" class="relative">
+ 			<a ng-click="change(value)" href ng-class="{edited: value.dirty}" ng-hide="value.deleted">{{itemLabel(value)}}</a>
+ 			
+			<div class="popover right show reset-width" ng-show="selectedValue == value" ng-style="{top: topPosition(${symbol_dollar}id,${symbol_dollar}index), left: '103%'}" id="{{${symbol_dollar}id}}-{{${symbol_dollar}index}}">
+					<div class="arrow"></div>
+					<h3 class="popover-title">
+						{{title}} 
+						<button type="button" class="close" ng-click="close()">x</button> 
+					</h3>
+					<div ng-include src="inputMultipleContent" class="pad-content" />
+			</div>
+ 		</li>
+ 		<li class="divider"></li>
+ 		<li> 
+ 			 <a href ng-click="create()" class="pull-left clearnone">Create</a>
+ 			 <a href ng-click="remove()" class="pull-right clearnone">Remove</a>
+ 		</li>
+	</ul>
+</div>
