@@ -26,6 +26,11 @@ public class Statement {
 	}
 
 
+	public Statement(String content) {
+		this.statement = content;
+	}
+
+
 	public Statement(String content, String imprt) {
 		this.statement = content;
 		if (isNotEmpty(imprt))

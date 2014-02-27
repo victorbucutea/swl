@@ -1,5 +1,6 @@
 package ro.swl.engine.generator;
 
+import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
 import static ro.swl.engine.util.FileUtil.listFilesOrderedByTypeAndName;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class ProjectGenerator {
 
 	public void generate(ASTSwdlApp appModel) throws GenerateException {
 
-		File templateRootFolder = ctxt.getTemplateRootDir();
+		File templateRootFolder = getGlobalCtxt().getTemplateRootDir();
 
 		// TODO move validation outside generate cycle
 		if (!templateRootFolder.exists() || !templateRootFolder.isDirectory()) {
@@ -67,9 +68,9 @@ public class ProjectGenerator {
 
 			if (f.isDirectory()) {
 				for (Resource r : childRes) {
-					r.registerStateInContext(ctxt);
+					r.registerState(ctxt);
 					generateResourceTree(r, f);
-					r.unregisterStateInContext(ctxt);
+					r.unregisterState(ctxt);
 				}
 			}
 

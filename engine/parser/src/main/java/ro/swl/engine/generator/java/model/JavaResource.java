@@ -29,8 +29,7 @@ import com.google.common.base.CaseFormat;
  * 
  * @param <F>
  *            A sublclass of {@link AbstractField}. It provides additional
- *            functionality
- *            the the basic {@link AbstractField}.
+ *            functionality than the basic {@link AbstractField}.
  *            e.g {@link EntityField} which can have relation types
  *            {@link EntityField#isManyToOne()} , ...
  */
@@ -42,16 +41,21 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 
 	private List<F> props = new ArrayList<F>();
 
-	private List<Method> methods;
+	private List<Method> methods = new ArrayList<Method>();
 
-	private Set<Annotation> annotations;
+	private Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+
+
+	public JavaResource(Resource parent, String name, String pkg) {
+		super(parent, name, false);
+		this.name = name;
+		this.pkg = pkg;
+	}
 
 
 	public JavaResource(Resource parent, File template, String pkg) {
 		super(parent, template);
 		this.pkg = pkg;
-		annotations = new LinkedHashSet<Annotation>();
-		methods = new ArrayList<Method>();
 	}
 
 
@@ -81,22 +85,9 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 
 
 	@Override
-	public String getOutputFileName() {
-		return getName() + ".java";
-	}
-
-
-	@Override
-	protected ResourceWriter initWriter() {
+	protected ResourceWriter createWriter(File sourceTemplate, boolean isDir) {
 		return new JavaTemplateWriter(this);
 	}
-
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
 
 
 	public String getPackage() {
@@ -160,5 +151,11 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 		}
 
 		return imports;
+	}
+
+
+	@Override
+	public String getOutputFileName() {
+		return getName() + ".java";
 	}
 }

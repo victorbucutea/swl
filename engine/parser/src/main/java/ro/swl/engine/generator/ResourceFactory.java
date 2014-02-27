@@ -48,4 +48,9 @@ public abstract class ResourceFactory {
 		return ctxt;
 	}
 
+
+	public GlobalContext getGlobalCtxt() {
+
+	}
+
 }

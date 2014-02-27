@@ -63,10 +63,10 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 
 		Resource ejbSource = projects.get(2).getChildren().get(0);
 		assertTrue(ejbSource instanceof FolderResource);
-		assertEquals("src", ejbSource.getTemplateFile().getName());
-		assertEquals("test", projects.get(2).getChildren().get(1).getTemplateFile().getName());
-		assertEquals("pom.xml", projects.get(2).getChildren().get(2).getTemplateFile().getName());
-		assertEquals("test.xml", projects.get(2).getChildren().get(3).getTemplateFile().getName());
+		assertEquals("src", ejbSource.getOutputFileName());
+		assertEquals("test", projects.get(2).getChildren().get(1).getOutputFileName());
+		assertEquals("pom.xml", projects.get(2).getChildren().get(2).getOutputFileName());
+		assertEquals("test.xml", projects.get(2).getChildren().get(3).getOutputFileName());
 
 		Resource rootArtifactId = ejbSource.getChildren().get(0).getChildren().get(0).getChildren().get(0);
 
@@ -79,14 +79,14 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 
 		Resource resources = ejbSource.getChildren().get(0).getChildren().get(1);
 		Resource metaInf = resources.getChildren().get(0);
-		assertEquals("META-INF", metaInf.getTemplateFile().getName());
+		assertEquals("META-INF", metaInf.getOutputFileName());
 		assertEquals(2, metaInf.getChildren().size());
 
-		assertEquals("beans.xml", metaInf.getChildren().get(0).getTemplateFile().getName());
+		assertEquals("beans.xml", metaInf.getChildren().get(0).getOutputFileName());
 
 		Resource persistencexml = metaInf.getChildren().get(1);
 		assertTrue(persistencexml instanceof PersistenceXml);
-		assertEquals("persistence.xml", persistencexml.getTemplateFile().getName());
+		assertEquals("persistence.xml", persistencexml.getOutputFileName());
 	}
 
 
@@ -331,6 +331,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void entityMeta() throws GenerateException, ParseException {
 		//@formatter:off
@@ -494,6 +495,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void entityAutoDetectPackage() throws ParseException, GenerateException {
 		//@formatter:off
@@ -587,6 +589,74 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertTrue(pkg.getChild(3) instanceof JavaResource);
 		assertTrue(pkg.getChild(4) instanceof ServiceResource);
 		assertTrue(pkg.getChild(5) instanceof ServiceBeanResource);
+	}
+
+
+	public void serviceAndCrud() throws ParseException, GenerateException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
+							" module cv {" +
+										"  ui     {} " +
+										"  logic  {}" +
+										"  domain {" +
+										"		Customer {"+
+										"			startDate Date,"+
+										"			endDate   Date," +
+										"			exp		  Experience -> *"+
+										"		}"+
+										""+	
+										"	    Experience {"+
+										"			startDate Date,"+
+										"			endDate   Date,"+
+										"			field 	  Blob," +
+										"			someProp  String," +
+										"			someProp2 double"+
+										"		} " +
+										"  }" +
+										"}" +
+							"module customer {" +
+											"  ui     {} " +
+											"  logic  {" +
+											"		service CV { " +
+											"			crud CV { " +
+											"				searcher WithFirstName {" +
+											"					\"Select j from CV j where j.firstName = :firstName\"" +
+											"				}" +
+											"				searcher Certifications {"+ 
+											"					\"Select cert from Certification cert where cert.name like :name\""+
+											"				}" +
+											"			}" +
+											"			" +
+											"			void someAction() {"+
+											"			}" +
+											"		}	" +
+											"}" +
+											"  domain {" +
+											"		Client {"+
+											"			startDate Date,"+
+											"			endDate   Date,"+
+											"			orders Set<Order> -> client"+		
+											"		}"+
+											""+	
+											"	    Order {"+
+											"			startDate Date,"+
+											"			endDate   Date,"+
+											"			field 	  Blob," +
+											"			client    Client"+
+											"		} " +
+											"  }"+
+							"}"));
+			//@formatter:on
+		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(AUTO_DETECT_PACKAGE, "true");
+		ctxt.setTemplateRootDir(new File(testTemplateDir, "entity-child-of-package"));
+		ASTSwdlApp appModel = swl.SwdlApp();
+		generator.generate(appModel);
+		generator.enhance(appModel);
+
+		ProjectRoot project = generator.getProjectRoot();
+
+
 	}
 
 

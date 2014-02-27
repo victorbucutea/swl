@@ -36,6 +36,18 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 	protected ASTProperty modelProp;
 
 
+	public AbstractField(String name, String type, String typePkg) throws GenerateException {
+		this.name = name;
+		this.pkg = typePkg;
+		this.hasGetter = true;
+		this.hasSetter = true;
+		this.annotations = new LinkedHashSet<Annotation>();
+		this.getterAnnotations = new LinkedHashSet<Annotation>();
+		this.setterAnnotations = new LinkedHashSet<Annotation>();
+		this.type = initFieldType(type, typePkg);
+	}
+
+
 	public AbstractField(ASTProperty modelProp, String typePkg) throws GenerateException {
 		this.modelProp = modelProp;
 		this.name = modelProp.getName();

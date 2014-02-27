@@ -1,8 +1,6 @@
 package ro.swl.engine.generator.model;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.writer.template.DefaultResourceWriter;
@@ -26,13 +24,11 @@ import ro.swl.engine.writer.ui.WriteException;
  * @author VictorBucutea
  * 
  */
-public abstract class Resource {
+public abstract class Resource extends BaseResource {
 
-	private Resource parent;
-	private List<Resource> children = new ArrayList<Resource>();
-	private File templateFile;
-	private String outputFileName;
 	private ResourceWriter writer;
+	private String outputFileName;
+	private String parentModuleName;
 
 
 	/**
@@ -42,135 +38,59 @@ public abstract class Resource {
 	 * @param parent
 	 * @param outputFileName
 	 */
-	public Resource(Resource parent, String outputFileName) {
-		this(parent, new File(parent.getTemplateFile(), outputFileName));
-	}
-
-
-	public Resource(Resource parent, File template) {
+	public Resource(Resource parent, String outputFileName, boolean isDir) {
 		this.parent = parent;
-		this.templateFile = template;
-		if (template != null)
-			this.outputFileName = template.getName();
-		this.writer = initWriter();
+		this.writer = createWriter(null, isDir);
+		this.outputFileName = outputFileName;
 	}
 
 
-	protected ResourceWriter initWriter() {
-		return new DefaultResourceWriter(this);
+	public Resource(Resource parent, File sourceTemplate) {
+		this.parent = parent;
+		this.writer = createWriter(sourceTemplate, sourceTemplate.isDirectory());
+		this.outputFileName = sourceTemplate.getName();
 	}
 
 
-	public void write(GenerationContext ctxt) throws WriteException {
-		writeSelf(ctxt);
-		writeChildren(ctxt);
+	protected ResourceWriter createWriter(File sourceTemplate, boolean isDir) {
+		return new DefaultResourceWriter(sourceTemplate, this, isDir);
 	}
 
 
+	@Override
 	protected void writeSelf(GenerationContext ctxt) throws WriteException {
-		getWriter().write(ctxt);
+		writer.write();
 	}
 
 
-	protected void writeChildren(GenerationContext ctxt) throws WriteException {
-		for (Resource child : children) {
-			child.write(ctxt);
-		}
-	}
-
-
-	public void addChild(Resource resource) {
-		children.add(resource);
-	}
-
-
-	public File getTemplateFile() {
-		return templateFile;
-	}
-
-
-	public Resource getParent() {
-		return parent;
+	public String getOutputFileName() {
+		return this.outputFileName;
 	}
 
 
 	public String getOutputFilePath() {
-		if (parent == null) {
+		if (getParent() == null) {
 			return getOutputFileName();
 		}
 
-		return parent.getOutputFilePath() + File.separator + getOutputFileName();
+		return getParent().getOutputFilePath() + File.separator + getOutputFileName();
 	}
 
 
-	/**
-	 * The name can come from 2 sources:
-	 * 1. The setter was called during the generation phase, so the
-	 * {@link #templateFile} has no correlation with this name
-	 * 
-	 * 3. The {@link #Resource(Resource, File)} was called and it was deduced
-	 * from the {@link #templateFile}
-	 * 
-	 * @return
-	 */
-	public String getOutputFileName() {
-		return outputFileName;
+	@Override
+	public void registerState(GenerationContext ctxt) {
+		this.parentModuleName = ctxt.getCurrentModule();
 	}
 
 
-	public void setOutputFileName(String name) {
-		this.outputFileName = name;
-	}
-
-
-	public Resource getChild(int idx) {
-		return children.get(idx);
-	}
-
-
-	@SuppressWarnings("unchecked")
-	public <T extends Resource> T getChildCast(int idx) {
-		return (T) children.get(idx);
-	}
-
-
-	public List<Resource> getChildren() {
-		return children;
-	}
-
-
-	public void addChildren(List<? extends Resource> children) {
-		for (Resource res : children) {
-			addChild(res);
-		}
-	}
-
-
-	public void registerStateInContext(GenerationContext ctxt) {
-
-	}
-
-
-	public void unregisterStateInContext(GenerationContext ctxt) {
-
+	public String getModuleName() {
+		return parentModuleName;
 	}
 
 
 	@Override
 	public String toString() {
-		return templateFile.getName();
-	}
-
-
-
-	public ResourceWriter getWriter() {
-		return writer;
-	}
-
-
-
-	public void setWriter(ResourceWriter writer) {
-		this.writer = writer;
+		return outputFileName + " (" + getClass().getSimpleName() + ")";
 	}
 
 

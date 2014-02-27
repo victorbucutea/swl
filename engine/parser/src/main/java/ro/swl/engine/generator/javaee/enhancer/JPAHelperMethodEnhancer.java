@@ -5,7 +5,6 @@ import java.util.Set;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.CompoundStatement;
 import ro.swl.engine.generator.java.model.ForStatement;
@@ -22,7 +21,7 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource entity, GenerationContext ctxt) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, EntityResource entity) throws GenerateException {
 
 
 		for (AbstractField<EntityType> field : entity.getFields()) {

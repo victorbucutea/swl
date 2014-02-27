@@ -7,7 +7,21 @@ import java.io.File;
 import ro.swl.engine.generator.GenerationContext;
 
 
-public class FolderResource extends Resource {
+public class FolderResource extends FileResource {
+
+
+	/**
+	 * use for creating a {@link FolderResource} programmatically ( e.g. From
+	 * enhancers)
+	 * 
+	 * @param parent
+	 * @param outputFileName
+	 */
+	public FolderResource(Resource parent, String outputFileName) {
+		super(parent, outputFileName, true);
+	}
+
+
 
 	public FolderResource(Resource parent, File f) {
 		super(parent, f);
@@ -15,10 +29,10 @@ public class FolderResource extends Resource {
 
 
 	@Override
-	public void registerStateInContext(GenerationContext ctxt) {
-
+	public void registerState(GenerationContext ctxt) {
+		super.registerState(ctxt);
 		if (isNotEmpty(ctxt.getCurrentPackage())) {
-			// this folder is a package 
+			// this folder is part of a package 
 			String currPkg = ctxt.getCurrentPackage();
 			ctxt.setCurrentPackage(currPkg + "." + getOutputFileName());
 		}
@@ -26,7 +40,7 @@ public class FolderResource extends Resource {
 
 
 	@Override
-	public void unregisterStateInContext(GenerationContext ctxt) {
+	public void unregisterState(GenerationContext ctxt) {
 		if (isNotEmpty(ctxt.getCurrentPackage())) {
 			String currPkg = ctxt.getCurrentPackage().replace("." + getOutputFileName(), "");
 			ctxt.setCurrentPackage(currPkg);

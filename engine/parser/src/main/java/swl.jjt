@@ -8,8 +8,7 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
   NODE_CLASS = "SWLNode";
-  DEBUG_PARSER=true;
-  DEBUG_TOKEN_MANAGER=true;
+//  DEBUG_PARSER=true;//  DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -170,7 +169,7 @@ PARSER_END(SWL)
 {	< CRUD : "crud" >
 | 	< SEARCHER : "searcher" >
 |   < SERVICE : "service" >
-|   < S_DOT : "." >
+|   < S_COMMA : "," >
 |   < S_NAME : < NAME >>
 |   < S_QUOTED_TEXT: < QUOTE > (~["\"","'"])* < QUOTE >>
 }  
@@ -251,15 +250,15 @@ void Model() :
 }
 {
    < MODEL >
-  GenericBlock()
+  GenericBlock(DEFAULT)
 }
 
 void Controller() :{}
 {
-  < CONTROLLER >  GenericBlock()}
+  < CONTROLLER >  GenericBlock(DEFAULT)}
 
 
-void GenericBlock() :
+void GenericBlock(int switchBackState) :
 {
 }
 {
@@ -268,11 +267,11 @@ void GenericBlock() :
   	 token_source.SwitchTo(JsContentState);
   	 nestingLvl++;
   	}
-  (< ANY_NON_OPEN_CLOSE > | GenericBlock())*
+  (< ANY_NON_OPEN_CLOSE > | GenericBlock(switchBackState))*
   < CLOSE_BRACKET >  {
     nestingLvl--;
     if ( nestingLvl == 0 )    {
-      token_source.SwitchTo(DEFAULT);    }  }}void MvcArea() : {}
+      token_source.SwitchTo(switchBackState);    }  }}void MvcArea() : {}
 {
    (Model())?
   (Controller())?
@@ -620,9 +619,9 @@ ASTLogic Logic() : {}
   < CLOSE_BRACKET >  { token_source.SwitchTo(DEFAULT); return jjtThis;}
 }
 
-void Service() : {}
+void Service() : {Token t;}
 {
-  < SERVICE > <S_NAME>
+  < SERVICE > t =  <S_NAME> { jjtThis.setImage(t.image);}
   < OPEN_BRACKET >
   	(  	  Crud() | Action()
   	)* 
@@ -638,29 +637,23 @@ void Crud() : {Token t;}
 void Searcher() : {Token t1; Token t2; Token t3;}
 {
 	< SEARCHER >
-	 t1 = <S_NAME> { jjtThis.setEntity(t1.image); }
-		< S_DOT >
 	 t2 = <S_NAME> { jjtThis.setSearcherName(t2.image); }
-	 < OPEN_R_BRACKET >
-	 		(SearcherArgument())?
- 			| 
- 			( < COMMA > SearcherArgument()) *
-	 < CLOSE_R_BRACKET >
 	 < OPEN_BRACKET >		 t3 = < S_QUOTED_TEXT >{jjtThis.setQuery(t3.image);}
 	 < CLOSE_BRACKET >}
 
-void SearcherArgument() : {Token t3;}
-{	t3 = < S_NAME > {jjtThis.setArgumentName(t3.image); }
-}  
-
 void Action() : {Token t1; Token t2;}
 {
-	t1 = < S_NAME > { jjtThis.setImageWithoutQuote(t1.image);}
+	t2 = < S_NAME > { jjtThis.setReturnType(t2.image);}	t1 = < S_NAME > { jjtThis.setImageWithoutQuote(t1.image);}
 	 < OPEN_R_BRACKET >
+	 		[ ActionParam() ( < S_COMMA > ActionParam() )* ] 
 	 < CLOSE_R_BRACKET >
-	 < OPEN_BRACKET >
-	 < CLOSE_BRACKET >
+
+	 GenericBlock(LogicState)
 }
+
+void ActionParam() : { Token t1 ; Token t2;}
+{	t1 = < S_NAME > {jjtThis.setType(t1.image);}
+	t2 = < S_NAME > {jjtThis.setName(t2.image);}}
 
 void Domain() : {}
 {

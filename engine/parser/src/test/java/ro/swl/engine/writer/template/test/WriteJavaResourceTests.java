@@ -37,9 +37,8 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		File projectRootFile = new File(generateDestDir, "fieldsTest");
 		projectRootFile.mkdir();
 		ProjectRoot root = new ProjectRoot(projectRootFile);
-		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, null, "ro.sft.somepkg");
+		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, "SomeClass", "ro.sft.somepkg");
 		root.addChild(res);
-		res.setName("SomeClass");
 
 
 		Field f = new Field(createProp("prop1", "Customer"), "ro.sft.otherpkg");
@@ -87,8 +86,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		File projectRootFile = new File(generateDestDir, "methodsTest");
 		projectRootFile.mkdir();
 		ProjectRoot root = new ProjectRoot(projectRootFile);
-		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, null, "ro.sft.somepkg");
-		root.addChild(res);
+		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, "SomeClass", "ro.sft.somepkg");
 		res.setName("SomeClass");
 
 		res.addMethod(createMethod("method1"));
@@ -114,7 +112,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		File projectRootFile = new File(generateDestDir, "methodsBodyTest");
 		projectRootFile.mkdir();
 		ProjectRoot root = new ProjectRoot(projectRootFile);
-		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, null, "ro.sft.somepkg");
+		JavaResource<Type, Field> res = new JavaResource<Type, Field>(root, "SomeClass", "ro.sft.somepkg");
 		root.addChild(res);
 		res.setName("SomeClass");
 

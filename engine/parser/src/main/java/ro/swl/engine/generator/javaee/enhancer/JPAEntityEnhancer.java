@@ -1,15 +1,10 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.parser.ASTModule;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
@@ -17,12 +12,7 @@ public class JPAEntityEnhancer extends Enhancer<EntityResource> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource r, GenerationContext ctxt) throws GenerateException {
-		Set<String> entityNames = new HashSet<String>();
-
-		for (ASTModule module : appModel.getModules()) {
-			entityNames.addAll(module.getDomain().getEntityNames());
-		}
+	public void enhance(ASTSwdlApp appModel, EntityResource r) throws GenerateException {
 
 		for (EntityField field : r.getFields()) {
 

@@ -6,6 +6,9 @@
  */
 package ro.swl.engine.parser;
 
+import java.util.List;
+
+
 public class ASTModule extends SWLNode {
 
 	public ASTModule(int id) {
@@ -18,7 +21,7 @@ public class ASTModule extends SWLNode {
 	}
 
 
-	public ASTLogic getLogicTier() {
+	public ASTLogic getLogic() {
 		return getFirstChildNodeOfType(ASTLogic.class, true);
 	}
 
@@ -47,6 +50,19 @@ public class ASTModule extends SWLNode {
 		}
 		return count;
 	}
+
+
+	public ASTService findService(String serviceName) {
+		List<ASTService> services = getChildNodesOfType(ASTService.class, true);
+		for (ASTService service : services) {
+			if (service.getImage().equals(serviceName)) {
+				return service;
+			}
+		}
+		return null;
+	}
+
+
 
 }
 /*

@@ -22,7 +22,7 @@ public class RelationsEnhancer extends Enhancer<ProjectRoot> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, ProjectRoot r, GenerationContext ctxt) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, ProjectRoot r) throws GenerateException {
 
 
 		List<ASTEntity> entities = appModel.getChildNodesOfType(ASTEntity.class, true);

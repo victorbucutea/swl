@@ -1,5 +1,7 @@
 package ro.swl.engine.writer.template;
 
+import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,7 +14,6 @@ import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.writer.ui.WriteException;
 
@@ -29,49 +30,47 @@ import ro.swl.engine.writer.ui.WriteException;
  */
 public class DefaultResourceWriter implements ResourceWriter {
 
-	protected File destinationFile;
-	protected File destinationFolder;
 	protected File sourceFile;
-	protected Resource modelResource;
+	protected Resource resource;
+	private boolean isDir;
 
 
-	public DefaultResourceWriter(Resource modelResource) {
-		this.sourceFile = modelResource.getTemplateFile();
-		this.modelResource = modelResource;
-	}
-
-
-	private File calculateDestinationFile() {
-		String outputFilePath = modelResource.getOutputFilePath();
-		// String "folder/file" will be converted to a directory path
-		return new File(destinationFolder, outputFilePath);
+	public DefaultResourceWriter(File sourceTemplate, Resource res, boolean isDirectory) {
+		this.sourceFile = sourceTemplate;
+		this.resource = res;
+		this.isDir = isDirectory;
 	}
 
 
 	@Override
-	public void write(GenerationContext ctxt) throws WriteException {
-		this.destinationFolder = ctxt.getDestinationDir();
-		this.destinationFile = calculateDestinationFile();
+	public void write() throws WriteException {
+		String outputFilePath = resource.getOutputFilePath();
+		File destinationDir = getGlobalCtxt().getDestinationDir();
+		// String "folder/file" will be converted to a directory path
+		File destinationFile = new File(destinationDir, outputFilePath);
 
 		try {
-			if ((sourceFile != null) && sourceFile.isDirectory()) {
+			if (isDir) {
 				destinationFile.mkdirs();
 				return;
 			} else {
 				destinationFile.createNewFile();
 			}
-			internalWrite();
+			internalWrite(destinationFile);
 		} catch (IOException e) {
 			throw new WriteException("Exception while writing resource :" + destinationFile, e);
 		}
 	}
 
 
-	protected void internalWrite() throws FileNotFoundException, IOException {
+	protected void internalWrite(File destinationFile) throws FileNotFoundException, IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(destinationFile));
 		InputStream in = new BufferedInputStream(new FileInputStream(sourceFile));
 		IOUtils.copy(in, out);
 		in.close();
 		out.close();
 	}
+
+
+
 }

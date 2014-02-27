@@ -57,8 +57,8 @@ public interface SWLTreeConstants
   public int JJTSERVICE = 51;
   public int JJTCRUD = 52;
   public int JJTSEARCHER = 53;
-  public int JJTSEARCHERARGUMENT = 54;
-  public int JJTACTION = 55;
+  public int JJTACTION = 54;
+  public int JJTACTIONPARAM = 55;
   public int JJTDOMAIN = 56;
   public int JJTENUM = 57;
   public int JJTENUMLITERAL = 58;
@@ -121,8 +121,8 @@ public interface SWLTreeConstants
     "Service",
     "Crud",
     "Searcher",
-    "SearcherArgument",
     "Action",
+    "ActionParam",
     "Domain",
     "Enum",
     "EnumLiteral",
@@ -130,4 +130,4 @@ public interface SWLTreeConstants
     "Property",
   };
 }
-/* JavaCC - OriginalChecksum=fd8e11303b92af19634c8e6879a41f55 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4e21a550bf69eb2aa68b84e58f85726f (do not edit this line) */

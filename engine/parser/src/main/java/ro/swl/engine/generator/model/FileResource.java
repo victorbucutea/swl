@@ -5,6 +5,11 @@ import java.io.File;
 
 public class FileResource extends Resource {
 
+	public FileResource(Resource parent, String outputFileName, boolean isDir) {
+		super(parent, outputFileName, isDir);
+	}
+
+
 	public FileResource(Resource parent, File f) {
 		super(parent, f);
 	}

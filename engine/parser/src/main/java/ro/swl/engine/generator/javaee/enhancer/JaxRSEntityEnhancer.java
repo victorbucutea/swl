@@ -6,7 +6,6 @@ import java.util.List;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.CompoundStatement;
@@ -23,7 +22,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource entity, GenerationContext ctxt) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, EntityResource entity) throws GenerateException {
 
 
 		for (EntityField field : entity.getFields()) {

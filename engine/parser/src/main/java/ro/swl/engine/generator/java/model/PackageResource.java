@@ -1,7 +1,5 @@
 package ro.swl.engine.generator.java.model;
 
-import static ro.swl.engine.generator.GenerationContext.PACKAGE;
-
 import java.io.File;
 
 import ro.swl.engine.generator.GenerationContext;
@@ -13,20 +11,35 @@ public class PackageResource extends Resource {
 	private String namespace;
 
 
-	public PackageResource(Resource parent, File template) {
+	/**
+	 * Create PackageResource from a namespace ( e.g. 'ro.sft.somepackage')
+	 * 
+	 * It will have the file output name ro/sft/somepackage
+	 * 
+	 * @param parent
+	 * @param namespace
+	 */
+	public PackageResource(Resource parent, String namespace) {
+		super(parent, namespace.replace('.', File.separatorChar), true);
+		this.namespace = namespace;
+	}
+
+
+	public PackageResource(Resource parent, File template, String namespace) {
 		super(parent, template);
+		this.namespace = namespace;
 	}
 
 
 	@Override
-	public void registerStateInContext(GenerationContext ctxt) {
-		namespace = ctxt.getGenerationProp(PACKAGE);
-		ctxt.setCurrentPackage(ctxt.getGenerationProp(PACKAGE));
+	public void registerState(GenerationContext ctxt) {
+		super.registerState(ctxt);
+		ctxt.setCurrentPackage(namespace);
 	}
 
 
 	@Override
-	public void unregisterStateInContext(GenerationContext ctxt) {
+	public void unregisterState(GenerationContext ctxt) {
 		ctxt.setCurrentPackage("");
 	}
 
@@ -36,19 +49,15 @@ public class PackageResource extends Resource {
 	}
 
 
+	@Override
+	public String getOutputFileName() {
+		return getNamespaceAsDir();
+	}
+
+
 	public String getNamespaceAsDir() {
 		return namespace.replace('.', File.separatorChar);
 	}
 
-
-	@Override
-	public String getOutputFilePath() {
-
-		if (getParent() == null) {
-			getNamespaceAsDir();
-		}
-
-		return getParent().getOutputFilePath() + File.separator + getNamespaceAsDir();
-	}
 
 }

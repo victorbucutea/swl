@@ -1,5 +1,6 @@
 package ro.swl.engine.writer.template;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class VelocityTemplateWriter extends DefaultResourceWriter {
 
 
 	public VelocityTemplateWriter(String template, Resource model) {
-		super(model);
+		super(null, model, false);
 		initVelocity();
 		this.velocityTemplate = Velocity.getTemplate(template);
 		this.context = new VelocityContext();
@@ -42,7 +43,7 @@ public class VelocityTemplateWriter extends DefaultResourceWriter {
 
 
 	@Override
-	protected void internalWrite() throws FileNotFoundException, IOException {
+	protected void internalWrite(File destinationFile) throws FileNotFoundException, IOException {
 		Writer writer = new FileWriter(destinationFile);
 		velocityTemplate.merge(context, writer);
 		writer.close();

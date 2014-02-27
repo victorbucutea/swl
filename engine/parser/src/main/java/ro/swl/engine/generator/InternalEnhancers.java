@@ -17,7 +17,7 @@ public class InternalEnhancers extends Technology {
 	public List<Enhancer<? extends Resource>> getEnhancers() {
 		List<Enhancer<? extends Resource>> list = new ArrayList<Enhancer<? extends Resource>>();
 		list.add(new RelationsEnhancer());
+		//list.add(new InternalTypesEnhancer());
 		return list;
 	}
-
 }

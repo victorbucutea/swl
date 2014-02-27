@@ -8,6 +8,8 @@ import ro.swl.engine.generator.model.Resource;
 
 public class ModuleResource extends Resource {
 
+	public static String ID = "__module__";
+
 	private String moduleName;
 
 
@@ -17,18 +19,18 @@ public class ModuleResource extends Resource {
 
 
 	@Override
-	public void registerStateInContext(GenerationContext ctxt) {
+	public void registerState(GenerationContext ctxt) {
 		ctxt.setCurrentModule(moduleName);
 	}
 
 
-	public String getModuleName() {
-		return moduleName;
+	@Override
+	public void unregisterState(GenerationContext ctxt) {
+		ctxt.setCurrentModule("");
 	}
 
 
-	@Override
-	public String getOutputFileName() {
+	public String getModuleName() {
 		return moduleName;
 	}
 
@@ -39,8 +41,8 @@ public class ModuleResource extends Resource {
 
 
 	@Override
-	public String toString() {
-		return moduleName;
+	public String getOutputFileName() {
+		String originalFileName = super.getOutputFileName();
+		return originalFileName.replaceAll(ID, getModuleName());
 	}
-
 }

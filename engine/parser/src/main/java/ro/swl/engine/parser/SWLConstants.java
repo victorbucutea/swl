@@ -151,7 +151,7 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int SERVICE = 76;
   /** RegularExpression Id. */
-  int S_DOT = 77;
+  int S_COMMA = 77;
   /** RegularExpression Id. */
   int S_NAME = 78;
   /** RegularExpression Id. */
@@ -251,7 +251,7 @@ public interface SWLConstants {
     "\"crud\"",
     "\"searcher\"",
     "\"service\"",
-    "\".\"",
+    "\",\"",
     "<S_NAME>",
     "<S_QUOTED_TEXT>",
   };

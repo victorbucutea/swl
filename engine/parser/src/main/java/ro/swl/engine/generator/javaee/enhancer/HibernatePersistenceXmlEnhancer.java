@@ -2,7 +2,6 @@ package ro.swl.engine.generator.javaee.enhancer;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.parser.ASTSwdlApp;
 
@@ -10,7 +9,7 @@ import ro.swl.engine.parser.ASTSwdlApp;
 public class HibernatePersistenceXmlEnhancer extends Enhancer<PersistenceXml> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, PersistenceXml r, GenerationContext ctxt) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, PersistenceXml r) throws GenerateException {
 
 		r.setPersistenceProvider("org.hibernate.ejb.HibernatePersistence");
 

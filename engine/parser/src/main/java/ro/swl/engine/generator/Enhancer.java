@@ -16,11 +16,11 @@ public abstract class Enhancer<T extends Resource> {
 					+ "') is not accepted by enhancer. Current enhancer only accepts " + getGenericClass());
 		}
 
-		enhance(appModel, (T) r, ctxt);
+		enhance(appModel, (T) r);
 	}
 
 
-	public abstract void enhance(ASTSwdlApp appModel, T r, GenerationContext ctxt) throws GenerateException;
+	public abstract void enhance(ASTSwdlApp appModel, T r) throws GenerateException;
 
 
 	public boolean accepts(Resource res) {

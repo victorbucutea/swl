@@ -7,6 +7,11 @@ import ro.swl.engine.parser.ASTProperty;
 
 public class Field extends AbstractField<Type> {
 
+	public Field(String name, String type, String pkg) throws GenerateException {
+		super(name, type, pkg);
+	}
+
+
 	public Field(ASTProperty modelProp, String typePkg) throws GenerateException {
 		super(modelProp, typePkg);
 	}

@@ -6,6 +6,9 @@
  */
 package ro.swl.engine.parser;
 
+import java.util.List;
+
+
 public class ASTLogic extends SWLNode {
 
 	public ASTLogic(int id) {
@@ -15,6 +18,11 @@ public class ASTLogic extends SWLNode {
 
 	public ASTLogic(SWL p, int id) {
 		super(p, id);
+	}
+
+
+	public List<ASTService> getServices() {
+		return getChildNodesOfType(ASTService.class, false);
 	}
 
 }

@@ -6,9 +6,11 @@
  */
 package ro.swl.engine.parser;
 
+import static org.apache.commons.lang3.StringUtils.remove;
+
+
 public class ASTSearcher extends SWLNode {
 
-	private String entity;
 	private String searcherName;
 	private String query;
 
@@ -18,23 +20,17 @@ public class ASTSearcher extends SWLNode {
 	}
 
 
-	public void setEntity(String image) {
-		this.entity = image;
-	}
-
-
 	public void setSearcherName(String image) {
 		this.searcherName = image;
+		setImage(image);
 	}
 
 
 	public void setQuery(String image) {
-		this.query = image;
-	}
+		if (image == null)
+			return;
 
-
-	public String getEntity() {
-		return entity;
+		this.query = remove(image, '"').replace("'", "");
 	}
 
 

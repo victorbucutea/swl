@@ -5,7 +5,6 @@ import java.util.List;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
 import ro.swl.engine.generator.javaee.model.PomXml;
 import ro.swl.engine.parser.ASTSwdlApp;
 
@@ -13,7 +12,7 @@ import ro.swl.engine.parser.ASTSwdlApp;
 public class ResteasyJacksonProviderEnhancer extends Enhancer<PomXml> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, PomXml pom, GenerationContext ctxt) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, PomXml pom) throws GenerateException {
 
 		/*
 		 * <groupId>org.jboss.resteasy</groupId>

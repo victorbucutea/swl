@@ -3,6 +3,7 @@ package ro.swl.engine;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 
@@ -26,13 +27,14 @@ public abstract class GeneratorTest extends AbstractTest {
 		generator = new ProjectGenerator(ctxt, getTechsUnderTest());
 		testTemplateDir = new File(getClass().getClassLoader().getResource("templates/").toURI());
 		generateDestDir = new File(getClass().getClassLoader().getResource("generated/").toURI());
+		FileUtils.cleanDirectory(generateDestDir);
 		ctxt.setDestinationDir(generateDestDir);
 	}
 
 
 	@After
 	public void tearDown() throws Exception {
-		//FileUtils.cleanDirectory(generateDestDir);
+		//
 	}
 
 

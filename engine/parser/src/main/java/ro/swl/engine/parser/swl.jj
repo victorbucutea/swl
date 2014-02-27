@@ -9,8 +9,7 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
                          
-  DEBUG_PARSER=true;
-  DEBUG_TOKEN_MANAGER=true;
+//  DEBUG_PARSER=true;//  DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -174,7 +173,7 @@ PARSER_END(SWL)
 {	< CRUD : "crud" >
 | 	< SEARCHER : "searcher" >
 |   < SERVICE : "service" >
-|   < S_DOT : "." >
+|   < S_COMMA : "," >
 |   < S_NAME : < NAME >>
 |   < S_QUOTED_TEXT: < QUOTE > (~["\"","'"])* < QUOTE >>
 }  
@@ -468,7 +467,7 @@ void Model() :
    try {
 /*@egen*/
    < MODEL >
-  GenericBlock()/*@bgen(jjtree)*/
+  GenericBlock(DEFAULT)/*@bgen(jjtree)*/
    } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
@@ -499,7 +498,7 @@ void Controller() :{/*@bgen(jjtree) Controller */
 {/*@bgen(jjtree) Controller */
   try {
 /*@egen*/
-  < CONTROLLER >  GenericBlock()/*@bgen(jjtree)*/
+  < CONTROLLER >  GenericBlock(DEFAULT)/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -522,7 +521,7 @@ void Controller() :{/*@bgen(jjtree) Controller */
 /*@egen*/}
 
 
-void GenericBlock() :
+void GenericBlock(int switchBackState) :
 {/*@bgen(jjtree) GenericBlock */
   ASTGenericBlock jjtn000 = new ASTGenericBlock(JJTGENERICBLOCK);
   boolean jjtc000 = true;
@@ -537,7 +536,7 @@ void GenericBlock() :
   	 token_source.SwitchTo(JsContentState);
   	 nestingLvl++;
   	}
-  (< ANY_NON_OPEN_CLOSE > | GenericBlock())*
+  (< ANY_NON_OPEN_CLOSE > | GenericBlock(switchBackState))*
   < CLOSE_BRACKET >/*@bgen(jjtree)*/
   {
     jjtree.closeNodeScope(jjtn000, true);
@@ -546,7 +545,7 @@ void GenericBlock() :
 /*@egen*/  {
     nestingLvl--;
     if ( nestingLvl == 0 )    {
-      token_source.SwitchTo(DEFAULT);    }  }/*@bgen(jjtree)*/
+      token_source.SwitchTo(switchBackState);    }  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -2020,14 +2019,14 @@ ASTLogic Logic() : {/*@bgen(jjtree) Logic */
 }
 
 void Service() : {/*@bgen(jjtree) Service */
-  ASTService jjtn000 = new ASTService(JJTSERVICE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+                  ASTService jjtn000 = new ASTService(JJTSERVICE);
+                  boolean jjtc000 = true;
+                  jjtree.openNodeScope(jjtn000);
+/*@egen*/Token t;}
 {/*@bgen(jjtree) Service */
   try {
 /*@egen*/
-  < SERVICE > <S_NAME>
+  < SERVICE > t =  <S_NAME> { jjtn000.setImage(t.image);}
   < OPEN_BRACKET >
   	(  	  Crud() | Action()
   	)* 
@@ -2095,16 +2094,30 @@ void Searcher() : {/*@bgen(jjtree) Searcher */
         try {
 /*@egen*/
 	< SEARCHER >
-	 t1 = <S_NAME> { jjtn000.setEntity(t1.image); }
-		< S_DOT >
 	 t2 = <S_NAME> { jjtn000.setSearcherName(t2.image); }
-	 < OPEN_R_BRACKET >
-	 		(SearcherArgument())?
- 			| 
- 			( < COMMA > SearcherArgument()) *
-	 < CLOSE_R_BRACKET >
 	 < OPEN_BRACKET >		 t3 = < S_QUOTED_TEXT >{jjtn000.setQuery(t3.image);}
 	 < CLOSE_BRACKET >/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
+/*@egen*/}
+
+void Action() : {/*@bgen(jjtree) Action */
+                 ASTAction jjtn000 = new ASTAction(JJTACTION);
+                 boolean jjtc000 = true;
+                 jjtree.openNodeScope(jjtn000);
+/*@egen*/Token t1; Token t2;}
+{/*@bgen(jjtree) Action */
+        try {
+/*@egen*/
+	t2 = < S_NAME > { jjtn000.setReturnType(t2.image);}	t1 = < S_NAME > { jjtn000.setImageWithoutQuote(t1.image);}
+	 < OPEN_R_BRACKET >
+	 		[ ActionParam() ( < S_COMMA > ActionParam() )* ] 
+	 < CLOSE_R_BRACKET >
+
+	 GenericBlock(LogicState)/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
@@ -2124,49 +2137,29 @@ void Searcher() : {/*@bgen(jjtree) Searcher */
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}
+/*@egen*/
+}
 
-void SearcherArgument() : {/*@bgen(jjtree) SearcherArgument */
-                           ASTSearcherArgument jjtn000 = new ASTSearcherArgument(JJTSEARCHERARGUMENT);
-                           boolean jjtc000 = true;
-                           jjtree.openNodeScope(jjtn000);
-/*@egen*/Token t3;}
-{/*@bgen(jjtree) SearcherArgument */
+void ActionParam() : {/*@bgen(jjtree) ActionParam */
+                       ASTActionParam jjtn000 = new ASTActionParam(JJTACTIONPARAM);
+                       boolean jjtc000 = true;
+                       jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token t1 ; Token t2;}
+{/*@bgen(jjtree) ActionParam */
         try {
-/*@egen*/	t3 = < S_NAME >/*@bgen(jjtree)*/
+/*@egen*/	t1 = < S_NAME > {jjtn000.setType(t1.image);}
+	t2 = < S_NAME >/*@bgen(jjtree)*/
                         {
                           jjtree.closeNodeScope(jjtn000, true);
                           jjtc000 = false;
                         }
-/*@egen*/ {jjtn000.setArgumentName(t3.image); }/*@bgen(jjtree)*/
+/*@egen*/ {jjtn000.setName(t2.image);}/*@bgen(jjtree)*/
         } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/
-}  
-
-void Action() : {/*@bgen(jjtree) Action */
-                 ASTAction jjtn000 = new ASTAction(JJTACTION);
-                 boolean jjtc000 = true;
-                 jjtree.openNodeScope(jjtn000);
-/*@egen*/Token t1; Token t2;}
-{/*@bgen(jjtree) Action */
-        try {
-/*@egen*/
-	t1 = < S_NAME > { jjtn000.setImageWithoutQuote(t1.image);}
-	 < OPEN_R_BRACKET >
-	 < CLOSE_R_BRACKET >
-	 < OPEN_BRACKET >
-	 < CLOSE_BRACKET >/*@bgen(jjtree)*/
-        } finally {
-          if (jjtc000) {
-            jjtree.closeNodeScope(jjtn000, true);
-          }
-        }
-/*@egen*/
-}
+/*@egen*/}
 
 void Domain() : {/*@bgen(jjtree) Domain */
   ASTDomain jjtn000 = new ASTDomain(JJTDOMAIN);
