@@ -14,7 +14,7 @@ import ro.swl.engine.parser.ASTProperty;
 import com.google.common.base.CaseFormat;
 
 
-public abstract class AbstractField<T extends Type> extends ResourceProperty {
+public abstract class AbstractField extends ResourceProperty {
 
 
 	private String name;
@@ -29,9 +29,11 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 
 	private Set<Annotation> setterAnnotations;
 
-	private T type;
+	private Type type;
 
 	private String pkg;
+
+	private String initializingExpression;
 
 	protected ASTProperty modelProp;
 
@@ -61,7 +63,7 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 	}
 
 
-	protected abstract T initFieldType(String type, String pkg) throws GenerateException;
+	protected abstract Type initFieldType(String type, String pkg) throws GenerateException;
 
 
 	public String getName() {
@@ -114,12 +116,12 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 	}
 
 
-	public T getType() {
+	public Type getType() {
 		return type;
 	}
 
 
-	public void setType(T type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -200,6 +202,17 @@ public abstract class AbstractField<T extends Type> extends ResourceProperty {
 
 	public String getUpperCamelName() {
 		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, getName());
+	}
+
+
+	public String getInitializingExpression() {
+		return initializingExpression;
+	}
+
+
+
+	public void setInitializingExpression(String initializingExpression) {
+		this.initializingExpression = initializingExpression;
 	}
 
 }

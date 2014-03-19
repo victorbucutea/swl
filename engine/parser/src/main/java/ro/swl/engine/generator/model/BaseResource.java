@@ -27,18 +27,18 @@ abstract class BaseResource {
 	private List<Resource> children = new ArrayList<Resource>();
 
 
-	public void write(GenerationContext ctxt) throws WriteException {
-		writeSelf(ctxt);
-		writeChildren(ctxt);
+	public void write() throws WriteException {
+		writeSelf();
+		writeChildren();
 	}
 
 
-	protected abstract void writeSelf(GenerationContext ctxt) throws WriteException;
+	protected abstract void writeSelf() throws WriteException;
 
 
-	protected void writeChildren(GenerationContext ctxt) throws WriteException {
+	protected void writeChildren() throws WriteException {
 		for (Resource child : children) {
-			child.write(ctxt);
+			child.write();
 		}
 	}
 

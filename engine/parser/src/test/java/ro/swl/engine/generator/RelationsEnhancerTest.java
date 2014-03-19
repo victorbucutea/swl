@@ -2,9 +2,7 @@ package ro.swl.engine.generator;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
-import ro.swl.engine.generator.java.model.AbstractField;
+import ro.swl.engine.generator.java.model.Field;
 import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.javaee.exception.DuplicateDeclaredRelation;
@@ -35,13 +33,13 @@ public class RelationsEnhancerTest extends GeneratorTest {
 	@Override
 	public List<Technology> getTechsUnderTest() {
 		List<Technology> techs = new ArrayList<Technology>();
-		techs.add(new InternalEnhancers(ctxt));
+		techs.add(new InternalEnhancers());
 		return techs;
 	}
 
 
 	private void setUpResourceTreeAndEnhance(SWL swl) throws ParseException, GenerateException {
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -84,33 +82,33 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 		assertEquals(2, modelFolder.getChildren().size());
 
-		JavaResource<Type, AbstractField<Type>> experience = modelFolder.getChildCast(1);
+		JavaResource<Field> experience = modelFolder.getChildCast(1);
 
 		assertEquals(11, experience.getFields().size());
 
-		assertNull(experience.getFields().get(9).getType().getImports());
+		assertTrue(experience.getFields().get(9).getType().getImports().isEmpty());
 		assertEquals("double", experience.getFields().get(9).getType().getFqName());
 
-		assertNull(experience.getFields().get(7).getType().getImports());
+		assertTrue(experience.getFields().get(7).getType().getImports().isEmpty());
 		assertEquals("long", experience.getFields().get(7).getType().getFqName());
 
-		assertNull(experience.getFields().get(5).getType().getImports());
+		assertTrue(experience.getFields().get(5).getType().getImports().isEmpty());
 		assertEquals("int", experience.getFields().get(5).getType().getFqName());
 
 		Type set = experience.getFields().get(3).getType();
-		assertEquals("java.util.Set", set.getImports());
+		assertEquals("java.util.Set", set.getImports().iterator().next());
 		assertEquals("Customer", set.getParameter());
 
 		Type list = experience.getFields().get(2).getType();
-		assertEquals("java.util.List", list.getImports());
+		assertEquals("java.util.List", list.getImports().iterator().next());
 		assertEquals("Customer", list.getParameter());
 
 
-		assertEquals("java.util.Date", experience.getFields().get(0).getType().getImports());
+		assertEquals("java.util.Date", experience.getFields().get(0).getType().getImports().iterator().next());
 		assertEquals("java.util.Date", experience.getFields().get(0).getType().getFqName());
 		assertEquals("Date", experience.getFields().get(0).getType().getSimpleClassName());
 
-		assertNull(experience.getFields().get(1).getType().getImports());
+		assertTrue(experience.getFields().get(1).getType().getImports().isEmpty());
 		assertEquals("byte[]", experience.getFields().get(1).getType().getFqName());
 		assertEquals("byte[]", experience.getFields().get(1).getType().getSimpleClassName());
 

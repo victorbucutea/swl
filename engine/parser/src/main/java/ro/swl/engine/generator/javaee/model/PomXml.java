@@ -9,10 +9,19 @@ import ro.swl.engine.generator.model.Resource;
 
 public class PomXml extends Resource {
 
+	public static String ID = "pom.xml";
 
 	private List<Dependency> dependencies;
 	private List<Dependency> dependencyManagement;
 	private List<Repository> repositories;
+
+
+	public PomXml(Resource parent) {
+		super(parent, ID, false);
+		this.dependencies = new ArrayList<PomXml.Dependency>();
+		this.repositories = new ArrayList<PomXml.Repository>();
+		this.dependencyManagement = new ArrayList<PomXml.Dependency>();
+	}
 
 
 	public PomXml(Resource parent, File template) {

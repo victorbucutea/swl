@@ -58,7 +58,7 @@ public abstract class Resource extends BaseResource {
 
 
 	@Override
-	protected void writeSelf(GenerationContext ctxt) throws WriteException {
+	protected void writeSelf() throws WriteException {
 		writer.write();
 	}
 

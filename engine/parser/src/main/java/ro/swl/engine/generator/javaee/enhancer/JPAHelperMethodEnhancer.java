@@ -5,14 +5,13 @@ import java.util.Set;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.CompoundStatement;
 import ro.swl.engine.generator.java.model.ForStatement;
 import ro.swl.engine.generator.java.model.IfStatement;
 import ro.swl.engine.generator.java.model.Method;
 import ro.swl.engine.generator.java.model.Statement;
+import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
@@ -24,7 +23,7 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 	public void enhance(ASTSwdlApp appModel, EntityResource entity) throws GenerateException {
 
 
-		for (AbstractField<EntityType> field : entity.getFields()) {
+		for (EntityField field : entity.getFields()) {
 			if (!field.getType().isCollection()) {
 				continue;
 			}
@@ -38,7 +37,7 @@ public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private Set<Statement> getAdderStmts(EntityResource res, AbstractField<EntityType> field, String paramName) {
+	private Set<Statement> getAdderStmts(EntityResource res, EntityField field, String paramName) {
 		Set<Statement> stmts = new HashSet<Statement>();
 		/*
 		 * if (certs == null) {

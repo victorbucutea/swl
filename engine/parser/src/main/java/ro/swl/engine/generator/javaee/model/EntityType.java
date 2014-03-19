@@ -1,5 +1,6 @@
 package ro.swl.engine.generator.javaee.model;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.model.QualifiedClassName;
@@ -14,7 +15,8 @@ public class EntityType extends Type {
 
 
 	public EntityType(String declaredName, String pkg) throws GenerateException {
-		super(internalTypes.containsKey(declaredName) ? declaredName : pkg + "." + declaredName);
+		super(internalTypes.containsKey(declaredName) ? declaredName : isNotEmpty(pkg) ? pkg + "." + declaredName
+				: declaredName);
 	}
 
 }

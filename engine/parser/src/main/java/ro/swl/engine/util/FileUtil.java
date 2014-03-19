@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -14,7 +15,11 @@ public class FileUtil {
 
 
 	public static List<File> listFilesOrderedByTypeAndName(File folder) {
-		List<File> files = asList(folder.listFiles());
+		List<File> files = new ArrayList<File>();
+		if (!folder.isDirectory()) {
+			return files;
+		}
+		files.addAll(asList(folder.listFiles()));
 		sortByTypeAndByName(files);
 		return files;
 	}

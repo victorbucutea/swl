@@ -8,7 +8,7 @@ import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.generator.model.Resource;
 
 
-public class EntityResource extends JavaResource<EntityType, EntityField> {
+public class EntityResource extends JavaResource<EntityField> {
 
 	public EntityResource(Resource parent, File template, String pkg) throws GenerateException {
 		super(parent, template, pkg);

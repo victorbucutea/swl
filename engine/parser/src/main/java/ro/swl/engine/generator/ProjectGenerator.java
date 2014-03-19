@@ -54,8 +54,16 @@ public class ProjectGenerator {
 	}
 
 
+	private void enhanceResourceTree(Resource res, ASTSwdlApp appModel, Technology tech) throws GenerateException {
+		for (Resource r : res.getChildren()) {
+			tech.enhance(r, appModel);
+			enhanceResourceTree(r, appModel, tech);
+		}
+	}
+
+
 	public void write(ASTSwdlApp appModel) throws WriteException {
-		root.write(ctxt);
+		root.write();
 	}
 
 
@@ -66,23 +74,12 @@ public class ProjectGenerator {
 
 			parent.addChildren(childRes);
 
-			if (f.isDirectory()) {
-				for (Resource r : childRes) {
-					r.registerState(ctxt);
-					generateResourceTree(r, f);
-					r.unregisterState(ctxt);
-				}
+			for (Resource r : childRes) {
+				r.registerState(ctxt);
+				generateResourceTree(r, f);
+				r.unregisterState(ctxt);
 			}
 
-		}
-	}
-
-
-
-	private void enhanceResourceTree(Resource res, ASTSwdlApp appModel, Technology tech) throws GenerateException {
-		for (Resource r : res.getChildren()) {
-			tech.enhance(r, appModel);
-			enhanceResourceTree(r, appModel, tech);
 		}
 	}
 

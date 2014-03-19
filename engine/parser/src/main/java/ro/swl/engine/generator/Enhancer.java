@@ -1,6 +1,7 @@
 package ro.swl.engine.generator;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -10,8 +11,8 @@ public abstract class Enhancer<T extends Resource> {
 
 
 	@SuppressWarnings("unchecked")
-	public void enhanceInternal(ASTSwdlApp appModel, Resource r, GenerationContext ctxt) throws GenerateException {
-		if (!r.getClass().isAssignableFrom(getGenericClass())) {
+	public void enhanceInternal(ASTSwdlApp appModel, Resource r) throws GenerateException {
+		if (!getGenericClass().isAssignableFrom(r.getClass())) {
 			throw new GenerateException("Internal error while enhancing. Type of resource ('" + r.getClass()
 					+ "') is not accepted by enhancer. Current enhancer only accepts " + getGenericClass());
 		}
@@ -28,7 +29,7 @@ public abstract class Enhancer<T extends Resource> {
 		if (acceptedCls == null)
 			return false;
 
-		if (res.getClass().isAssignableFrom(acceptedCls)) {
+		if (acceptedCls.isAssignableFrom(res.getClass())) {
 			return true;
 		}
 
@@ -37,9 +38,14 @@ public abstract class Enhancer<T extends Resource> {
 
 
 	private Class<?> getGenericClass() {
-		Class<?> acceptedCls = (Class<?>) ((ParameterizedType) getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
-		return acceptedCls;
+		ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+		Type typeArgument = genericSuperclass.getActualTypeArguments()[0];
+		if (typeArgument instanceof Class) {
+			return (Class<?>) typeArgument;
+		} else if (typeArgument instanceof ParameterizedType) {
+			return (Class<?>) ((ParameterizedType) typeArgument).getRawType();
+		} else {
+			return null;
+		}
 	}
-
 }

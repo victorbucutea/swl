@@ -6,6 +6,9 @@
  */
 package ro.swl.engine.parser;
 
+import java.util.List;
+
+
 public class ASTCrud extends SWLNode {
 
 	private String entity;
@@ -24,6 +27,11 @@ public class ASTCrud extends SWLNode {
 
 	public String getEntity() {
 		return entity;
+	}
+
+
+	public List<ASTSearcher> getSearchers() {
+		return getChildNodesOfType(ASTSearcher.class, true);
 	}
 
 }

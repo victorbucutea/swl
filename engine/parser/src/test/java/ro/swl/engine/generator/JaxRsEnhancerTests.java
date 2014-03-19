@@ -2,7 +2,6 @@ package ro.swl.engine.generator;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static ro.swl.engine.generator.GenerationContext.PACKAGE;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,13 +10,11 @@ import java.util.List;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
-import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.Method;
 import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.generator.model.ProjectRoot;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -31,8 +28,8 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 	@Override
 	public List<Technology> getTechsUnderTest() {
 		List<Technology> techs = new ArrayList<Technology>();
-		techs.add(new InternalEnhancers(ctxt));
-		techs.add(new JaxRSTechnology(ctxt));
+		techs.add(new InternalEnhancers());
+		techs.add(new JaxRSTechnology());
 		return techs;
 	}
 
@@ -59,7 +56,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -107,7 +104,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -126,12 +123,12 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 		assertJaxRsOwningAnotation(experience2);
 
 
-		AbstractField<EntityType> customer1 = experience.getField(2);
+		EntityField customer1 = experience.getField(2);
 		// one-to-many should have json ignore and a serializer method
 		assertJsonIgnoreAndSerializerMethod(experience, customer1);
 		//assertJaxRsNonOwningAnotation(customer1);
 
-		AbstractField<EntityType> customer2 = experience.getField(3);
+		EntityField customer2 = experience.getField(3);
 		assertJsonIgnoreAndSerializerMethod(experience, customer2);
 		//assertJaxRsNonOwningAnotation(customer1);
 
@@ -161,7 +158,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -175,7 +172,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 		EntityField experience1 = customer.getField(2);
 		assertJaxRsOwningAnotation(experience1);
 
-		AbstractField<EntityType> experience2 = customer.getField(3);
+		EntityField experience2 = customer.getField(3);
 		assertJaxRsNonOwningAnotation(experience2);
 
 
@@ -208,7 +205,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -250,7 +247,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 															"  }" +
 												"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
@@ -259,12 +256,12 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertNoAnnotationsPresent(AbstractField<EntityType> field) {
+	private void assertNoAnnotationsPresent(EntityField field) {
 		assertEquals(0, field.getAnnotations().size());
 	}
 
 
-	private void assertJaxRsNonOwningAnotation(AbstractField<EntityType> field) {
+	private void assertJaxRsNonOwningAnotation(EntityField field) {
 		assertEquals(1, field.getAnnotations().size());
 		Annotation managedRef = field.getAnnotations().get(0);
 		assertEquals("JsonManagedReference", managedRef.getSimpleName());
@@ -272,7 +269,7 @@ public class JaxRsEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void assertJsonIgnoreAndSerializerMethod(EntityResource resource, AbstractField<EntityType> field) {
+	private void assertJsonIgnoreAndSerializerMethod(EntityResource resource, EntityField field) {
 		assertEquals(1, field.getAnnotations().size());
 
 		Annotation managedRef = field.getAnnotations().get(0);

@@ -3,7 +3,12 @@ package ro.swl.engine.writer.template.test;
 import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 import static org.apache.commons.io.FileUtils.listFilesAndDirs;
-import static ro.swl.engine.generator.GenerationContext.PACKAGE;
+import japa.parser.JavaParser;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.FieldDeclaration;
+import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
+import japa.parser.ast.body.TypeDeclaration;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -16,11 +21,15 @@ import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
 import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.GlobalContext;
+import ro.swl.engine.generator.InternalEnhancers;
 import ro.swl.engine.generator.Technology;
 import ro.swl.engine.generator.java.model.Field;
 import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.generator.java.model.PackageResource;
-import ro.swl.engine.generator.java.model.Type;
+import ro.swl.engine.generator.javaee.enhancer.EJBTechnology;
+import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
+import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
 import ro.swl.engine.generator.model.FileResource;
 import ro.swl.engine.generator.model.FolderResource;
 import ro.swl.engine.parser.ASTSwdlApp;
@@ -33,12 +42,26 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 
 	private void generateEnhanceAndWrite(SWL swl) throws ParseException, GenerateException, WriteException {
-		ctxt.setProperty(PACKAGE, "ro.sft.somepackage");
+		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
 		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-entity-and-static-res"));
 		ASTSwdlApp appModel = swl.SwdlApp();
 		generator.generate(appModel);
 		generator.enhance(appModel);
 		generator.write(appModel);
+	}
+
+
+	@Override
+	public List<Technology> getTechsUnderTest() {
+		List<Technology> list = new ArrayList<Technology>();
+
+		list.add(new InternalEnhancers());
+		list.add(new JPATechnology());
+		list.add(new JaxRSTechnology());
+		list.add(new EJBTechnology());
+
+
+		return list;
 	}
 
 
@@ -86,7 +109,6 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 		StringWriter writer = new StringWriter();
 		generator.getProjectRoot().printTree(writer, 0);
-		System.out.println(writer);
 	}
 
 
@@ -101,15 +123,15 @@ public class WriteResourceTreeTest extends GeneratorTest {
 		FolderResource subPkg = new FolderResource(pkg, "model");
 		pkg.addChild(subPkg);
 
-		JavaResource<Type, Field> j1 = new JavaResource<Type, Field>(subPkg, "SomeClass", "ro.sft.pkg");
-		JavaResource<Type, Field> j2 = new JavaResource<Type, Field>(subPkg, "SomeClass2", "ro.sft.pkg");
-		JavaResource<Type, Field> j3 = new JavaResource<Type, Field>(subPkg, "SomeClass3", "ro.sft.pkg");
+		JavaResource<Field> j1 = new JavaResource<Field>(subPkg, "SomeClass", "ro.sft.pkg");
+		JavaResource<Field> j2 = new JavaResource<Field>(subPkg, "SomeClass2", "ro.sft.pkg");
+		JavaResource<Field> j3 = new JavaResource<Field>(subPkg, "SomeClass3", "ro.sft.pkg");
 		subPkg.addChildren(asList(j1, j2, j3));
 
 		fold1.addChildren(asList(f1, pkg));
 
 
-		fold1.write(ctxt);
+		fold1.write();
 		File generated = new File(generateDestDir, "folder");
 		Collection<File> list = listFilesAndDirs(generated, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 		List<File> files = new ArrayList<File>(list);
@@ -209,7 +231,7 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 
 	@Test
-	public void servicesyWrite() throws Exception {
+	public void servicesWrite() throws Exception {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
 						" module cv {" +
@@ -234,8 +256,8 @@ public class WriteResourceTreeTest extends GeneratorTest {
 						"module customer {" +
 										"  ui     {} " +
 										"  logic  {" +
-										"		service CV { " +
-										"			crud CV { " +
+										"		service CustomerService { " +
+										"			crud Client { " +
 										"				searcher WithFirstName {" +
 										"					\"Select j from CV j where j.firstName = :firstName\"" +
 										"				}" +
@@ -243,7 +265,11 @@ public class WriteResourceTreeTest extends GeneratorTest {
 										"					\"Select cert from Certification cert where cert.name like :name\""+
 										"				}" +
 										"			}" +
-										"			" +
+										"			crud Order { " +
+										"					searcher WithOrderId {" +
+										"						\"Select j from CV j where j.firstName = :firstName\"" +
+										"					}"+
+										"			}"+
 										"			void someAction() {"+
 										"			}" +
 										"		}	" +
@@ -265,15 +291,74 @@ public class WriteResourceTreeTest extends GeneratorTest {
 						"}"));
 		//@formatter:on
 		generateEnhanceAndWrite(swl);
+
+		assertCrudDaoInjected();
+
+		assertNamedQueriesCreated();
+
 	}
 
 
+	private void assertCrudDaoInjected() throws Exception {
+		File service = new File(generateDestDir,
+				"module-entity-and-static-res/my-app/customer/ro/sft/somepackage/CustomerServiceBean.java");
+		CompilationUnit cu = JavaParser.parse(service);
 
-	@Override
-	public List<Technology> getTechsUnderTest() {
-		return new ArrayList<Technology>();
+		TypeDeclaration cls = cu.getTypes().get(0);
+		FieldDeclaration dao1 = (FieldDeclaration) cls.getMembers().get(0);
+		assertEquals("clientDao", dao1.getVariables().get(0).toString());
+		FieldDeclaration dao2 = (FieldDeclaration) cls.getMembers().get(1);
+		assertEquals("orderDao", dao2.getVariables().get(0).toString());
+
+		MethodDeclaration someAction = (MethodDeclaration) cls.getMembers().get(2);
+		assertEquals("someAction", someAction.getName());
+
+		MethodDeclaration saveClient = (MethodDeclaration) cls.getMembers().get(3);
+		assertEquals("saveClient", saveClient.getName());
+
+		MethodDeclaration getClient = (MethodDeclaration) cls.getMembers().get(4);
+		assertEquals("getAllClients", getClient.getName());
+
+		MethodDeclaration findClient = (MethodDeclaration) cls.getMembers().get(5);
+		assertEquals("findClient", findClient.getName());
+
+		MethodDeclaration searchClient = (MethodDeclaration) cls.getMembers().get(6);
+		assertEquals("searchClient", searchClient.getName());
+
+		MethodDeclaration saveOrder = (MethodDeclaration) cls.getMembers().get(7);
+		assertEquals("saveOrder", saveOrder.getName());
+
+		MethodDeclaration getOrder = (MethodDeclaration) cls.getMembers().get(8);
+		assertEquals("getAllOrders", getOrder.getName());
+
+		MethodDeclaration findOrder = (MethodDeclaration) cls.getMembers().get(9);
+		assertEquals("findOrder", findOrder.getName());
+
+		MethodDeclaration searchOrder = (MethodDeclaration) cls.getMembers().get(10);
+		assertEquals("searchOrder", searchOrder.getName());
 	}
 
 
+	private void assertNamedQueriesCreated() throws Exception {
+		File client = new File(generateDestDir,
+				"module-entity-and-static-res/my-app/customer/ro/sft/somepackage/model/Client.java");
+		CompilationUnit cu = JavaParser.parse(client);
 
+		TypeDeclaration cls = cu.getTypes().get(0);
+		assertEquals(
+				"[@Entity, @NamedQueries({ @NamedQuery(query = \"Select j from CV j where j.firstName = :firstName\", name = Client.WITH_FIRST_NAME), "
+						+ "@NamedQuery(query = \"Select cert from Certification cert where cert.name like :name\","
+						+ " name = Client.CERTIFICATIONS) })]", cls.getAnnotations().toString());
+
+		FieldDeclaration static1 = (FieldDeclaration) cls.getMembers().get(0);
+		int modifier1 = static1.getModifiers();
+		assertEquals(0, modifier1 & ModifierSet.FINAL & ModifierSet.STATIC & ModifierSet.PUBLIC);
+		assertEquals("WITH_FIRST_NAME = \"WithFirstName\"", static1.getVariables().get(0).toString());
+
+		FieldDeclaration static2 = (FieldDeclaration) cls.getMembers().get(1);
+		int modifier2 = static2.getModifiers();
+		assertEquals(0, modifier2 & ModifierSet.FINAL & ModifierSet.STATIC & ModifierSet.PUBLIC);
+		assertEquals("CERTIFICATIONS = \"Certifications\"", static2.getVariables().get(0).toString());
+
+	}
 }

@@ -30,10 +30,16 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 		String currentModule = r.getModuleName();
 
 		ASTModule module = appModel.findModule(currentModule);
-		ASTService service = module.findService(r.getServiceName());
+		ASTService service = module.findService(r.getName());
 
+		addEjbAnnotations(service, r);
 		addServiceMethods(service, r);
 		addCrudMethods(service, r);
+	}
+
+
+	private void addEjbAnnotations(ASTService service, ServiceResource r) throws GenerateException {
+		r.addAnnotation("javax.ejb.Stateless");
 	}
 
 
@@ -55,14 +61,14 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 		if (entityFqName == null) {
 			throw new CrudEntityNotFoundException(entityName, r.getName());
 		}
-		addSaveMethod(entityName, entityFqName);
-		addGetAllMethod(entityName, entityFqName);
-		addFindMethod(entityName, entityFqName);
-		addSearchMethod(entityName, entityFqName);
+		addSaveMethod(entityName, entityFqName, r);
+		addGetAllMethod(entityName, entityFqName, r);
+		addFindMethod(entityName, entityFqName, r);
+		addSearchMethod(entityName, entityFqName, r);
 	}
 
 
-	private void addFindMethod(String entityName, String entityFqName) throws GenerateException {
+	private void addFindMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
 		Method find = new Method("find" + entityName);
 		Type type = new Type(entityFqName);
 		find.setReturnType(type);
@@ -70,45 +76,50 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 
 		Statement stmt = new Statement("return " + lowerCamel(entityName) + "Dao.find(id, " + entityName + ".class)");
 		find.getBody().add(stmt);
+		r.addMethod(find);
 	}
 
 
-	private void addSearchMethod(String entityName, String entityFqName) throws GenerateException {
+	private void addSearchMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
 		String pkg = getGlobalCtxt().getDefaultPackage();
 		Method search = new Method("search" + entityName);
 		Type type = new Type("java.util.List<" + entityFqName + ">");
 		search.setReturnType(type);
 		search.addParameter(new Method.Parameter("searcher", new Type(pkg + ".base.dao.SearchInfo")));
-
-
+		String daoname = lowerCamel(entityName) + "Dao";
+		String expr = "return " + daoname + ".findByNamedQuery(searcher.getSearcherId(), searcher.getParamMap())";
+		search.getBody().add(new Statement(expr));
+		r.addMethod(search);
 	}
 
 
-	private void addGetAllMethod(String entityName, String entityFqName) throws GenerateException {
-		Method getall = new Method("getAll");
+	private void addGetAllMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
+		Method getall = new Method("getAll" + entityName + "s");
 		Type type = new Type("java.util.List<" + entityFqName + ">");
 		getall.setReturnType(type);
 
 		Statement stmt = new Statement(lowerCamel(entityName) + "Dao.findByNamedQuery(" + entityName + ".ALL)");
 		getall.getBody().add(stmt);
+		r.addMethod(getall);
 	}
 
 
-	private void addSaveMethod(String entityName, String entityFqName) throws GenerateException {
+	private void addSaveMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
 		Method save = new Method("save" + entityName);
 		Type type = new Type(entityFqName);
 		save.setReturnType(type);
 		Method.Parameter param = new Method.Parameter(entityName.toLowerCase(), type);
 		save.addParameter(param);
 
-		Statement stmt = new Statement(entityName + " managed" + entityName + " = find(" + entityName.toLowerCase()
-				+ ".getId());", "");
+		Statement stmt = new Statement(entityName + " managed" + entityName + " = find" + entityName + "("
+				+ entityName.toLowerCase() + ".getId())", "");
 		Statement stmt2 = new Statement("managed" + entityName + ".merge(" + entityName.toLowerCase() + ")");
 		Statement stmt3 = new Statement("return " + lowerCamel(entityName) + "Dao.save(managed" + entityName + ")");
 
 		save.getBody().add(stmt);
 		save.getBody().add(stmt2);
 		save.getBody().add(stmt3);
+		r.addMethod(save);
 	}
 
 
@@ -116,6 +127,8 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 		String pkg = getGlobalCtxt().getDefaultPackage() + ".base";
 		String name = lowerCamel(crud.getEntity()) + "Dao";
 		Field f = new Field(name, "CrudDao<" + crud.getEntity() + ">", pkg);
+		f.setHasGetter(false);
+		f.setHasSetter(false);
 		f.addAnotation("javax.ejb.EJB");
 		r.addProperty(f);
 	}

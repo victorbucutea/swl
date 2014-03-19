@@ -40,6 +40,11 @@ public class ASTSearcher extends SWLNode {
 	}
 
 
+	public String getName() {
+		return getSearcherName();
+	}
+
+
 
 	public String getQuery() {
 		return query;

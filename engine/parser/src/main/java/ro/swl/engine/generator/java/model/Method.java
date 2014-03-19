@@ -13,7 +13,7 @@ public class Method {
 
 	private Set<String> imports = new HashSet<String>();
 
-	private Set<Parameter> parameters = new HashSet<Parameter>();
+	private List<Parameter> parameters = new ArrayList<Parameter>();
 
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 
@@ -126,7 +126,7 @@ public class Method {
 	}
 
 
-	public Set<Parameter> getParameters() {
+	public List<Parameter> getParameters() {
 		return parameters;
 	}
 

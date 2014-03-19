@@ -5,10 +5,18 @@ package $model.Package;
 import $import;
 #end
 
-#foreach( $annotation in $annotations )
+#foreach( $annotation in $model.Annotations )
 $annotation.toJavaRepresentation()
 #end
 public class $model.Name { 
+
+#foreach( $field in $model.StaticFinalProperties )
+#foreach( $annotation in $field.Annotations )
+	$annotation.toJavaRepresentation()
+#end
+	public static final $field.Type.ParameterizedName $field.Name = $field.InitializingExpression;
+
+#end
 
 #foreach( $field in $model.Fields )
 #foreach( $annotation in $field.Annotations )

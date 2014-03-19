@@ -6,15 +6,14 @@ import java.util.List;
 
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.java.model.AbstractField;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.CompoundStatement;
 import ro.swl.engine.generator.java.model.IfStatement;
 import ro.swl.engine.generator.java.model.Method;
 import ro.swl.engine.generator.java.model.Statement;
+import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.generator.javaee.model.EntityType;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
@@ -79,7 +78,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addDeserializerMethod(EntityResource entity, AbstractField<EntityType> field) throws GenerateException {
+	private void addDeserializerMethod(EntityResource entity, EntityField field) throws GenerateException {
 		Annotation jsonProp = new Annotation("org.codehaus.jackson.annotate.JsonProperty");
 		jsonProp.addProperty("value", field.getName());
 		field.addSetterAnnotation(jsonProp);
@@ -87,7 +86,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addSerializerMethod(EntityResource resource, AbstractField<EntityType> field) throws GenerateException {
+	private void addSerializerMethod(EntityResource resource, EntityField field) throws GenerateException {
 		/*
 		 * @JsonProperty("experiences")
 		 * 
@@ -106,7 +105,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 		 */
 
 		Method m = new Method("serialize" + field.getUpperCamelName(), null);
-		EntityType type = field.getType();
+		Type type = field.getType();
 		m.setReturnType(type);
 		String splClsName = type.getSimpleClassName();
 		String fieldName = field.getName();

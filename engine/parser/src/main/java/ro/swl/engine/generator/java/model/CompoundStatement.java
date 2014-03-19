@@ -4,8 +4,8 @@ package ro.swl.engine.generator.java.model;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CompoundStatement extends Statement {
@@ -13,7 +13,7 @@ public class CompoundStatement extends Statement {
 	protected static final int DFLT_INDENTATION = 3;
 	protected static final String CR_LF = "\r\n";
 
-	protected Set<Statement> childStmts = new HashSet<Statement>();
+	protected List<Statement> childStmts = new ArrayList<Statement>();
 	protected String childIndentation;
 	protected String defaultIndentation;
 
@@ -24,7 +24,7 @@ public class CompoundStatement extends Statement {
 	}
 
 
-	public Set<Statement> getChildStmts() {
+	public List<Statement> getChildStmts() {
 		return childStmts;
 	}
 

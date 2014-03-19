@@ -11,7 +11,6 @@ import java.util.List;
 
 import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.GenerationContext;
-import ro.swl.engine.generator.GlobalContext;
 import ro.swl.engine.generator.ResourceFactory;
 import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
@@ -27,6 +26,7 @@ import ro.swl.engine.generator.javaee.model.WebXml;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTDomain;
 import ro.swl.engine.parser.ASTEntity;
+import ro.swl.engine.parser.ASTLogic;
 import ro.swl.engine.parser.ASTModule;
 import ro.swl.engine.parser.ASTProperty;
 import ro.swl.engine.parser.ASTService;
@@ -203,11 +203,17 @@ public class JavaEEResourceFactory extends ResourceFactory {
 		if (isEmpty(currentModule))
 			throw new NoModuleException();
 
-		List<ASTService> services = getCurrentModule().getLogic().getServices();
+		ASTLogic logic = getCurrentModule().getLogic();
+
+		if (logic == null) {
+			return new ArrayList<ServiceResource>();
+		}
+
+		List<ASTService> services = logic.getServices();
 
 		for (ASTService modelService : services) {
 			ServiceResource serviceResource = new ServiceResource(parent, templateFile, currentPackage);
-			serviceResource.setServiceName(modelService.getImage());
+			serviceResource.setName(modelService.getImage());
 			serviceRes.add(serviceResource);
 		}
 

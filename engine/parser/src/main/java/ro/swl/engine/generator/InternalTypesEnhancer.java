@@ -1,18 +1,16 @@
 package ro.swl.engine.generator;
 
+import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
+import ro.swl.engine.generator.java.model.Field;
 import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.parser.ASTSwdlApp;
 
 
-public class InternalTypesEnhancer extends Enhancer<JavaResource> {
+public class InternalTypesEnhancer extends Enhancer<JavaResource<Field>> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, JavaResource r) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, JavaResource<Field> res) throws GenerateException {
 		getGlobalCtxt().registerGeneratedType(res.getName(), res.getPackage() + "." + res.getName());
-		// TODO iterate through all modules, entities and all fields and register their package
-		// best done in an internal enhancer ??
-
-		// also register all classes present in current model.
 	}
 
 }

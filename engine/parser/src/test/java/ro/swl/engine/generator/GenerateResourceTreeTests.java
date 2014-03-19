@@ -3,9 +3,8 @@ package ro.swl.engine.generator;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static ro.swl.engine.generator.GenerationContext.AUTO_DETECT_PACKAGE;
-import static ro.swl.engine.generator.GenerationContext.PACKAGE;
+import static ro.swl.engine.generator.GlobalContext.AUTO_DETECT_PACKAGE;
+import static ro.swl.engine.generator.GlobalContext.PACKAGE;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 import ro.swl.engine.generator.javaee.exception.NoModuleException;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
-import ro.swl.engine.generator.javaee.model.ServiceBeanResource;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
 import ro.swl.engine.generator.model.FileResource;
 import ro.swl.engine.generator.model.FolderResource;
@@ -391,7 +389,6 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertEquals(3, packageFolder.getChildren().size());
 
 		assertTrue(packageFolder.getChild(1) instanceof ServiceResource);
-		assertTrue(packageFolder.getChild(2) instanceof ServiceBeanResource);
 
 		Resource modelFolder = packageFolder.getChild(0);
 		assertTrue(modelFolder instanceof FolderResource);
@@ -430,6 +427,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertEquals(6, ent22.getFields().size());
 
 	}
+
 
 
 	@Test
@@ -588,10 +586,11 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertTrue(pkg.getChild(2) instanceof JavaResource);
 		assertTrue(pkg.getChild(3) instanceof JavaResource);
 		assertTrue(pkg.getChild(4) instanceof ServiceResource);
-		assertTrue(pkg.getChild(5) instanceof ServiceBeanResource);
+		assertTrue(pkg.getChild(5) instanceof FileResource);
 	}
 
 
+	@Test
 	public void serviceAndCrud() throws ParseException, GenerateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
@@ -657,12 +656,6 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		ProjectRoot project = generator.getProjectRoot();
 
 
-	}
-
-
-	@Test
-	public void importsTest() throws Exception {
-		fail("Not implemented");
 	}
 
 

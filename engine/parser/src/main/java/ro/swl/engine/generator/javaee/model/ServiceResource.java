@@ -4,15 +4,13 @@ import java.io.File;
 
 import ro.swl.engine.generator.java.model.Field;
 import ro.swl.engine.generator.java.model.JavaResource;
-import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.model.Resource;
 
 
-public class ServiceResource extends JavaResource<Type, Field> {
+public class ServiceResource extends JavaResource<Field> {
 
 	public static final String ID = "__service__";
 
-	private String serviceName;
 	private String originalFileName;
 
 
@@ -22,20 +20,10 @@ public class ServiceResource extends JavaResource<Type, Field> {
 	}
 
 
-	public void setServiceName(String image) {
-		this.serviceName = image;
-	}
-
-
-	public String getServiceName() {
-		return serviceName;
-	}
-
-
 
 	@Override
 	public String getOutputFileName() {
-		return originalFileName.replaceAll(ID, serviceName);
+		return originalFileName.replaceAll(ID, getName());
 	}
 
 

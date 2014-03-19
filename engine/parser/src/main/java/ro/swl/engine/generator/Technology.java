@@ -8,12 +8,6 @@ import ro.swl.engine.parser.ASTSwdlApp;
 
 public abstract class Technology {
 
-	private GenerationContext ctxt;
-
-
-	public Technology(GenerationContext ctxt) {
-		this.ctxt = ctxt;
-	}
 
 
 	public void enhance(Resource res, ASTSwdlApp appModel) throws GenerateException {
@@ -21,16 +15,11 @@ public abstract class Technology {
 		for (Enhancer<? extends Resource> enhancer : getEnhancers()) {
 
 			if (enhancer.accepts(res)) {
-				enhancer.enhanceInternal(appModel, res, ctxt);
+				enhancer.enhanceInternal(appModel, res);
 			}
 
 		}
 
-	}
-
-
-	public GenerationContext getCtxt() {
-		return this.ctxt;
 	}
 
 

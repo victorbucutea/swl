@@ -33,13 +33,15 @@ import com.google.common.base.CaseFormat;
  *            e.g {@link EntityField} which can have relation types
  *            {@link EntityField#isManyToOne()} , ...
  */
-public class JavaResource<T extends Type, F extends AbstractField<T>> extends Resource {
+public class JavaResource<F extends AbstractField> extends Resource {
 
 	private String name;
 
 	private String pkg;
 
 	private List<F> props = new ArrayList<F>();
+
+	private List<F> staticFinalProps = new ArrayList<F>();
 
 	private List<Method> methods = new ArrayList<Method>();
 
@@ -61,6 +63,18 @@ public class JavaResource<T extends Type, F extends AbstractField<T>> extends Re
 
 	public void addProperty(F field) throws GenerateException {
 		this.props.add(field);
+	}
+
+
+	public void addStaticFinalProperty(F field) throws GenerateException {
+		field.setHasGetter(false);
+		field.setHasSetter(false);
+		this.staticFinalProps.add(field);
+	}
+
+
+	public List<F> getStaticFinalProperties() {
+		return this.staticFinalProps;
 	}
 
 
