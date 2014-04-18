@@ -1,8 +1,10 @@
 package ro.swl.engine.generator.javaee.model;
 
+import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
+
 import java.io.File;
 
-import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.CreationContext;
 import ro.swl.engine.generator.model.Resource;
 
 
@@ -19,17 +21,19 @@ public class ModuleResource extends Resource {
 
 
 	@Override
-	public void registerState(GenerationContext ctxt) {
+	public void registerState(CreationContext ctxt) {
 		ctxt.setCurrentModule(moduleName);
+		getGlobalCtxt().registerModule(moduleName);
 	}
 
 
 	@Override
-	public void unregisterState(GenerationContext ctxt) {
+	public void unregisterState(CreationContext ctxt) {
 		ctxt.setCurrentModule("");
 	}
 
 
+	@Override
 	public String getModuleName() {
 		return moduleName;
 	}

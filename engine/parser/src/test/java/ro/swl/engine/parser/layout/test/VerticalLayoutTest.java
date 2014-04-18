@@ -13,7 +13,36 @@ import ro.swl.engine.parser.ASTVerticalLayout;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
 
+
 public class VerticalLayoutTest extends WriterTest {
+
+	@Test
+	public void simpleVerticalLayout() throws ParseException {
+		//@formatter:off
+		SWL swl = new SWL (createInputStream("vertical_layout() {}"));
+		//@formatter:on
+
+		swl.VerticalLayout();
+	}
+
+
+	@Test
+	public void verticalLayoutModelController() throws ParseException {
+		//@formatter:off
+		SWL swl = new SWL (createInputStream("vertical_layout () {"+
+													"model {} "+
+													"controller {} " +
+													"row() {	" +
+													"		img(cv.rawFile,\"width:300px; height:150px;\") "+
+													"		input_file(cv.rawFile) " +
+													"		img(\"/img/static.png\")" +
+													"}" +
+												"}"
+								));
+		//@formatter:on
+		swl.VerticalLayout();
+	}
+
 
 	@Test
 	public void verticalLayoutDescriptionTest() throws ParseException {
@@ -48,7 +77,9 @@ public class VerticalLayoutTest extends WriterTest {
 		assertTrue(rows.get(2).getCssClassNames().isEmpty());
 		assertTrue(rows.get(3).getCssClassNames().isEmpty());
 
+
 	}
+
 
 	@Test
 	public void verticalLayoutContent() throws ParseException {

@@ -5,8 +5,8 @@ import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
 
 import java.util.List;
 
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.Enhancer;
-import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.java.model.Field;
 import ro.swl.engine.generator.java.model.Method;
 import ro.swl.engine.generator.java.model.Statement;
@@ -26,7 +26,7 @@ import com.google.common.base.CaseFormat;
 public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, ServiceResource r) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, ServiceResource r) throws CreateException {
 		String currentModule = r.getModuleName();
 
 		ASTModule module = appModel.findModule(currentModule);
@@ -38,12 +38,12 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addEjbAnnotations(ASTService service, ServiceResource r) throws GenerateException {
+	private void addEjbAnnotations(ASTService service, ServiceResource r) throws CreateException {
 		r.addAnnotation("javax.ejb.Stateless");
 	}
 
 
-	private void addCrudMethods(ASTService service, ServiceResource r) throws GenerateException {
+	private void addCrudMethods(ASTService service, ServiceResource r) throws CreateException {
 
 		List<ASTCrud> cruds = service.getChildNodesOfType(ASTCrud.class, true);
 
@@ -55,7 +55,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addCrudDaoMethods(ASTCrud crud, ServiceResource r) throws GenerateException {
+	private void addCrudDaoMethods(ASTCrud crud, ServiceResource r) throws CreateException {
 		String entityName = crud.getEntity();
 		String entityFqName = getGlobalCtxt().getFqNameForRegisteredType(entityName);
 		if (entityFqName == null) {
@@ -68,7 +68,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addFindMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
+	private void addFindMethod(String entityName, String entityFqName, ServiceResource r) throws CreateException {
 		Method find = new Method("find" + entityName);
 		Type type = new Type(entityFqName);
 		find.setReturnType(type);
@@ -80,7 +80,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addSearchMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
+	private void addSearchMethod(String entityName, String entityFqName, ServiceResource r) throws CreateException {
 		String pkg = getGlobalCtxt().getDefaultPackage();
 		Method search = new Method("search" + entityName);
 		Type type = new Type("java.util.List<" + entityFqName + ">");
@@ -93,18 +93,19 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addGetAllMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
+	private void addGetAllMethod(String entityName, String entityFqName, ServiceResource r) throws CreateException {
 		Method getall = new Method("getAll" + entityName + "s");
 		Type type = new Type("java.util.List<" + entityFqName + ">");
 		getall.setReturnType(type);
 
-		Statement stmt = new Statement(lowerCamel(entityName) + "Dao.findByNamedQuery(" + entityName + ".ALL)");
+		Statement stmt = new Statement("return " + lowerCamel(entityName) + "Dao.findByNamedQuery(" + entityName
+				+ ".ALL)");
 		getall.getBody().add(stmt);
 		r.addMethod(getall);
 	}
 
 
-	private void addSaveMethod(String entityName, String entityFqName, ServiceResource r) throws GenerateException {
+	private void addSaveMethod(String entityName, String entityFqName, ServiceResource r) throws CreateException {
 		Method save = new Method("save" + entityName);
 		Type type = new Type(entityFqName);
 		save.setReturnType(type);
@@ -123,8 +124,8 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addCrudDaoInjection(ASTCrud crud, ServiceResource r) throws GenerateException {
-		String pkg = getGlobalCtxt().getDefaultPackage() + ".base";
+	private void addCrudDaoInjection(ASTCrud crud, ServiceResource r) throws CreateException {
+		String pkg = getGlobalCtxt().getDefaultPackage() + ".base.dao";
 		String name = lowerCamel(crud.getEntity()) + "Dao";
 		Field f = new Field(name, "CrudDao<" + crud.getEntity() + ">", pkg);
 		f.setHasGetter(false);
@@ -139,7 +140,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addServiceMethods(ASTService service, ServiceResource r) throws GenerateException {
+	private void addServiceMethods(ASTService service, ServiceResource r) throws CreateException {
 		for (ASTAction action : service.getActions()) {
 			Method m = new Method(action.getImage());
 
@@ -151,7 +152,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 	}
 
 
-	private void addParameters(List<ASTActionParam> actionParams, Method m) throws GenerateException {
+	private void addParameters(List<ASTActionParam> actionParams, Method m) throws CreateException {
 		for (ASTActionParam param : actionParams) {
 			String fqParamName = getGlobalCtxt().getFqNameForRegisteredType(param.getType());
 			Method.Parameter mParam = new Method.Parameter(param.getName(), new Type(fqParamName));

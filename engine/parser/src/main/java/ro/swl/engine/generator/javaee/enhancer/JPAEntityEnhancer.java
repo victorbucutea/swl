@@ -1,7 +1,7 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
 import ro.swl.engine.generator.Enhancer;
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
@@ -12,7 +12,7 @@ public class JPAEntityEnhancer extends Enhancer<EntityResource> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource r) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, EntityResource r) throws CreateException {
 
 		for (EntityField field : r.getFields()) {
 
@@ -68,7 +68,7 @@ public class JPAEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addOwningAnnotation(EntityField field) throws GenerateException {
+	private void addOwningAnnotation(EntityField field) throws CreateException {
 		if (field.isOwningInRelation()) {
 			Annotation joinColumn = new Annotation("javax.persistence.JoinColumn");
 			joinColumn.setPropertyLiteral("name", field.getUpperUnderscoreName() + "_ID");

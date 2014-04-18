@@ -3,9 +3,7 @@ package ro.swl.engine.generator;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static ro.swl.engine.generator.GlobalContext.PACKAGE;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,18 +35,18 @@ public class JpaEnhancerTests extends GeneratorTest {
 	}
 
 
-	private void setUpResourceTree(SWL swl) throws ParseException, GenerateException {
-		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
-		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+	private void setUpResourceTree(SWL swl) throws ParseException, CreateException {
+		ctxt.setDefaultPackage("ro.sft.somepackage");
+		skeleton.setSkeletonName("module-and-entity");
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel);
+		generator.create(appModel);
 		generator.enhance(appModel);
 	}
 
 
 
 	@Test
-	public void entityFieldOneToOne_bidirectional() throws ParseException, GenerateException {
+	public void entityFieldOneToOne_bidirectional() throws ParseException, CreateException {
 
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
@@ -96,7 +94,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldOneToOne() throws ParseException, GenerateException {
+	public void entityFieldOneToOne() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 										" module CV {" +
@@ -145,7 +143,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityField_MultipleOwningOneToOne_unidirRelations() throws GenerateException, ParseException {
+	public void entityField_MultipleOwningOneToOne_unidirRelations() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -200,7 +198,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityField_noRelatedFields() throws GenerateException, ParseException {
+	public void entityField_noRelatedFields() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -242,7 +240,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityField_MultipleOneToOneRelations_OwningSideSpecified() throws ParseException, GenerateException {
+	public void entityField_MultipleOneToOneRelations_OwningSideSpecified() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -300,7 +298,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldManyToOneRelations() throws ParseException, GenerateException {
+	public void entityFieldManyToOneRelations() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -369,7 +367,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test(expected = WrongRelatedFieldTypeException.class)
-	public void entityFieldManyToOneRelations_wrongRelatedFieldType() throws ParseException, GenerateException {
+	public void entityFieldManyToOneRelations_wrongRelatedFieldType() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -409,7 +407,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldOneToMany() throws GenerateException, ParseException {
+	public void entityFieldOneToMany() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 													" module CV {" +
@@ -463,7 +461,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldManyToOneUnidirectional() throws GenerateException, ParseException {
+	public void entityFieldManyToOneUnidirectional() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -503,7 +501,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test()
-	public void entityFieldManyToMany() throws GenerateException, ParseException {
+	public void entityFieldManyToMany() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 												" module CV {" +
@@ -558,7 +556,7 @@ public class JpaEnhancerTests extends GeneratorTest {
 
 
 	@Test
-	public void internalTypesRegistry() throws ParseException, GenerateException {
+	public void internalTypesRegistry() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 				" module CV {" +
@@ -606,23 +604,23 @@ public class JpaEnhancerTests extends GeneratorTest {
 							" }" +
 				"}"));
 		//@formatter:on
-		ctxt.setProperty(PACKAGE, "ro.sft.recruiter");
-		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+		ctxt.setDefaultPackage("ro.sft.somepackage");
+		skeleton.setSkeletonName("module-and-entity");
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel);
+		generator.create(appModel);
 		generator.enhance(appModel);
 
 		String fqName = ctxt.getFqNameForRegisteredType("SomeDifferentEntity");
-		assertEquals("ro.sft.recruiter.model.SomeDifferentEntity", fqName);
+		assertEquals("ro.sft.somepackage.model.SomeDifferentEntity", fqName);
 
 		fqName = ctxt.getFqNameForRegisteredType("Certification");
-		assertEquals("ro.sft.recruiter.model.Certification", fqName);
+		assertEquals("ro.sft.somepackage.model.Certification", fqName);
 
 		fqName = ctxt.getFqNameForRegisteredType("Experience");
-		assertEquals("ro.sft.recruiter.model.Experience", fqName);
+		assertEquals("ro.sft.somepackage.model.Experience", fqName);
 
 		fqName = ctxt.getFqNameForRegisteredType("SomeEntity");
-		assertEquals("ro.sft.recruiter.model.SomeEntity", fqName);
+		assertEquals("ro.sft.somepackage.model.SomeEntity", fqName);
 
 	}
 

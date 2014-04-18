@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,17 +37,17 @@ public class RelationsEnhancerTest extends GeneratorTest {
 	}
 
 
-	private void setUpResourceTreeAndEnhance(SWL swl) throws ParseException, GenerateException {
-		ctxt.setProperty(GlobalContext.PACKAGE, "ro.sft.somepackage");
-		ctxt.setTemplateRootDir(new File(testTemplateDir, "module-and-entity"));
+	private void setUpResourceTreeAndEnhance(SWL swl) throws ParseException, CreateException {
+		ctxt.setDefaultPackage("ro.sft.somepackage");
+		skeleton.setSkeletonName("module-and-entity");
 		ASTSwdlApp appModel = swl.SwdlApp();
-		generator.generate(appModel);
+		generator.create(appModel);
 		generator.enhance(appModel);
 	}
 
 
 	@Test
-	public void entityFieldInternalTypes() throws ParseException, GenerateException {
+	public void entityFieldInternalTypes() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 						" module CV {" +
@@ -116,7 +115,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldXToOne_unidirectional() throws GenerateException, ParseException {
+	public void entityFieldXToOne_unidirectional() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -153,7 +152,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldOneToOne_owningSideSpecified() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_owningSideSpecified() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -198,7 +197,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test
-	public void entityFieldOneToOne_owningSideSpecified_reverse() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_owningSideSpecified_reverse() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -249,7 +248,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test
-	public void entityField_MultipleXToOneRelationTypes() throws GenerateException, ParseException {
+	public void entityField_MultipleXToOneRelationTypes() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -301,7 +300,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test
-	public void entityField_MultipleXToManyRelationTypes() throws GenerateException, ParseException {
+	public void entityField_MultipleXToManyRelationTypes() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -356,7 +355,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedFieldNotFoundException.class)
-	public void entityFieldOneToOne_inexistingRelation() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_inexistingRelation() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -381,7 +380,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedFieldNotFoundException.class)
-	public void entityFieldOneToOne_inexistingRelation_ManyToMany() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_inexistingRelation_ManyToMany() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -406,7 +405,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedEntityNotFoundException.class)
-	public void entityFieldOneToOne_inexistingRelationEntity() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_inexistingRelationEntity() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -433,7 +432,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedEntityNotFoundException.class)
-	public void entityFieldOneToOne_inexistingRelationEntity_ManyToMany() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_inexistingRelationEntity_ManyToMany() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -459,7 +458,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = WrongRelatedFieldTypeException.class)
-	public void entityFieldOneToOne_wrongRelationFieldType() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_wrongRelationFieldType() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -488,7 +487,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = DuplicateDeclaredRelation.class)
-	public void entityFieldOneToOne_duplicateMapping() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_duplicateMapping() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -513,7 +512,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = DuplicateDeclaredRelation.class)
-	public void entityFieldOneToOne_duplicateMapping_2() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_duplicateMapping_2() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -538,7 +537,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = DuplicateDeclaredRelation.class)
-	public void entityFieldOneToOne_duplicateMapping_3() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_duplicateMapping_3() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -563,7 +562,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = DuplicateDeclaredRelation.class)
-	public void entityFieldOneToOne_duplicateManyToMany() throws GenerateException, ParseException {
+	public void entityFieldOneToOne_duplicateManyToMany() throws CreateException, ParseException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 														" module CV {" +
@@ -588,7 +587,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedEntityNotFoundException.class)
-	public void entityFieldOfUknownType() throws ParseException, GenerateException {
+	public void entityFieldOfUknownType() throws ParseException, CreateException {
 		//@formatter:off
 		SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 						" module CV {" +
@@ -613,7 +612,7 @@ public class RelationsEnhancerTest extends GeneratorTest {
 
 
 	@Test(expected = RelatedEntityNotFoundException.class)
-	public void entityFieldIsCollectionOfUnkownParameter() throws ParseException, GenerateException {
+	public void entityFieldIsCollectionOfUnkownParameter() throws ParseException, CreateException {
 		//@formatter:off
 				SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
 								" module CV {" +

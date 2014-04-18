@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.swl.engine.generator.Enhancer;
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.GlobalContext;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.CompoundStatement;
 import ro.swl.engine.generator.java.model.IfStatement;
@@ -21,7 +22,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource entity) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, EntityResource entity) throws CreateException {
 
 
 		for (EntityField field : entity.getFields()) {
@@ -38,7 +39,7 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 			if (field.isManyToMany()) {
 
 				if (!field.isUnidirectional())
-					throw new GenerateException(
+					throw new CreateException(
 							"Bidirectional Many to many relations are not supported by current Jackson implementation.");
 
 				field.addAnotation("org.codehaus.jackson.annotate.JsonIgnore");
@@ -63,12 +64,14 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 
 
 			if (field.getType().isObject()) {
-
+				// can only be a bidirectional one-to-one 
 				if (field.isOwningInRelation()) {
 					// owning side will be the back-reference
 					field.addAnotation("org.codehaus.jackson.annotate.JsonBackReference");
 				} else {
-					field.addAnotation("org.codehaus.jackson.annotate.JsonManagedReference");
+					field.addAnotation("org.codehaus.jackson.annotate.JsonIgnore");
+					addSerializerMethod(entity, field);
+					addDeserializerMethod(entity, field);
 				}
 
 			}
@@ -78,15 +81,15 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addDeserializerMethod(EntityResource entity, EntityField field) throws GenerateException {
+	private void addDeserializerMethod(EntityResource entity, EntityField field) throws CreateException {
 		Annotation jsonProp = new Annotation("org.codehaus.jackson.annotate.JsonProperty");
-		jsonProp.addProperty("value", field.getName());
+		jsonProp.addPropertyLiteral("value", field.getName());
 		field.addSetterAnnotation(jsonProp);
 
 	}
 
 
-	private void addSerializerMethod(EntityResource resource, EntityField field) throws GenerateException {
+	private void addSerializerMethod(EntityResource resource, EntityField field) throws CreateException {
 		/*
 		 * @JsonProperty("experiences")
 		 * 
@@ -107,43 +110,52 @@ public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {
 		Method m = new Method("serialize" + field.getUpperCamelName(), null);
 		Type type = field.getType();
 		m.setReturnType(type);
-		String splClsName = type.getSimpleClassName();
+
+		String typeName = type.getSimpleClassName();
+		String fieldClsName = null;
+		if (type.isCollection()) {
+			fieldClsName = type.getParameter();
+		} else {
+			fieldClsName = type.getSimpleClassName();
+		}
+
+		String fieldParamName = new Type(fieldClsName).getSimpleClassName();
 		String fieldName = field.getName();
 
 		Annotation jsonProp = new Annotation("org.codehaus.jackson.annotate.JsonProperty");
-		jsonProp.addProperty("value", fieldName);
+		jsonProp.addPropertyLiteral("value", fieldName);
 		m.addAnnotation(jsonProp);
 		m.addAnnotation("org.codehaus.jackson.annotate.JsonManagedReference");
 
-		List<Statement> stmts = new ArrayList<Statement>();
 
-		CompoundStatement initSet = new IfStatement(field.getUpperCamelName() + " == null");
+		CompoundStatement initSet = new IfStatement(field.getName() + " == null");
 
-
-		if (type.equals("Set")) {
+		if (typeName.equals("Set")) {
 			String importStmt = "java.util.HashSet";
-			initSet.addChildStmt(new Statement("return new HashSet<" + splClsName + ">()", importStmt));
-		} else if (type.equals("List")) {
+			initSet.addChildStmt(new Statement("return new HashSet<" + fieldParamName + ">()", importStmt));
+		} else if (typeName.equals("List")) {
 			String importStmt = "java.util.ArrayList";
-			initSet.addChildStmt(new Statement("return new ArrayList<" + splClsName + ">()", importStmt));
+			initSet.addChildStmt(new Statement("return new ArrayList<" + fieldParamName + ">()", importStmt));
+		} else {
+			initSet.addChildStmt(new Statement("return null"));
 		}
 
-		CompoundStatement isInitIf = new IfStatement("isinitialized(" + fieldName + ")");
-		if (type.equals("Set")) {
-			initSet.addChildStmt(new Statement("return " + fieldName, ""));
-		} else if (type.equals("List")) {
-			initSet.addChildStmt(new Statement("return " + fieldName, ""));
-		}
+		CompoundStatement isInitIf = new IfStatement("PersistenceUtil.isinitialized(" + fieldName + ")");
+		String pkg = GlobalContext.getGlobalCtxt().getDefaultPackage();
+		isInitIf.addChildStmt(new Statement("return " + fieldName, pkg + ".base.util.PersistenceUtil"));
+
 
 		Statement returnStmt = new Statement();
-
-		if (type.equals("Set")) {
-			returnStmt.setStatement("return new HashSet<" + splClsName + ">()");
-		} else if (type.equals("List")) {
-			returnStmt.setStatement("return  new ArrayList<" + splClsName + ">()");
+		if (typeName.equals("Set")) {
+			returnStmt.setStatement("return new HashSet<" + fieldParamName + ">()");
+		} else if (typeName.equals("List")) {
+			returnStmt.setStatement("return  new ArrayList<" + fieldParamName + ">()");
+		} else {
+			returnStmt.setStatement("return null");
 		}
 
 
+		List<Statement> stmts = new ArrayList<Statement>();
 		stmts.add(initSet);
 		stmts.add(isInitIf);
 		stmts.add(returnStmt);

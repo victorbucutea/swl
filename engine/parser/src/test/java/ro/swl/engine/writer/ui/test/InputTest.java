@@ -59,7 +59,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer.toString());
 
-		System.out.println(writer);
 
 		Element element = getElement("label", 1);
 		element.assertContainsText("input label TODO");
@@ -111,7 +110,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer);
 
-		System.out.println(writer);
 
 		Element el = getElement("div", 1);
 		el.assertContainsAttribute("class", "form-horizontal");
@@ -208,7 +206,6 @@ public class InputTest extends WriterTest {
 
 		layout.render(writer);
 
-		System.out.println(writer);
 		parse(writer);
 
 		Element el = getElement("div", 1);
@@ -310,7 +307,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer);
 
-		System.out.println(writer);
 
 
 		Element el = getElement("div", 1);
@@ -382,7 +378,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer);
 
-		System.out.println(writer);
 
 		Element el = getElement("div", 1);
 		el.assertContainsAttribute("class", "vertical-css-class form-horizontal");
@@ -505,7 +500,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer);
 
-		System.out.println(writer);
 
 		Element el = getElement("div", 1);
 		el.assertContainsAttribute("class", "form-horizontal");
@@ -555,7 +549,6 @@ public class InputTest extends WriterTest {
 
 		parse(writer);
 
-		System.out.println(writer);
 
 
 		Element el = getElement("div", 1);
@@ -712,7 +705,6 @@ public class InputTest extends WriterTest {
 
 		radio.render(writer);
 		parse(writer.toString());
-		System.out.println(writer);
 
 		assertRadioProperlyRendered("cssStyleClass1", "modelVar", 1);
 
@@ -728,7 +720,6 @@ public class InputTest extends WriterTest {
 
 		radio.render(writer);
 		parse(writer.toString());
-		System.out.println(writer);
 
 		assertRadioProperlyRendered("cssStyleClass1", "modelVar", 1);
 
@@ -793,7 +784,6 @@ public class InputTest extends WriterTest {
 		ASTImg img = swl.Img();
 		img.render(writer);
 		parse(writer.toString());
-		System.out.println(writer); //  <img ng-src="GOPR1640.jpg" style="width:300px; height:150px;">
 
 		Element el = getElement("img", 1);
 		el.assertContainsAttribute("style", "width: 300px; height: 150px");
@@ -811,7 +801,6 @@ public class InputTest extends WriterTest {
 		img.render(writer);
 
 		parse(writer.toString());
-		System.out.println(writer); //  <img src="GOPR1640.jpg" style="width:300px; height:150px;">
 
 		Element el = getElement("img", 1);
 		el.assertContainsAttribute("style", "width: 300px; height: 150px");

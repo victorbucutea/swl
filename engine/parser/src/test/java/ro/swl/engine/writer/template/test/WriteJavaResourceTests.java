@@ -1,11 +1,16 @@
 package ro.swl.engine.writer.template.test;
 
+import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 import static org.apache.commons.io.FileUtils.listFilesAndDirs;
+import static org.junit.Assert.assertTrue;
 import japa.parser.JavaParser;
+import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
+import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.stmt.BlockStmt;
@@ -15,6 +20,7 @@ import japa.parser.ast.stmt.IfStmt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,7 +31,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.junit.Test;
 
 import ro.swl.engine.GeneratorTest;
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.Technology;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.java.model.CompoundStatement;
@@ -49,7 +55,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 
 		File projectRootFile = new File(generateDestDir, "fieldsTest");
 		projectRootFile.mkdir();
-		ProjectRoot root = new ProjectRoot(projectRootFile);
+		ProjectRoot root = new ProjectRoot("fieldsTest", projectRootFile);
 		JavaResource<Field> res = new JavaResource<Field>(root, "SomeClass", "ro.sft.somepkg");
 		root.addChild(res);
 
@@ -87,13 +93,107 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		res.addProperty(f7);
 		res.addProperty(f8);
 		res.addStaticFinalProperty(f9);
-		root.write();
+		res.write();
 
 		Collection<File> list = listFilesAndDirs(projectRootFile, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 
 		assertEquals(2, list.size());
 
-		// TODO parse and assert output 
+		File file = new File(projectRootFile, "SomeClass.java");
+
+		assertImportsOk(file);
+		assertFieldsOk(file);
+		assertGetterAndSettersOk(file);
+	}
+
+
+	private void assertImportsOk(File file) throws ParseException, IOException {
+		CompilationUnit cu = JavaParser.parse(file);
+
+		assertEquals("import com.ibm.somepkg.Something;", cu.getImports().get(0).toString().trim());
+		assertEquals("import ro.sft.pkg.Experience;", cu.getImports().get(1).toString().trim());
+		assertEquals("import javax.persistence.Column;", cu.getImports().get(2).toString().trim());
+		assertEquals("import org.codehaus.jackson.annotate.JsonIgnore;", cu.getImports().get(3).toString().trim());
+		assertEquals("import javax.persistence.SomeAnnotation;", cu.getImports().get(4).toString().trim());
+		assertEquals("import javax.persistence.CascadeType;", cu.getImports().get(5).toString().trim());
+		assertEquals("import javax.persistence.OneToMany;", cu.getImports().get(6).toString().trim());
+		assertEquals("import java.util.Set;", cu.getImports().get(7).toString().trim());
+		assertEquals("import java.util.Date;", cu.getImports().get(8).toString().trim());
+		assertEquals("import ro.sft.otherpkg.Customer;", cu.getImports().get(9).toString().trim());
+
+	}
+
+
+	private void assertGetterAndSettersOk(File javaFile) throws ParseException, IOException {
+		CompilationUnit cu = JavaParser.parse(javaFile);
+
+		TypeDeclaration cls = cu.getTypes().get(0);
+		MethodDeclaration getter1 = (MethodDeclaration) cls.getMembers().get(10);
+		assertEquals("getProp1", getter1.getName());
+		assertEquals("Customer", getter1.getType().toString());
+
+		MethodDeclaration setter1 = (MethodDeclaration) cls.getMembers().get(11);
+		assertEquals("setProp1", setter1.getName());
+		assertEquals("Customer", setter1.getParameters().get(0).getType().toString());
+
+
+		MethodDeclaration getter25 = (MethodDeclaration) cls.getMembers().get(26);
+		assertEquals("getProp9", getter25.getName());
+		assertEquals("Set<Something>", getter25.getType().toString());
+
+		MethodDeclaration setter25 = (MethodDeclaration) cls.getMembers().get(27);
+		assertEquals("setProp9", setter25.getName());
+		assertEquals("Set<Something>", setter25.getParameters().get(0).getType().toString());
+
+	}
+
+
+	private void assertFieldsOk(File javaFile) throws ParseException, IOException {
+		CompilationUnit cu = JavaParser.parse(javaFile);
+
+		TypeDeclaration cls = cu.getTypes().get(0);
+		FieldDeclaration field1 = (FieldDeclaration) cls.getMembers().get(0);
+		assertEquals("PROP_10", field1.getVariables().get(0).getId().toString());
+		int modifiers = field1.getModifiers();
+		assertEquals(0, modifiers & ModifierSet.FINAL & ModifierSet.STATIC & ModifierSet.PUBLIC);
+
+
+		FieldDeclaration prop1 = (FieldDeclaration) cls.getMembers().get(1);
+		assertEquals("prop1", prop1.getVariables().get(0).toString());
+		assertEquals("Customer", prop1.getType().toString());
+		assertEquals("@Column", prop1.getAnnotations().get(0).toString());
+
+		FieldDeclaration prop2 = (FieldDeclaration) cls.getMembers().get(2);
+		assertEquals("prop2", prop2.getVariables().get(0).toString());
+		assertEquals("Customer", prop2.getType().toString());
+
+		FieldDeclaration prop3 = (FieldDeclaration) cls.getMembers().get(3);
+		assertEquals("prop3", prop3.getVariables().get(0).toString());
+		assertEquals("Experience", prop3.getType().toString());
+
+		FieldDeclaration prop4 = (FieldDeclaration) cls.getMembers().get(4);
+		assertEquals("prop4", prop4.getVariables().get(0).toString());
+		assertEquals("int", prop4.getType().toString());
+
+		FieldDeclaration prop5 = (FieldDeclaration) cls.getMembers().get(5);
+		assertEquals("prop5", prop5.getVariables().get(0).toString());
+		assertEquals("Integer", prop5.getType().toString());
+
+		FieldDeclaration prop6 = (FieldDeclaration) cls.getMembers().get(6);
+		assertEquals("prop6", prop6.getVariables().get(0).toString());
+		assertEquals("Date", prop6.getType().toString());
+
+		FieldDeclaration prop7 = (FieldDeclaration) cls.getMembers().get(7);
+		assertEquals("prop7", prop7.getVariables().get(0).toString());
+		assertEquals("byte[]", prop7.getType().toString());
+
+		FieldDeclaration prop8 = (FieldDeclaration) cls.getMembers().get(8);
+		assertEquals("prop8", prop8.getVariables().get(0).toString());
+		assertEquals("Long", prop8.getType().toString());
+
+		FieldDeclaration prop9 = (FieldDeclaration) cls.getMembers().get(9);
+		assertEquals("prop9", prop9.getVariables().get(0).toString());
+		assertEquals("Set<Something>", prop9.getType().toString());
 	}
 
 
@@ -101,7 +201,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 	public void methodsTest() throws Exception {
 		File projectRootFile = new File(generateDestDir, "methodsTest");
 		projectRootFile.mkdir();
-		ProjectRoot root = new ProjectRoot(projectRootFile);
+		ProjectRoot root = new ProjectRoot("methodsTest", projectRootFile);
 		JavaResource<Field> res = new JavaResource<Field>(root, "SomeClass", "ro.sft.somepkg");
 		res.setName("SomeClass");
 
@@ -119,7 +219,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		addStatements(method2);
 
 
-		root.write();
+		res.write();
 		FileInputStream inStr = getGeneratedClass(projectRootFile);
 
 		CompilationUnit cu = JavaParser.parse(inStr);
@@ -130,7 +230,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 	}
 
 
-	private void addStatements(Method method2) throws GenerateException {
+	private void addStatements(Method method2) throws CreateException {
 		Set<Statement> stmts = new HashSet<Statement>();
 		CompoundStatement nullChk = new IfStatement("someVar == null");
 		nullChk.addChildStmt(new Statement("return", ""));
@@ -210,14 +310,14 @@ public class WriteJavaResourceTests extends GeneratorTest {
 
 
 	private void assertClassStructureOk(CompilationUnit cu) {
-		ImportDeclaration imprt0 = cu.getImports().get(0);
-		assertEquals("java.util.HashSet", imprt0.getName().toString());
-		ImportDeclaration imprt1 = cu.getImports().get(1);
-		assertEquals("ro.sft.pkg.SomeClasss", imprt1.getName().toString());
-		ImportDeclaration imprt2 = cu.getImports().get(2);
-		assertEquals("ro.sft.pkg.Class", imprt2.getName().toString());
-		//		ImportDeclaration imprt3 = cu.getImports().get(2);
-		//		assertEquals("java.util.Set", imprt3.getName().toString());
+		List<ImportDeclaration> imports = cu.getImports();
+		List<String> expectedImports = asList("java.util.HashSet", "ro.sft.pkg.SomeClasss",
+				"javax.persistence.SomeAnnotation", "javax.persistence.CascadeType", "javax.persistence.OneToMany",
+				"ro.sft.pkg.Class");
+		for (ImportDeclaration imprt : imports) {
+			System.out.println(imprt);
+			assertTrue(expectedImports.contains(imprt.getName().toString()));
+		}
 
 		TypeDeclaration typeDecl = cu.getTypes().get(0);
 		assertEquals("SomeClass", typeDecl.getName());
@@ -225,7 +325,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 
 
 
-	private Method createMethod(String string) throws GenerateException {
+	private Method createMethod(String string) throws CreateException {
 		Method m = new Method(string);
 
 		m.addAnnotation(createAnnotation());
@@ -233,7 +333,7 @@ public class WriteJavaResourceTests extends GeneratorTest {
 	}
 
 
-	private Annotation createAnnotation() throws GenerateException {
+	private Annotation createAnnotation() throws CreateException {
 		Annotation ann = new Annotation("javax.persistence.OneToMany");
 		ann.addProperty("cascade", "javax.persistence.CascadeType.ALL");
 		ann.addProperty("orphanRemoval", "true");

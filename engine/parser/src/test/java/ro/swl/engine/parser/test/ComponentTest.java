@@ -38,8 +38,8 @@ public class ComponentTest extends WriterTest {
 				"			input( inputVar)" +
 				"			input_file(inputFileVar)" +
 				"			input_area(inputAreaVar)" +
-				"			radio(model.radioVar)" +
-				"			radios(modelVar,collection)" +
+				"			radio(modelVar,valueProp,'cssStyleClass1;')" +
+				"			radios(modelVar,collection,someVar,'cssStyleClass1;')" +
 				"			checkbox(var2)" +
 				"           selectbox(modelVar1,collection)" +
 				"			text('literal')" +
@@ -161,16 +161,7 @@ public class ComponentTest extends WriterTest {
 	@Test
 	public void radioGroupName() throws ParseException, UnsupportedEncodingException {
 		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar,\"cssStyleClass1;\")"));
-		//@formatter:on
-		swl.Radio();
-	}
-
-
-	@Test
-	public void radioWithVariableValue() throws ParseException, UnsupportedEncodingException {
-		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar,\"cssStyleClass1;\")"));
+			SWL swl = new SWL (createInputStream("radio(modelVar,groupName,\"cssStyleClass1;\")"));
 		//@formatter:on
 		swl.Radio();
 	}
@@ -179,7 +170,7 @@ public class ComponentTest extends WriterTest {
 	@Test
 	public void radioNoCss() throws ParseException, UnsupportedEncodingException {
 		//@formatter:off
-			SWL swl = new SWL (createInputStream("radio(modelVar)"));
+			SWL swl = new SWL (createInputStream("radio(modelVar,groupName)"));
 		//@formatter:on
 		swl.Radio();
 	}
@@ -188,7 +179,7 @@ public class ComponentTest extends WriterTest {
 	@Test
 	public void radiosAllProps() throws ParseException {
 		//@formatter:off
-		SWL swl = new SWL (createInputStream("radios(modelVar,collection,\"background-url: 'http://www.somesite.com';\")"));
+		SWL swl = new SWL (createInputStream("radios(modelVar,collection,valueProp,\"background-url: 'http://www.somesite.com';\")"));
 		//@formatter:on
 		swl.Radios();
 	}
@@ -197,25 +188,16 @@ public class ComponentTest extends WriterTest {
 	@Test
 	public void radiosAllPropsSingleQuoteForCss() throws ParseException {
 		//@formatter:off
-		SWL swl = new SWL (createInputStream("radios(modelVar,collection,'background-url: \"http://www.somesite.com\";')"));
+		SWL swl = new SWL (createInputStream("radios(modelVar,collection,valueProp,'background-url: \"http://www.somesite.com\";')"));
 		//@formatter:on
 		swl.Radios();
 	}
 
 
 	@Test
-	public void radiosAllPropsWithSimpleCssClass() throws ParseException {
+	public void radiosAllPropsWithNoCssClass() throws ParseException {
 		//@formatter:off
-		SWL swl = new SWL (createInputStream("radios(modelVar,collection,\"someCssClass ;\")"));
-		//@formatter:on
-		swl.Radios();
-	}
-
-
-	@Test
-	public void radiosMandatoryAttrs() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("radios(modelVar,collection)"));
+		SWL swl = new SWL (createInputStream("radios(modelVar,collection,valueProp)"));
 		//@formatter:on
 		swl.Radios();
 	}
@@ -284,7 +266,8 @@ public class ComponentTest extends WriterTest {
 	public void selectBoxWithAdvOptions() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("selectbox(modelValue,modelCollection) {" +
-				" selectoption(\"value\",\"label\") selectoption(\"value\",\"label\",'styleclass;')}"));
+				" selectoption(\"value\",\"label\")" +
+				" selectoption(\"value\",\"label\",'styleclass;')}"));
 		//@formatter:on
 		swl.Selectbox();
 	}
@@ -336,162 +319,9 @@ public class ComponentTest extends WriterTest {
 
 
 	@Test
-	public void simpleVerticalLayout() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("vertical_layout() {}"
-								));
-		//@formatter:on
-
-		swl.VerticalLayout();
-
-	}
-
-
-	@Test
-	public void verticalLayoutWithContent() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("vertical_layout () {"+
-													"img(cv.rawFile,\"width:300px; height:150px;\") "+
-													"input_file(cv.rawFile) " +
-													"img(\"/img/static.png\")" +
-												"}"
-								));
-		//@formatter:on
-		swl.VerticalLayout();
-	}
-
-
-	@Test
-	public void verticalLayoutModelController() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("vertical_layout () {"+
-													"model {} "+
-													" controller {} " +
-													"img(cv.rawFile,\"width:300px; height:150px;\") "+
-													"input_file(cv.rawFile) " +
-													"img(\"/img/static.png\")" +
-												"}"
-								));
-		//@formatter:on
-		swl.VerticalLayout();
-	}
-
-
-	@Test
-	public void nestedVerticalLayoutWithContent() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("vertical_layout () {"+
-														"//layout can be dynamically defined \n"+ 
-														"img(cv.rawFile,\"width:300px; height:150px;\") "+
-														"input_file(cv.rawFile) " +
-														"img(\"/img/static.png\")" +
-														"vertical_layout () {" +
-														" input() input_file()" +
-														"}" +
-											"}"
-								));
-		//@formatter:on
-
-		swl.VerticalLayout();
-
-	}
-
-
-	@Test
-	public void nestedVerticalLayoutWithModelAndContent() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("vertical_layout (\"cssStyleClass2; top:20px;\") {"+
-														"img(cv.rawFile,\"width:300px; height:150px;\") "+
-														"input_file(cv.rawFile) " +
-														"img(\"/img/static.png\")" +
-														"vertical_layout () {" +
-															" model { some content inside model, var x = asdadsa } " +
-															" controller { some content inside controller for (int i = 0 ; i < 100 ; i ++ ) {} }" +
-															" input() " +
-															" input_file()" +
-														"}" +
-											"}"
-								));
-		//@formatter:on
-
-		swl.VerticalLayout();
-	}
-
-
-	@Test
-	public void simpleHorizontalLayout() throws ParseException {
-		//@formatter:off
-				SWL swl = new SWL (createInputStream(" horizontal_layout(4,1,1,1,1,1) {"+
-                            "text(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials)"+
-                            "radio(materials)"+
-                            "radio(materials)"+
-                            "}"));
-				//@formatter:on
-
-		swl.HorizontalLayout();
-	}
-
-
-	@Test
-	public void simpleHorizontalLayout2() throws ParseException {
-		//@formatter:off
-				SWL swl = new SWL (createInputStream(" horizontal_layout() {}"));
-				//@formatter:on
-
-		swl.HorizontalLayout();
-	}
-
-
-	@Test
-	public void simpleHorizontalLayoutWithCss() throws ParseException {
-		//@formatter:off
-				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row-css;\"],1,1,1['background-color: blue;'],1,1) {"+
-                            "text(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials)"+
-                            "radio(materials)"+
-                            "radio(materials)"+
-                            "}"));
-				//@formatter:on
-
-		swl.HorizontalLayout();
-	}
-
-
-	@Test
-	public void simpleHorizontalLayoutWithCssAllOver() throws ParseException {
-		//@formatter:off
-				SWL swl = new SWL (createInputStream(" horizontal_layout([\"container-css;\"]4[\"row1-css;\"],1[\"row2-css;\"]," +
-																			"1[\"row-css;\"],1['background-color: blue;'],1[\"row-css;\"],1[\"row-css;\"]) {"+
-                            "text(\"Course Materials\",\"font-size:90%;\")"+
-                            "radio(materials)"+
-                            "radio(materials)"+
-                            "radio(materials)"+ 
-                            "}"));
-				//@formatter:on
-
-		swl.HorizontalLayout();
-	}
-
-
-	@Test
 	public void simpleHorizontalForm() throws ParseException {
 		//@formatter:off
 		SWL swl = new SWL (createInputStream("horizontal_form('width :300px;') {} "));
-		//@formatter:on
-
-		swl.HorizontalForm();
-	}
-
-
-	@Test
-	public void simpleHorizontalFormWithContent() throws ParseException {
-		//@formatter:off
-		SWL swl = new SWL (createInputStream("horizontal_form('width :300px;') {" +
-				"							  model {} " +
-				"							  controller{} " +
-				"								input() input_file() " +
-				"								horizontal_layout(){} } "));
 		//@formatter:on
 
 		swl.HorizontalForm();

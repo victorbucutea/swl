@@ -20,38 +20,38 @@ public class QualifiedClassNameTests {
 		try {
 			new QualifiedClassName(null);
 			fail("Should not be able to build a FQ Class name with null or empty");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 		}
 
 		try {
 			new QualifiedClassName("");
 			fail("Should not be able to build a FQ Class name with null or empty");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 		}
 
 		try {
 			new QualifiedClassName(null, null);
 			fail("Should not be able to build a FQ Class name with null or empty");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 		}
 
 		try {
 			new QualifiedClassName("", null);
 			fail("Should not be able to build a FQ Class name with null or empty");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 		}
 
 		try {
 			new QualifiedClassName("", "");
 			fail("Should not be able to build a FQ Class name with null or empty");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 		}
 
 	}
 
 
 	@Test
-	public void simpleClassesAndPrimitives() throws GenerateException {
+	public void simpleClassesAndPrimitives() throws CreateException {
 
 		QualifiedClassName cname = new QualifiedClassName("SomeClass");
 		assertImportSize(cname, 0);
@@ -133,7 +133,7 @@ public class QualifiedClassNameTests {
 
 
 	@Test
-	public void qualifiedClass() throws GenerateException {
+	public void qualifiedClass() throws CreateException {
 
 		QualifiedClassName cname = new QualifiedClassName("javax.persistence.Column");
 		assertImportContains(cname, "javax.persistence.Column");
@@ -149,7 +149,7 @@ public class QualifiedClassNameTests {
 
 
 	@Test
-	public void innerClasses() throws GenerateException {
+	public void innerClasses() throws CreateException {
 
 		QualifiedClassName cname = new QualifiedClassName("javax.persistence.TemporalType.TIMESTAMP");
 		assertImportContains(cname, "javax.persistence.TemporalType");
@@ -177,7 +177,7 @@ public class QualifiedClassNameTests {
 
 
 	@Test
-	public void parameterizedClasses() throws GenerateException {
+	public void parameterizedClasses() throws CreateException {
 		QualifiedClassName cname = new QualifiedClassName("java.util.Set<ro.sft.SomeClass>");
 		assertImportContains(cname, "java.util.Set", "ro.sft.SomeClass");
 		assertImportSize(cname, 2);

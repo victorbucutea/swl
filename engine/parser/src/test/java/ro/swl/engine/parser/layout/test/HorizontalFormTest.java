@@ -14,6 +14,7 @@ import ro.swl.engine.parser.SWL;
 import ro.swl.engine.parser.model.Component;
 import ro.swl.engine.writer.ui.WriteException;
 
+
 public class HorizontalFormTest extends WriterTest {
 
 	@Test
@@ -42,7 +43,7 @@ public class HorizontalFormTest extends WriterTest {
 
 		assertEquals(2, rows.size());
 		ASTLayoutRow row1 = rows.get(1);
-		assertEquals("some-css-style", row1.getCssClassNames().get(0));
+		assertEquals("some-css-style", row1.getCssClassNames().get(1));
 
 		List<Component> childComponents = row1.getChildComponents();
 

@@ -5,7 +5,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.javaee.exception.EmptyFqNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidFqNameException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
@@ -31,7 +31,7 @@ public class QualifiedClassName {
 	private QualifiedClassName parameterType;
 
 
-	public QualifiedClassName(String fqName) throws GenerateException {
+	public QualifiedClassName(String fqName) throws CreateException {
 
 		if (isEmpty(fqName))
 			throw new EmptyFqNameException();
@@ -78,7 +78,7 @@ public class QualifiedClassName {
 	}
 
 
-	public QualifiedClassName(String simpleName, String pkgName) throws GenerateException {
+	public QualifiedClassName(String simpleName, String pkgName) throws CreateException {
 		if (isEmpty(simpleName))
 			throw new EmptyFqNameException();
 

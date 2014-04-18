@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class NoModuleException extends GenerateException {
+public class NoModuleException extends CreateException {
 
 	/**
 	 * 

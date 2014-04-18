@@ -1,0 +1,18 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+
+$model.OutputFileName
+
+# current package
+basePackage = ${basePackage}
+
+# current module 
+module = ${module}
+
+# current version 
+version = ${version}
+
+
+# custom property
+customProperty = ${customProperty}

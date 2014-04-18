@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class WrongRelatedFieldTypeException extends GenerateException {
+public class WrongRelatedFieldTypeException extends CreateException {
 
 	private static final long serialVersionUID = 1152707595679874547L;
 

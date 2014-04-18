@@ -34,11 +34,6 @@ public class WriterTest extends AbstractTest {
 	protected TagWriter writer;
 
 
-	public WriterTest() {
-		super();
-	}
-
-
 	@Before
 	public void setUpXmlParser() throws ParserConfigurationException, SAXException {
 

@@ -8,7 +8,7 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
   NODE_CLASS = "SWLNode";
-//  DEBUG_PARSER=true;//  DEBUG_TOKEN_MANAGER=true;
+ // DEBUG_PARSER=true; // DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -36,6 +36,12 @@ public class SWL
       System.out.println(e.getMessage());
     }
   }
+
+ 	public static ASTSwdlApp  parse( java.io.File f) throws ParseException, java.io.FileNotFoundException {
+		java.io.FileInputStream fStr = new java.io.FileInputStream(f);
+		SWL parser = new SWL(fStr);
+		return parser.SwdlApp();
+	}
 }
 
 PARSER_END(SWL)
@@ -244,10 +250,7 @@ void ScreenName() :
   t= < NAME >
 }
 
-void Model() :
-{
-  
-}
+void Model() : {}
 {
    < MODEL >
   GenericBlock(DEFAULT)
@@ -297,8 +300,10 @@ void GenericBlock(int switchBackState) :
 ASTVerticalLayout VerticalLayout() : {}
 {
     < VERTICAL_LAYOUT >
-   	StdLayoutDescription()	
+   	StdLayoutDescription()
   	< OPEN_BRACKET >
+  		(Model())?
+  		(Controller())?	
   		( LayoutRow())*
   	< CLOSE_BRACKET >  	{
   	  return jjtThis;  	}}
@@ -553,7 +558,7 @@ void SelectboxOptions() : {}
 
 void SelectOption() : {}
 {
-   < SELECTOPTION > (RadiosInputDescription()) // reuse the old production despite the bad name...}
+   < SELECTOPTION > (RadioInputDescription()) // reuse the old production despite the bad name...}
 
 
 void SelectOptionGroup() : {}

@@ -2,9 +2,9 @@ package ro.swl.engine.generator.model;
 
 import java.io.File;
 
-import ro.swl.engine.generator.GenerationContext;
-import ro.swl.engine.writer.template.DefaultResourceWriter;
-import ro.swl.engine.writer.template.ResourceWriter;
+import ro.swl.engine.generator.CreationContext;
+import ro.swl.engine.writer.DefaultResourceWriter;
+import ro.swl.engine.writer.ResourceWriter;
 import ro.swl.engine.writer.ui.WriteException;
 
 
@@ -15,8 +15,7 @@ import ro.swl.engine.writer.ui.WriteException;
  * default writer (responsible for writing the resource to disk) along with the
  * default output file name.
  * 
- * Subclasses can override {@link #writeSelf(GenerationContext)} or
- * {@link #writeChildren(GenerationContext)} methods
+ * Subclasses can override {@link #write()} method to
  * 
  * 
  * 
@@ -58,7 +57,7 @@ public abstract class Resource extends BaseResource {
 
 
 	@Override
-	protected void writeSelf() throws WriteException {
+	public void write() throws WriteException {
 		writer.write();
 	}
 
@@ -78,7 +77,7 @@ public abstract class Resource extends BaseResource {
 
 
 	@Override
-	public void registerState(GenerationContext ctxt) {
+	public void registerState(CreationContext ctxt) {
 		this.parentModuleName = ctxt.getCurrentModule();
 	}
 
@@ -90,7 +89,7 @@ public abstract class Resource extends BaseResource {
 
 	@Override
 	public String toString() {
-		return outputFileName + " (" + getClass().getSimpleName() + ")";
+		return getOutputFilePath() + " (" + getClass().getSimpleName() + ")";
 	}
 
 

@@ -9,7 +9,7 @@ import ro.swl.engine.parser.ASTSwdlApp;
 public class InternalTypesEnhancer extends Enhancer<JavaResource<Field>> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, JavaResource<Field> res) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, JavaResource<Field> res) throws CreateException {
 		getGlobalCtxt().registerGeneratedType(res.getName(), res.getPackage() + "." + res.getName());
 	}
 

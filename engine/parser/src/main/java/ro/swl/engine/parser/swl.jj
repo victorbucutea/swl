@@ -9,7 +9,7 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
                          
-//  DEBUG_PARSER=true;//  DEBUG_TOKEN_MANAGER=true;
+ // DEBUG_PARSER=true; // DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -40,6 +40,12 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants/*@egen*/
       System.out.println(e.getMessage());
     }
   }
+
+ 	public static ASTSwdlApp  parse( java.io.File f) throws ParseException, java.io.FileNotFoundException {
+		java.io.FileInputStream fStr = new java.io.FileInputStream(f);
+		SWL parser = new SWL(fStr);
+		return parser.SwdlApp();
+	}
 }
 
 PARSER_END(SWL)
@@ -455,14 +461,11 @@ void ScreenName() :
 /*@egen*/
 }
 
-void Model() :
-{/*@bgen(jjtree) Model */
+void Model() : {/*@bgen(jjtree) Model */
   ASTModel jjtn000 = new ASTModel(JJTMODEL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/
-  
-}
+/*@egen*/}
 {/*@bgen(jjtree) Model */
    try {
 /*@egen*/
@@ -623,8 +626,10 @@ ASTVerticalLayout VerticalLayout() : {/*@bgen(jjtree) VerticalLayout */
     try {
 /*@egen*/
     < VERTICAL_LAYOUT >
-   	StdLayoutDescription()	
+   	StdLayoutDescription()
   	< OPEN_BRACKET >
+  		(Model())?
+  		(Controller())?	
   		( LayoutRow())*
   	< CLOSE_BRACKET >/*@bgen(jjtree)*/
         {
@@ -1731,7 +1736,7 @@ void SelectOption() : {/*@bgen(jjtree) SelectOption */
 {/*@bgen(jjtree) SelectOption */
    try {
 /*@egen*/
-   < SELECTOPTION > (RadiosInputDescription())/*@bgen(jjtree)*/
+   < SELECTOPTION > (RadioInputDescription())/*@bgen(jjtree)*/
    } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);

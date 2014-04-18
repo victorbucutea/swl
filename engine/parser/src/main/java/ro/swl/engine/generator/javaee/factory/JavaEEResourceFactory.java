@@ -9,8 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ro.swl.engine.generator.GenerateException;
-import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.CreationContext;
 import ro.swl.engine.generator.ResourceFactory;
 import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
@@ -36,13 +36,13 @@ import ro.swl.engine.parser.ASTSwdlApp;
 public class JavaEEResourceFactory extends ResourceFactory {
 
 
-	public JavaEEResourceFactory(ASTSwdlApp appmodel, GenerationContext generationContext) {
+	public JavaEEResourceFactory(ASTSwdlApp appmodel, CreationContext generationContext) {
 		super(appmodel, generationContext);
 	}
 
 
 	@Override
-	public List<? extends Resource> createResource(Resource parent, File templateFile) throws GenerateException {
+	public List<? extends Resource> createResource(Resource parent, File templateFile) throws CreateException {
 
 		if (isWebXml(templateFile)) {
 			return createWebXmlResource(parent, templateFile);
@@ -85,7 +85,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 
 
-	private List<EntityResource> createEntityResources(Resource parent, File templateFile) throws GenerateException {
+	private List<EntityResource> createEntityResources(Resource parent, File templateFile) throws CreateException {
 		List<EntityResource> newResources = new ArrayList<EntityResource>();
 		List<ASTModule> modules = getAppModel().getModules();
 
@@ -128,10 +128,10 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 
 	private void createEntityResource(List<EntityResource> newResources, ASTEntity entity, Resource parent,
-			File template) throws GenerateException {
+			File template) throws CreateException {
 		String currentPackage = getCtxt().getCurrentPackage();
 		if (isEmpty(currentPackage)) {
-			currentPackage = generateParentPackage(template);
+			currentPackage = generateParentPackage(template.getParentFile());
 		}
 		EntityResource res = new EntityResource(parent, template, currentPackage);
 
@@ -160,28 +160,28 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	}
 
 
-	private String generateParentPackage(File parent) throws GenerateException {
+	private String generateParentPackage(File parent) throws CreateException {
 		if (!getGlobalCtxt().isAutoDetectPackage()) {
 			throw new InvalidPackageException("Entity must be in a parent  __package__ if auto detect package is false");
 		}
-		String first = parent.getName();
+		String firstName = parent.getName();
 		File secondParent = parent.getParentFile();
 		if (secondParent == null) {
-			return first;
+			return firstName;
 		}
-		String second = secondParent.getParentFile().getName();
+		String secondName = secondParent.getName();
 		File thirdParent = secondParent.getParentFile();
 		if (thirdParent == null) {
-			return second + "." + first;
+			return secondName + "." + firstName;
 		}
-		String third = thirdParent.getParentFile().getName();
+		String thirdName = thirdParent.getName();
 		File forthParent = thirdParent.getParentFile();
 		if (forthParent == null) {
-			return third + "." + second + "." + first;
+			return thirdName + "." + secondName + "." + firstName;
 		}
-		String forth = forthParent.getParentFile().getName();
+		String forthName = forthParent.getName();
 
-		return forth + "." + third + "." + second + "." + first;
+		return forthName + "." + thirdName + "." + secondName + "." + firstName;
 	}
 
 
@@ -191,9 +191,13 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	 * @param parent
 	 * @param templateFile
 	 * @return
-	 * @throws GenerateException
+	 * @throws CreateException
 	 */
-	private List<ServiceResource> createServiceResource(Resource parent, File templateFile) throws GenerateException {
+	private List<ServiceResource> createServiceResource(Resource parent, File templateFile) throws CreateException {
+
+		if (isEmpty(getCtxt().getCurrentModule()))
+			throw new NoModuleException();
+
 		// iterate through module's services and generate a service resource
 		List<ServiceResource> serviceRes = newArrayList();
 		String currentPackage = getCtxt().getCurrentPackage();
@@ -221,7 +225,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	}
 
 
-	private ASTModule getCurrentModule() throws GenerateException {
+	private ASTModule getCurrentModule() throws CreateException {
 		String currentModule = getCtxt().getCurrentModule();
 		List<ASTModule> modules = getAppModel().getModules();
 
@@ -250,7 +254,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 	private boolean isModuleTemplate(File f) {
 		String name = f.getName();
-		return "__module__".equals(name) && f.isDirectory();
+		return name.contains("__module__") && f.isDirectory();
 
 	}
 
@@ -267,30 +271,11 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 	private boolean isServiceTemplate(File f) {
 		boolean isServiceMeta = f.getName().contains("__service__");
-		if (isServiceMeta && hasParent(f, "__module__")) {
+		if (isServiceMeta) {
 			return true;
 		}
 
 		return false;
-	}
-
-
-	private boolean hasParent(File f, String parentName) {
-
-		if (f == null) {
-			return false;
-		}
-
-		if (f.getParentFile() == null) {
-			return false;
-		}
-
-
-		if (parentName.equals(f.getParentFile().getName())) {
-			return true;
-		} else {
-			return hasParent(f.getParentFile(), parentName);
-		}
 	}
 
 

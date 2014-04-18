@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.model.QualifiedClassName;
 
 
@@ -23,9 +23,10 @@ public class Type {
 		internalTypes.put("Double", "java.lang.Double");
 		internalTypes.put("long", "long");
 		internalTypes.put("Long", "java.lang.Long");
+		internalTypes.put("String", "String");
 		try {
 			VOID = new Type("void");
-		} catch (GenerateException e) {
+		} catch (CreateException e) {
 			e.printStackTrace();
 		}
 	}
@@ -43,9 +44,9 @@ public class Type {
 	/**
 	 * 
 	 * @param name
-	 * @throws GenerateException
+	 * @throws CreateException
 	 */
-	public Type(String fqName) throws GenerateException {
+	public Type(String fqName) throws CreateException {
 		this.clsName = new QualifiedClassName(fqName);
 		this.swlDeclaredName = clsName.getSimpleName();
 		String internalType = internalTypes.get(swlDeclaredName);

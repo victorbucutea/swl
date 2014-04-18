@@ -8,6 +8,7 @@ import ro.swl.engine.parser.SWL;
 import ro.swl.engine.writer.ui.WriteException;
 import ro.swl.engine.writer.ui.test.IdGeneratorTest;
 
+
 public class I18nLabelsTest extends IdGeneratorTest {
 
 	@Test
@@ -26,7 +27,6 @@ public class I18nLabelsTest extends IdGeneratorTest {
 
 		verticalLayout.render(writer);
 
-		System.out.println(writer);
 
 		// expect writer has 10 keys generated 
 

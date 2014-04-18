@@ -49,7 +49,7 @@ public class ButtonTest extends WriterTest {
 		List<String> cssInlineStyles = button.getCssInlineStyles();
 
 		assertEquals("action1(var1.childAttr1.childAttr2)", bAction.getImage());
-		assertEquals("cssClass", cssClassNames.get(0));
+		assertEquals("cssClass", cssClassNames.get(1));
 		assertTrue(cssInlineStyles.isEmpty());
 	}
 
@@ -68,7 +68,7 @@ public class ButtonTest extends WriterTest {
 		List<String> cssInlineStyles = button.getCssInlineStyles();
 
 		assertEquals("action1(var1.childAttr1.childAttr2, var2.childAttr1)", bAction.getImage());
-		assertEquals("cssClass", cssClassNames.get(0));
+		assertEquals("cssClass", cssClassNames.get(1));
 		assertTrue(cssInlineStyles.isEmpty());
 
 	}

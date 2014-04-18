@@ -8,11 +8,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.model.Resource;
-import ro.swl.engine.writer.template.JavaTemplateWriter;
-import ro.swl.engine.writer.template.ResourceWriter;
+import ro.swl.engine.writer.JavaTemplateWriter;
+import ro.swl.engine.writer.ResourceWriter;
 
 import com.google.common.base.CaseFormat;
 
@@ -21,11 +21,6 @@ import com.google.common.base.CaseFormat;
  * 
  * @author VictorBucutea
  * 
- * @param <T>
- *            A subclass of {@link Type}. It should provide additional
- *            functionality than the old {@link Type}.
- *            e.g. EntityType - which can be a 'Blob', a 'Set<Something', a
- *            'Date',etc.
  * 
  * @param <F>
  *            A sublclass of {@link AbstractField}. It provides additional
@@ -38,6 +33,8 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	private String name;
 
 	private String pkg;
+
+	private Type superClass;
 
 	private List<F> props = new ArrayList<F>();
 
@@ -61,15 +58,20 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	}
 
 
-	public void addProperty(F field) throws GenerateException {
+	public void addProperty(F field) throws CreateException {
 		this.props.add(field);
 	}
 
 
-	public void addStaticFinalProperty(F field) throws GenerateException {
+	public void addStaticFinalProperty(F field) throws CreateException {
 		field.setHasGetter(false);
 		field.setHasSetter(false);
 		this.staticFinalProps.add(field);
+	}
+
+
+	public void setSuperClass(String fqSuperClassName) throws CreateException {
+		this.superClass = new Type(fqSuperClassName);
 	}
 
 
@@ -119,13 +121,12 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	}
 
 
-
 	public Set<Annotation> getAnnotations() {
 		return annotations;
 	}
 
 
-	public void addAnnotation(String ann) throws GenerateException {
+	public void addAnnotation(String ann) throws CreateException {
 		this.annotations.add(new Annotation(ann));
 	}
 
@@ -164,6 +165,9 @@ public class JavaResource<F extends AbstractField> extends Resource {
 			imports.addAll(f.getImports());
 		}
 
+		if (superClass != null)
+			imports.addAll(superClass.getImports());
+
 		return imports;
 	}
 
@@ -171,5 +175,15 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	@Override
 	public String getOutputFileName() {
 		return getName() + ".java";
+	}
+
+
+	public boolean isSubClass() {
+		return superClass != null;
+	}
+
+
+	public Type getSuperClass() {
+		return superClass;
 	}
 }

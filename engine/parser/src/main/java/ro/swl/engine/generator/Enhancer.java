@@ -11,9 +11,9 @@ public abstract class Enhancer<T extends Resource> {
 
 
 	@SuppressWarnings("unchecked")
-	public void enhanceInternal(ASTSwdlApp appModel, Resource r) throws GenerateException {
+	public void enhanceInternal(ASTSwdlApp appModel, Resource r) throws CreateException {
 		if (!getGenericClass().isAssignableFrom(r.getClass())) {
-			throw new GenerateException("Internal error while enhancing. Type of resource ('" + r.getClass()
+			throw new CreateException("Internal error while enhancing. Type of resource ('" + r.getClass()
 					+ "') is not accepted by enhancer. Current enhancer only accepts " + getGenericClass());
 		}
 
@@ -21,7 +21,7 @@ public abstract class Enhancer<T extends Resource> {
 	}
 
 
-	public abstract void enhance(ASTSwdlApp appModel, T r) throws GenerateException;
+	public abstract void enhance(ASTSwdlApp appModel, T r) throws CreateException;
 
 
 	public boolean accepts(Resource res) {

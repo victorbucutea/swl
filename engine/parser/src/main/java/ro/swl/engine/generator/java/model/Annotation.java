@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.model.QualifiedClassName;
 
 
@@ -23,7 +23,7 @@ public class Annotation implements Comparable<Annotation> {
 	private Map<String, AnnotationPropertyValue> attributes;
 
 
-	public Annotation(String string) throws GenerateException {
+	public Annotation(String string) throws CreateException {
 		this.fqName = new QualifiedClassName(string);
 		attributes = new HashMap<String, AnnotationPropertyValue>();
 	}
@@ -40,7 +40,7 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public void addProperty(String name, String value) throws GenerateException {
+	public void addProperty(String name, String value) throws CreateException {
 		if (attributes.containsKey(name)) {
 			AnnotationPropertyValue prop = attributes.get(name);
 			prop.addTypeValue(value);
@@ -55,12 +55,12 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public void setProperty(String name, String value) throws GenerateException {
+	public void setProperty(String name, String value) throws CreateException {
 		attributes.put(name, new AnnotationPropertyValue(value));
 	}
 
 
-	public void addPropertyLiteral(String name, String value) throws GenerateException {
+	public void addPropertyLiteral(String name, String value) throws CreateException {
 		if (attributes.containsKey(name)) {
 			AnnotationPropertyValue prop = attributes.get(name);
 			prop.addValueLiteral(value);
@@ -70,12 +70,12 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public void setPropertyLiteral(String name, String value) throws GenerateException {
+	public void setPropertyLiteral(String name, String value) throws CreateException {
 		attributes.put(name, new AnnotationPropertyValue(value, true));
 	}
 
 
-	public void addPropertyAnnotation(String name, String value) throws GenerateException {
+	public void addPropertyAnnotation(String name, String value) throws CreateException {
 		if (attributes.containsKey(name)) {
 			AnnotationPropertyValue prop = attributes.get(name);
 			prop.addAnnotationValue(value);
@@ -85,7 +85,7 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public void addPropertyAnnotation(String name, Annotation value) throws GenerateException {
+	public void addPropertyAnnotation(String name, Annotation value) throws CreateException {
 		if (attributes.containsKey(name)) {
 			AnnotationPropertyValue prop = attributes.get(name);
 			prop.addAnnotationValue(value);
@@ -95,7 +95,7 @@ public class Annotation implements Comparable<Annotation> {
 	}
 
 
-	public void setPropertyAnnotation(String name, String value) throws GenerateException {
+	public void setPropertyAnnotation(String name, String value) throws CreateException {
 		attributes.put(name, new AnnotationPropertyValue(value, true, true));
 	}
 
@@ -177,9 +177,9 @@ public class Annotation implements Comparable<Annotation> {
 		 * 
 		 * @param value
 		 *            (e.g. CascadeType.ALL )
-		 * @throws GenerateException
+		 * @throws CreateException
 		 */
-		public AnnotationPropertyValue(String value) throws GenerateException {
+		public AnnotationPropertyValue(String value) throws CreateException {
 			addTypeValue(value);
 		}
 
@@ -190,7 +190,7 @@ public class Annotation implements Comparable<Annotation> {
 		 * 
 		 * @param value
 		 *            (e.g. true, "Select j from CV" )
-		 * @throws GenerateException
+		 * @throws CreateException
 		 */
 		public AnnotationPropertyValue(String value, boolean literal) {
 			addValueLiteral(value);
@@ -204,9 +204,9 @@ public class Annotation implements Comparable<Annotation> {
 		 *            e.g. @NamedQuery(...)
 		 * @param annotation
 		 * @param ann
-		 * @throws GenerateException
+		 * @throws CreateException
 		 */
-		public AnnotationPropertyValue(String value, boolean annotation, boolean ann) throws GenerateException {
+		public AnnotationPropertyValue(String value, boolean annotation, boolean ann) throws CreateException {
 			addAnnotationValue(value);
 		}
 
@@ -218,14 +218,14 @@ public class Annotation implements Comparable<Annotation> {
 		 *            e.g. @NamedQuery(...)
 		 * @param annotation
 		 * @param ann
-		 * @throws GenerateException
+		 * @throws CreateException
 		 */
 		public AnnotationPropertyValue(Annotation value) {
 			addAnnotationValue(value);
 		}
 
 
-		public void addAnnotationValue(String value) throws GenerateException {
+		public void addAnnotationValue(String value) throws CreateException {
 			annotationValues.add(new Annotation(value));
 		}
 
@@ -268,7 +268,7 @@ public class Annotation implements Comparable<Annotation> {
 		}
 
 
-		public void addTypeValue(String value) throws GenerateException {
+		public void addTypeValue(String value) throws CreateException {
 			typeValues.add(new QualifiedClassName(value));
 		}
 

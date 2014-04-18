@@ -22,7 +22,7 @@ public class RelationsEnhancer extends Enhancer<ProjectRoot> {
 
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, ProjectRoot r) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, ProjectRoot r) throws CreateException {
 
 
 		List<ASTEntity> entities = appModel.getChildNodesOfType(ASTEntity.class, true);
@@ -152,7 +152,7 @@ public class RelationsEnhancer extends Enhancer<ProjectRoot> {
 
 
 	private ASTProperty findRelatedField(ASTSwdlApp appModel, ASTEntity entity, ASTProperty field, String fieldType)
-			throws GenerateException {
+			throws CreateException {
 		ASTEntity relatedEntity = findEntity(appModel, fieldType);
 		ASTProperty relatedField = relatedEntity.getFieldWithName(field.getRelatedPropertyName());
 		String relatedEntityName = relatedEntity.getName();

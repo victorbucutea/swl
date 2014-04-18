@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.model.ResourceProperty;
 import ro.swl.engine.parser.ASTProperty;
 
@@ -38,7 +38,7 @@ public abstract class AbstractField extends ResourceProperty {
 	protected ASTProperty modelProp;
 
 
-	public AbstractField(String name, String type, String typePkg) throws GenerateException {
+	public AbstractField(String name, String type, String typePkg) throws CreateException {
 		this.name = name;
 		this.pkg = typePkg;
 		this.hasGetter = true;
@@ -50,7 +50,7 @@ public abstract class AbstractField extends ResourceProperty {
 	}
 
 
-	public AbstractField(ASTProperty modelProp, String typePkg) throws GenerateException {
+	public AbstractField(ASTProperty modelProp, String typePkg) throws CreateException {
 		this.modelProp = modelProp;
 		this.name = modelProp.getName();
 		this.pkg = typePkg;
@@ -63,7 +63,7 @@ public abstract class AbstractField extends ResourceProperty {
 	}
 
 
-	protected abstract Type initFieldType(String type, String pkg) throws GenerateException;
+	protected abstract Type initFieldType(String type, String pkg) throws CreateException;
 
 
 	public String getName() {
@@ -86,17 +86,17 @@ public abstract class AbstractField extends ResourceProperty {
 	}
 
 
-	public void addAnotation(String fqAnnName) throws GenerateException {
+	public void addAnotation(String fqAnnName) throws CreateException {
 		this.annotations.add(new Annotation(fqAnnName));
 	}
 
 
-	public void addGetterAnotation(String fqAnnName) throws GenerateException {
+	public void addGetterAnotation(String fqAnnName) throws CreateException {
 		this.getterAnnotations.add(new Annotation(fqAnnName));
 	}
 
 
-	public void addSetterAnnotation(String fqAnnName) throws GenerateException {
+	public void addSetterAnnotation(String fqAnnName) throws CreateException {
 		this.setterAnnotations.add(new Annotation(fqAnnName));
 	}
 

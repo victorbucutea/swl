@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class DuplicateFieldNameException extends GenerateException {
+public class DuplicateFieldNameException extends CreateException {
 
 
 	/**

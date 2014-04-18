@@ -10,7 +10,7 @@ public abstract class Technology {
 
 
 
-	public void enhance(Resource res, ASTSwdlApp appModel) throws GenerateException {
+	public void enhance(Resource res, ASTSwdlApp appModel) throws CreateException {
 
 		for (Enhancer<? extends Resource> enhancer : getEnhancers()) {
 

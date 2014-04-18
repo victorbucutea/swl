@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class CrudEntityNotFoundException extends GenerateException {
+public class CrudEntityNotFoundException extends CreateException {
 
 	private static final long serialVersionUID = -8009122730344161786L;
 

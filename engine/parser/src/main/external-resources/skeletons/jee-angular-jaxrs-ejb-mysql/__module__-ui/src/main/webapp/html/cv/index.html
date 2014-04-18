@@ -1,0 +1,17 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<div class="container-fluid" ng-controller="cvController">
+	<div class="row-fluid">
+		<div class="span2">
+			<!--  if CreateCV has a default empty model or controller we will not create one -->
+			<a ng-click="showCreateCV()">Create CV</a> <a class="show">Search CV</a>
+
+			<div swdl-nestedmenu />
+		</div>
+		<div class="span8">
+			<div swdl-message />
+			<div ng-include src="menuContent" />
+		</div>
+	</div>
+</div>

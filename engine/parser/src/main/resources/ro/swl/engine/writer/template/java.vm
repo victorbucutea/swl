@@ -8,7 +8,7 @@ import $import;
 #foreach( $annotation in $model.Annotations )
 $annotation.toJavaRepresentation()
 #end
-public class $model.Name { 
+public class $model.Name #if($model.isSubClass())extends $model.SuperClass#end { 
 
 #foreach( $field in $model.StaticFinalProperties )
 #foreach( $annotation in $field.Annotations )
@@ -30,7 +30,7 @@ public class $model.Name {
 #foreach( $annotation in $method.Annotations )
 	$annotation.toJavaRepresentation()
 #end
-	public ${method.ReturnType.ParameterizedName} ${method.Name}(#foreach($param in ${method.Parameters})${param.Type.ParameterizedName} ${param.Name}#if( $velocityCount < $method.Parameters.size() ), #end#end) { 
+	public ${method.ReturnType.ParameterizedName} ${method.Name}(#foreach($param in ${method.Parameters})${param.Type.ParameterizedName}#if($param.isVarArg())...#end ${param.Name}#if( $velocityCount < $method.Parameters.size() ), #end#end) { 
 	
 #foreach($stmt in $method.Body)
 		$stmt.render()
@@ -54,7 +54,7 @@ public class $model.Name {
 #end
 #if( $field.hasSetter() )
 	public void set${field.UpperCamelName}($field.Type.ParameterizedName ${field.Name}) {
-		return this.${field.Name} = ${field.Name};
+		this.${field.Name} = ${field.Name};
 	}
 
 #end

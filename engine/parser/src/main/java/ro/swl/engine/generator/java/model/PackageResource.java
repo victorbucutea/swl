@@ -2,7 +2,7 @@ package ro.swl.engine.generator.java.model;
 
 import java.io.File;
 
-import ro.swl.engine.generator.GenerationContext;
+import ro.swl.engine.generator.CreationContext;
 import ro.swl.engine.generator.model.Resource;
 
 
@@ -32,14 +32,14 @@ public class PackageResource extends Resource {
 
 
 	@Override
-	public void registerState(GenerationContext ctxt) {
+	public void registerState(CreationContext ctxt) {
 		super.registerState(ctxt);
 		ctxt.setCurrentPackage(namespace);
 	}
 
 
 	@Override
-	public void unregisterState(GenerationContext ctxt) {
+	public void unregisterState(CreationContext ctxt) {
 		ctxt.setCurrentPackage("");
 	}
 

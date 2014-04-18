@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class InvalidPackageException extends GenerateException {
+public class InvalidPackageException extends CreateException {
 
 
 	public InvalidPackageException(String explanation) {

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
 public class Method {
@@ -39,12 +39,12 @@ public class Method {
 	}
 
 
-	public void addAnnotation(Annotation annotation) throws GenerateException {
+	public void addAnnotation(Annotation annotation) throws CreateException {
 		annotations.add(annotation);
 	}
 
 
-	public void addAnnotation(String annotation) throws GenerateException {
+	public void addAnnotation(String annotation) throws CreateException {
 		annotations.add(new Annotation(annotation));
 	}
 
@@ -61,9 +61,14 @@ public class Method {
 
 
 		public Parameter(String name, Type type) {
-			super();
 			this.name = name;
 			this.type = type;
+		}
+
+
+		public Parameter(String name, String type) throws CreateException {
+			this.name = name;
+			this.type = new Type(type);
 		}
 
 
@@ -113,6 +118,10 @@ public class Method {
 
 		for (Statement stmt : getBody()) {
 			imports.addAll(stmt.getImports());
+		}
+
+		for (Annotation ann : getAnnotations()) {
+			imports.addAll(ann.getImports());
 		}
 
 		imports.addAll(returnType.getImports());

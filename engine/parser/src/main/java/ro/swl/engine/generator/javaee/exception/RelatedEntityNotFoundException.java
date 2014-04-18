@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class RelatedEntityNotFoundException extends GenerateException {
+public class RelatedEntityNotFoundException extends CreateException {
 
 	public RelatedEntityNotFoundException(String fieldCls) {
 		super("Cannot find related type '" + fieldCls + "' .");

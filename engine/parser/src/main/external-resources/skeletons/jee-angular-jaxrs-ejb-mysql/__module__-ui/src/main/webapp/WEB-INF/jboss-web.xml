@@ -1,0 +1,7 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="${version}"?>
+<jboss-web>
+    <security-domain>java:/jaas/recruiter</security-domain>
+</jboss-web>

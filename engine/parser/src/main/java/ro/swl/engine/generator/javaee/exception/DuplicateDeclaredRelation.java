@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class DuplicateDeclaredRelation extends GenerateException {
+public class DuplicateDeclaredRelation extends CreateException {
 
 
 	/**

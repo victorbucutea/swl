@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${basePackage}</groupId>
+	<artifactId>${module}-ejb</artifactId>
+	<packaging>ejb</packaging>
+	<name>${module}-ejb</name>
+	<parent>
+		<groupId>${basePackage}</groupId>
+		<artifactId>${projectName}</artifactId>
+		<version>${version}</version>
+	</parent>
+	
+	<modules>
+	#foreach( $module in $modules )
+		<module>${module}-base</module>
+		<module>${module}-ui</module>
+		<module>${module}-ejb</module>
+		<module>${module}-ear</module>
+	#end
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>${basePackage}</groupId>
+			<artifactId>${module}-base</artifactId>
+			<version>${version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<ejbVersion>3.0</ejbVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

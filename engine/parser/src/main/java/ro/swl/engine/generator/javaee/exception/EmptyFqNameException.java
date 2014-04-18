@@ -1,9 +1,9 @@
 package ro.swl.engine.generator.javaee.exception;
 
-import ro.swl.engine.generator.GenerateException;
+import ro.swl.engine.generator.CreateException;
 
 
-public class EmptyFqNameException extends GenerateException {
+public class EmptyFqNameException extends CreateException {
 
 	public EmptyFqNameException() {
 		super(" Cannot create a class with an empty FQ name");

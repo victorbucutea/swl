@@ -2,8 +2,8 @@ package ro.swl.engine.generator.javaee.enhancer;
 
 import java.util.List;
 
+import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.Enhancer;
-import ro.swl.engine.generator.GenerateException;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
@@ -20,7 +20,7 @@ import com.google.common.base.CaseFormat;
 public class SearcherEnhancer extends Enhancer<EntityResource> {
 
 	@Override
-	public void enhance(ASTSwdlApp appModel, EntityResource r) throws GenerateException {
+	public void enhance(ASTSwdlApp appModel, EntityResource r) throws CreateException {
 
 		String currentModule = r.getModuleName();
 
@@ -43,13 +43,13 @@ public class SearcherEnhancer extends Enhancer<EntityResource> {
 	}
 
 
-	private void addSearchers(ASTCrud crud, EntityResource r) throws GenerateException {
+	private void addSearchers(ASTCrud crud, EntityResource r) throws CreateException {
 		Annotation namedQueries = new Annotation("javax.persistence.NamedQueries");
 		String entityName = r.getName();
 
-		List<ASTSearcher> searchers = crud.getSearchers();
+		addFindAllNamedQuery(namedQueries, r);
 
-		for (ASTSearcher searcher : searchers) {
+		for (ASTSearcher searcher : crud.getSearchers()) {
 			Annotation namedQuery = new Annotation("javax.persistence.NamedQuery");
 			namedQueries.addPropertyAnnotation("value", namedQuery);
 			String namedQueryName = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, searcher.getName());
@@ -63,5 +63,17 @@ public class SearcherEnhancer extends Enhancer<EntityResource> {
 		}
 
 		r.addAnnotation(namedQueries);
+	}
+
+
+	private void addFindAllNamedQuery(Annotation namedQueries, EntityResource r) throws CreateException {
+		EntityField findAllNamedQ = new EntityField("String", "ALL", "");
+		findAllNamedQ.setInitializingExpression("\"all\"");
+		r.addStaticFinalProperty(findAllNamedQ);
+
+		Annotation namedQuery = new Annotation("javax.persistence.NamedQuery");
+		namedQuery.addProperty("name", r.getName() + ".ALL");
+		namedQuery.addPropertyLiteral("query", "Select j from " + r.getName());
+		namedQueries.addPropertyAnnotation("value", namedQuery);
 	}
 }
