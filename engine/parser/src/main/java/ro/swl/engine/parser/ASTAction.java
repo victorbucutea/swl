@@ -11,7 +11,8 @@ import java.util.List;
 
 public class ASTAction extends SWLNode {
 
-	private String returnType;
+	private ASTType returnType;
+	private boolean isVoid;
 
 
 	public ASTAction(int id) {
@@ -19,18 +20,33 @@ public class ASTAction extends SWLNode {
 	}
 
 
-	public String getReturnType() {
-		return this.returnType;
-	}
+	public String getReturnTypeAsString() {
+		if (isVoid) {
+			return "void";
+		}
 
-
-	public void setReturnType(String returnType) {
-		this.returnType = returnType;
+		return this.returnType.getTypeName();
 	}
 
 
 	public List<ASTActionParam> getActionParams() {
 		return getChildNodesOfType(ASTActionParam.class, true);
+	}
+
+
+	public void setReturnType(ASTType type) {
+		this.returnType = type;
+	}
+
+
+	public void setVoid(boolean b) {
+		this.isVoid = b;
+	}
+
+
+
+	public boolean isVoidReturn() {
+		return isVoid;
 	}
 
 }

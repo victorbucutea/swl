@@ -9,7 +9,7 @@ package ro.swl.engine.parser;
 public class ASTActionParam extends SWLNode {
 
 	private String name;
-	private String type;
+	private ASTType type;
 
 
 	public ASTActionParam(int id) {
@@ -22,20 +22,28 @@ public class ASTActionParam extends SWLNode {
 	}
 
 
-	public void setType(String image) {
-		this.type = image;
-	}
-
-
-
 	public String getName() {
 		return name;
 	}
 
 
 
-	public String getType() {
+	public void setType(ASTType t1) {
+		this.type = t1;
+	}
+
+
+	public ASTType getType() {
 		return type;
+	}
+
+
+	public String getTypeAsString() {
+		if (type == null) {
+			return null;
+		}
+
+		return type.getTypeName();
 	}
 
 

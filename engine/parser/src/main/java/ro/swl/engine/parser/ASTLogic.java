@@ -25,6 +25,11 @@ public class ASTLogic extends SWLNode {
 		return getChildNodesOfType(ASTService.class, false);
 	}
 
+
+	public List<ASTExternalInterface> getExternalInterfaces() {
+		return getChildNodesOfType(ASTExternalInterface.class, false);
+	}
+
 }
 /*
  * JavaCC - OriginalChecksum=c4e39a15c74d56b2d11d4c978808de12 (do not edit this

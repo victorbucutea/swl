@@ -62,8 +62,6 @@ public class ASTModule extends SWLNode {
 		return null;
 	}
 
-
-
 }
 /*
  * JavaCC - OriginalChecksum=578759df104a0e372bd620814e0e8d33 (do not edit this
