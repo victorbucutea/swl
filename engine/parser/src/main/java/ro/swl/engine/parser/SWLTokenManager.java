@@ -11,6 +11,7 @@ public class SWLTokenManager implements SWLConstants
   public  void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
 private final int jjStopStringLiteralDfa_6(int pos, long active0)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       case 0:
@@ -183,6 +184,8 @@ private int jjStopAtPos(int pos, int kind)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    return pos + 1;
 }
 private int jjMoveStringLiteralDfa0_6()
@@ -232,16 +235,25 @@ private int jjMoveStringLiteralDfa0_6()
       case 125:
          return jjStopAtPos(0, 8);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_6(0, 0);
    }
 }
 private int jjMoveStringLiteralDfa1_6(long active0)
 {
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(0, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 1;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 97:
@@ -267,6 +279,7 @@ private int jjMoveStringLiteralDfa1_6(long active0)
       case 117:
          return jjMoveStringLiteralDfa2_6(active0, 0x30000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(0, active0);
@@ -275,11 +288,19 @@ private int jjMoveStringLiteralDfa2_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(0, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(1, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 2;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 98:
@@ -315,6 +336,7 @@ private int jjMoveStringLiteralDfa2_6(long old0, long active0)
       case 120:
          return jjMoveStringLiteralDfa3_6(active0, 0x1000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(1, active0);
@@ -323,11 +345,19 @@ private int jjMoveStringLiteralDfa3_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(1, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(2, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 3;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 97:
@@ -347,6 +377,7 @@ private int jjMoveStringLiteralDfa3_6(long old0, long active0)
       case 117:
          return jjMoveStringLiteralDfa4_6(active0, 0x24000e0080000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(2, active0);
@@ -355,11 +386,19 @@ private int jjMoveStringLiteralDfa4_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(2, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(3, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 4;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 99:
@@ -403,6 +442,7 @@ private int jjMoveStringLiteralDfa4_6(long old0, long active0)
       case 122:
          return jjMoveStringLiteralDfa5_6(active0, 0x300000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(3, active0);
@@ -411,11 +451,19 @@ private int jjMoveStringLiteralDfa5_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(3, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(4, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 5;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 95:
@@ -450,6 +498,7 @@ private int jjMoveStringLiteralDfa5_6(long old0, long active0)
       case 116:
          return jjMoveStringLiteralDfa6_6(active0, 0xe00000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(4, active0);
@@ -458,11 +507,19 @@ private int jjMoveStringLiteralDfa6_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(4, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(5, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 6;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 95:
@@ -482,6 +539,7 @@ private int jjMoveStringLiteralDfa6_6(long old0, long active0)
       case 111:
          return jjMoveStringLiteralDfa7_6(active0, 0xd00000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(5, active0);
@@ -490,11 +548,19 @@ private int jjMoveStringLiteralDfa7_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(5, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(6, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 7;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 103:
@@ -516,6 +582,7 @@ private int jjMoveStringLiteralDfa7_6(long old0, long active0)
             return jjStartNfaWithStates_6(7, 32, 1);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(6, active0);
@@ -524,11 +591,19 @@ private int jjMoveStringLiteralDfa8_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(6, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(7, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 8;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 95:
@@ -548,6 +623,7 @@ private int jjMoveStringLiteralDfa8_6(long old0, long active0)
             return jjStartNfaWithStates_6(8, 33, 1);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(7, active0);
@@ -556,11 +632,19 @@ private int jjMoveStringLiteralDfa9_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(7, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(8, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 9;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 97:
@@ -582,6 +666,7 @@ private int jjMoveStringLiteralDfa9_6(long old0, long active0)
             return jjStartNfaWithStates_6(9, 24, 1);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(8, active0);
@@ -590,11 +675,19 @@ private int jjMoveStringLiteralDfa10_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(8, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(9, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 10;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 95:
@@ -606,6 +699,7 @@ private int jjMoveStringLiteralDfa10_6(long old0, long active0)
       case 117:
          return jjMoveStringLiteralDfa11_6(active0, 0x20000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(9, active0);
@@ -614,11 +708,19 @@ private int jjMoveStringLiteralDfa11_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(9, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(10, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 11;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 102:
@@ -639,6 +741,7 @@ private int jjMoveStringLiteralDfa11_6(long old0, long active0)
       case 121:
          return jjMoveStringLiteralDfa12_6(active0, 0x80000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(10, active0);
@@ -647,11 +750,19 @@ private int jjMoveStringLiteralDfa12_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(10, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(11, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 12;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 97:
@@ -661,6 +772,7 @@ private int jjMoveStringLiteralDfa12_6(long old0, long active0)
       case 111:
          return jjMoveStringLiteralDfa13_6(active0, 0x280000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(11, active0);
@@ -669,11 +781,19 @@ private int jjMoveStringLiteralDfa13_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(11, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(12, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 13;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 114:
@@ -683,6 +803,7 @@ private int jjMoveStringLiteralDfa13_6(long old0, long active0)
       case 121:
          return jjMoveStringLiteralDfa14_6(active0, 0x100000000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(12, active0);
@@ -691,11 +812,19 @@ private int jjMoveStringLiteralDfa14_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(12, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(13, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 14;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 109:
@@ -709,6 +838,7 @@ private int jjMoveStringLiteralDfa14_6(long old0, long active0)
             return jjStartNfaWithStates_6(14, 43, 1);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(13, active0);
@@ -717,16 +847,25 @@ private int jjMoveStringLiteralDfa15_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(13, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(14, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 15;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 117:
          return jjMoveStringLiteralDfa16_6(active0, 0x100800000000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(14, active0);
@@ -735,11 +874,19 @@ private int jjMoveStringLiteralDfa16_6(long old0, long active0)
 {
    if (((active0 &= old0)) == 0L)
       return jjStartNfa_6(14, old0);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(0, active0)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_6(15, active0);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 16;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 112:
@@ -751,6 +898,7 @@ private int jjMoveStringLiteralDfa16_6(long old0, long active0)
             return jjStartNfaWithStates_6(16, 44, 1);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_6(15, active0);
@@ -759,8 +907,11 @@ private int jjStartNfaWithStates_6(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    return jjMoveNfa_6(state, pos + 1);
 }
 static final long[] jjbitVec0 = {
@@ -775,6 +926,8 @@ private int jjMoveNfa_6(int startState, int curPos)
    jjnewStateCnt = 20;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -968,14 +1121,19 @@ private int jjMoveNfa_6(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 20 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_1(int pos, long active0, long active1)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       case 0:
@@ -1038,16 +1196,25 @@ private int jjMoveStringLiteralDfa0_1()
       case 125:
          return jjStopAtPos(0, 8);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_1(2, 0);
    }
 }
 private int jjMoveStringLiteralDfa1_1(long active1)
 {
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_1(0, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 1;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 62:
@@ -1057,6 +1224,7 @@ private int jjMoveStringLiteralDfa1_1(long active1)
       case 110:
          return jjMoveStringLiteralDfa2_1(active1, 0x2L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_1(0, 0L, active1);
@@ -1065,16 +1233,25 @@ private int jjMoveStringLiteralDfa2_1(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_1(0, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_1(1, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 2;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 117:
          return jjMoveStringLiteralDfa3_1(active1, 0x2L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_1(1, 0L, active1);
@@ -1083,11 +1260,19 @@ private int jjMoveStringLiteralDfa3_1(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_1(1, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_1(2, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 3;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 109:
@@ -1095,6 +1280,7 @@ private int jjMoveStringLiteralDfa3_1(long old1, long active1)
             return jjStartNfaWithStates_1(3, 65, 25);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_1(2, 0L, active1);
@@ -1103,8 +1289,11 @@ private int jjStartNfaWithStates_1(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    return jjMoveNfa_1(state, pos + 1);
 }
 private int jjMoveNfa_1(int startState, int curPos)
@@ -1113,6 +1302,8 @@ private int jjMoveNfa_1(int startState, int curPos)
    jjnewStateCnt = 57;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -1453,14 +1644,19 @@ private int jjMoveNfa_1(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 57 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_5(int pos, long active0)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       default :
@@ -1496,6 +1692,7 @@ private int jjMoveStringLiteralDfa0_5()
       case 125:
          return jjStopAtPos(0, 8);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_5(1, 0);
    }
 }
@@ -1503,8 +1700,11 @@ private int jjStartNfaWithStates_5(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    return jjMoveNfa_5(state, pos + 1);
 }
 private int jjMoveNfa_5(int startState, int curPos)
@@ -1513,6 +1713,8 @@ private int jjMoveNfa_5(int startState, int curPos)
    jjnewStateCnt = 13;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -1654,14 +1856,19 @@ private int jjMoveNfa_5(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 13 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_4(int pos, long active0)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       default :
@@ -1693,6 +1900,7 @@ private int jjMoveStringLiteralDfa0_4()
       case 125:
          return jjStopAtPos(0, 8);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_4(0, 0);
    }
 }
@@ -1702,6 +1910,8 @@ private int jjMoveNfa_4(int startState, int curPos)
    jjnewStateCnt = 23;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -1920,74 +2130,110 @@ private int jjMoveNfa_4(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 23 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_0(int pos, long active0, long active1)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       case 0:
-         if ((active1 & 0x1c00L) != 0L)
+         if ((active1 & 0x3be9c00L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 90;
+            return 25;
+         }
+         if ((active1 & 0x400000L) != 0L)
+         {
+            jjmatchedKind = 90;
             return 1;
          }
          return -1;
       case 1:
-         if ((active1 & 0x1c00L) != 0L)
+         if ((active1 & 0x3ae9c00L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 90;
             jjmatchedPos = 1;
-            return 1;
+            return 25;
+         }
+         if ((active1 & 0x100000L) != 0L)
+            return 25;
+         if ((active1 & 0x400000L) != 0L)
+         {
+            jjmatchedKind = 90;
+            jjmatchedPos = 1;
+            return 0;
          }
          return -1;
       case 2:
-         if ((active1 & 0x1c00L) != 0L)
+         if ((active1 & 0x400000L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 77;
             jjmatchedPos = 2;
-            return 1;
+            return 25;
+         }
+         if ((active1 & 0x3ae9c00L) != 0L)
+         {
+            jjmatchedKind = 90;
+            jjmatchedPos = 2;
+            return 25;
          }
          return -1;
       case 3:
-         if ((active1 & 0x1800L) != 0L)
+         if ((active1 & 0xe8400L) != 0L)
+            return 25;
+         if ((active1 & 0x3e01800L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 90;
             jjmatchedPos = 3;
-            return 1;
+            return 25;
          }
-         if ((active1 & 0x400L) != 0L)
-            return 1;
          return -1;
       case 4:
-         if ((active1 & 0x1800L) != 0L)
+         if ((active1 & 0x2c01800L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 90;
             jjmatchedPos = 4;
-            return 1;
+            return 25;
          }
+         if ((active1 & 0x1200000L) != 0L)
+            return 25;
          return -1;
       case 5:
-         if ((active1 & 0x1800L) != 0L)
+         if ((active1 & 0x2c01800L) != 0L)
          {
-            jjmatchedKind = 78;
+            jjmatchedKind = 90;
             jjmatchedPos = 5;
-            return 1;
+            return 25;
          }
          return -1;
       case 6:
-         if ((active1 & 0x800L) != 0L)
-         {
-            jjmatchedKind = 78;
-            jjmatchedPos = 6;
-            return 1;
-         }
          if ((active1 & 0x1000L) != 0L)
-            return 1;
+            return 25;
+         if ((active1 & 0x2c00800L) != 0L)
+         {
+            jjmatchedKind = 90;
+            jjmatchedPos = 6;
+            return 25;
+         }
+         return -1;
+      case 7:
+         if ((active1 & 0x400000L) != 0L)
+         {
+            jjmatchedKind = 90;
+            jjmatchedPos = 7;
+            return 25;
+         }
+         if ((active1 & 0x2800800L) != 0L)
+            return 25;
          return -1;
       default :
          return -1;
@@ -2006,37 +2252,79 @@ private int jjMoveStringLiteralDfa0_0()
       case 41:
          return jjStopAtPos(0, 10);
       case 44:
-         return jjStopAtPos(0, 77);
+         return jjStopAtPos(0, 80);
+      case 60:
+         return jjStopAtPos(0, 92);
+      case 62:
+         return jjStopAtPos(0, 93);
       case 91:
          return jjStopAtPos(0, 11);
       case 93:
          return jjStopAtPos(0, 12);
       case 99:
          return jjMoveStringLiteralDfa1_0(0x400L);
+      case 101:
+         return jjMoveStringLiteralDfa1_0(0x2a00000L);
+      case 102:
+         return jjMoveStringLiteralDfa1_0(0xc0000L);
+      case 105:
+         return jjMoveStringLiteralDfa1_0(0x400000L);
+      case 109:
+         return jjMoveStringLiteralDfa1_0(0x1000000L);
+      case 114:
+         return jjMoveStringLiteralDfa1_0(0x20000L);
       case 115:
          return jjMoveStringLiteralDfa1_0(0x1800L);
+      case 118:
+         return jjMoveStringLiteralDfa1_0(0x8000L);
+      case 119:
+         return jjMoveStringLiteralDfa1_0(0x100000L);
       case 123:
          return jjStopAtPos(0, 7);
       case 125:
          return jjStopAtPos(0, 8);
       default :
-         return jjMoveNfa_0(0, 0);
+      debugStream.println("   No string literal matches possible.");
+         return jjMoveNfa_0(2, 0);
    }
 }
 private int jjMoveStringLiteralDfa1_0(long active1)
 {
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(0, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 1;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 101:
-         return jjMoveStringLiteralDfa2_0(active1, 0x1800L);
+         return jjMoveStringLiteralDfa2_0(active1, 0x21800L);
+      case 105:
+         return jjMoveStringLiteralDfa2_0(active1, 0x80000L);
+      case 109:
+         return jjMoveStringLiteralDfa2_0(active1, 0x200000L);
+      case 110:
+         return jjMoveStringLiteralDfa2_0(active1, 0x400000L);
+      case 111:
+         return jjMoveStringLiteralDfa2_0(active1, 0x1048000L);
       case 114:
          return jjMoveStringLiteralDfa2_0(active1, 0x400L);
+      case 115:
+         if ((active1 & 0x100000L) != 0L)
+            return jjStartNfaWithStates_0(1, 84, 25);
+         break;
+      case 120:
+         return jjMoveStringLiteralDfa2_0(active1, 0x2800000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(0, 0L, active1);
@@ -2045,20 +2333,41 @@ private int jjMoveStringLiteralDfa2_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(0, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(1, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 2;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 97:
-         return jjMoveStringLiteralDfa3_0(active1, 0x800L);
+         return jjMoveStringLiteralDfa3_0(active1, 0x200800L);
+      case 99:
+         return jjMoveStringLiteralDfa3_0(active1, 0x800000L);
+      case 100:
+         return jjMoveStringLiteralDfa3_0(active1, 0x1000000L);
+      case 105:
+         return jjMoveStringLiteralDfa3_0(active1, 0x8000L);
+      case 108:
+         return jjMoveStringLiteralDfa3_0(active1, 0x80000L);
       case 114:
-         return jjMoveStringLiteralDfa3_0(active1, 0x1000L);
+         return jjMoveStringLiteralDfa3_0(active1, 0x41000L);
+      case 115:
+         return jjMoveStringLiteralDfa3_0(active1, 0x20000L);
+      case 116:
+         return jjMoveStringLiteralDfa3_0(active1, 0x2400000L);
       case 117:
          return jjMoveStringLiteralDfa3_0(active1, 0x400L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(1, 0L, active1);
@@ -2067,22 +2376,49 @@ private int jjMoveStringLiteralDfa3_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(1, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(2, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 3;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 100:
          if ((active1 & 0x400L) != 0L)
-            return jjStartNfaWithStates_0(3, 74, 1);
+            return jjStartNfaWithStates_0(3, 74, 25);
+         else if ((active1 & 0x8000L) != 0L)
+            return jjStartNfaWithStates_0(3, 79, 25);
+         break;
+      case 101:
+         if ((active1 & 0x80000L) != 0L)
+            return jjStartNfaWithStates_0(3, 83, 25);
+         return jjMoveStringLiteralDfa4_0(active1, 0x3400000L);
+      case 104:
+         return jjMoveStringLiteralDfa4_0(active1, 0x800000L);
+      case 105:
+         return jjMoveStringLiteralDfa4_0(active1, 0x200000L);
+      case 109:
+         if ((active1 & 0x40000L) != 0L)
+            return jjStartNfaWithStates_0(3, 82, 25);
          break;
       case 114:
          return jjMoveStringLiteralDfa4_0(active1, 0x800L);
+      case 116:
+         if ((active1 & 0x20000L) != 0L)
+            return jjStartNfaWithStates_0(3, 81, 25);
+         break;
       case 118:
          return jjMoveStringLiteralDfa4_0(active1, 0x1000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(2, 0L, active1);
@@ -2091,18 +2427,37 @@ private int jjMoveStringLiteralDfa4_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(2, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(3, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 4;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
+      case 97:
+         return jjMoveStringLiteralDfa5_0(active1, 0x800000L);
       case 99:
          return jjMoveStringLiteralDfa5_0(active1, 0x800L);
       case 105:
          return jjMoveStringLiteralDfa5_0(active1, 0x1000L);
+      case 108:
+         if ((active1 & 0x200000L) != 0L)
+            return jjStartNfaWithStates_0(4, 85, 25);
+         else if ((active1 & 0x1000000L) != 0L)
+            return jjStartNfaWithStates_0(4, 88, 25);
+         break;
+      case 114:
+         return jjMoveStringLiteralDfa5_0(active1, 0x2400000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(3, 0L, active1);
@@ -2111,18 +2466,31 @@ private int jjMoveStringLiteralDfa5_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(3, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(4, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 5;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
       case 99:
          return jjMoveStringLiteralDfa6_0(active1, 0x1000L);
+      case 102:
+         return jjMoveStringLiteralDfa6_0(active1, 0x400000L);
       case 104:
          return jjMoveStringLiteralDfa6_0(active1, 0x800L);
+      case 110:
+         return jjMoveStringLiteralDfa6_0(active1, 0x2800000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(4, 0L, active1);
@@ -2131,18 +2499,31 @@ private int jjMoveStringLiteralDfa6_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(4, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(5, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 6;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
+      case 97:
+         return jjMoveStringLiteralDfa7_0(active1, 0x2400000L);
       case 101:
          if ((active1 & 0x1000L) != 0L)
-            return jjStartNfaWithStates_0(6, 76, 1);
+            return jjStartNfaWithStates_0(6, 76, 25);
          return jjMoveStringLiteralDfa7_0(active1, 0x800L);
+      case 103:
+         return jjMoveStringLiteralDfa7_0(active1, 0x800000L);
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(5, 0L, active1);
@@ -2151,36 +2532,89 @@ private int jjMoveStringLiteralDfa7_0(long old1, long active1)
 {
    if (((active1 &= old1)) == 0L)
       return jjStartNfa_0(5, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(6, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       return 7;
    }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    switch(curChar)
    {
+      case 99:
+         return jjMoveStringLiteralDfa8_0(active1, 0x400000L);
+      case 101:
+         if ((active1 & 0x800000L) != 0L)
+            return jjStartNfaWithStates_0(7, 87, 25);
+         break;
+      case 108:
+         if ((active1 & 0x2000000L) != 0L)
+            return jjStartNfaWithStates_0(7, 89, 25);
+         break;
       case 114:
          if ((active1 & 0x800L) != 0L)
-            return jjStartNfaWithStates_0(7, 75, 1);
+            return jjStartNfaWithStates_0(7, 75, 25);
          break;
       default :
+      debugStream.println("   No string literal matches possible.");
          break;
    }
    return jjStartNfa_0(6, 0L, active1);
+}
+private int jjMoveStringLiteralDfa8_0(long old1, long active1)
+{
+   if (((active1 &= old1)) == 0L)
+      return jjStartNfa_0(6, 0L, old1);
+   if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+      debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+   debugStream.println("   Possible string literal matches : { "
+ +
+         jjKindsForBitVector(1, active1)  + " } ");
+   try { curChar = input_stream.readChar(); }
+   catch(java.io.IOException e) {
+      jjStopStringLiteralDfa_0(7, 0L, active1);
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+      return 8;
+   }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
+   switch(curChar)
+   {
+      case 101:
+         if ((active1 & 0x400000L) != 0L)
+            return jjStartNfaWithStates_0(8, 86, 25);
+         break;
+      default :
+      debugStream.println("   No string literal matches possible.");
+         break;
+   }
+   return jjStartNfa_0(7, 0L, active1);
 }
 private int jjStartNfaWithStates_0(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    return jjMoveNfa_0(state, pos + 1);
 }
 private int jjMoveNfa_0(int startState, int curPos)
 {
    int startsAt = 0;
-   jjnewStateCnt = 17;
+   jjnewStateCnt = 60;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -2193,82 +2627,97 @@ private int jjMoveNfa_0(int startState, int curPos)
          {
             switch(jjstateSet[--i])
             {
-               case 0:
+               case 2:
                   if ((0x8400000000L & l) != 0L)
-                     jjCheckNAddTwoStates(3, 4);
+                     jjCheckNAddTwoStates(27, 28);
                   else if (curChar == 47)
                      jjAddStates(43, 44);
                   else if (curChar == 36)
                   {
-                     if (kind > 78)
-                        kind = 78;
-                     jjCheckNAdd(1);
+                     if (kind > 90)
+                        kind = 90;
+                     jjCheckNAdd(25);
                   }
                   break;
                case 1:
+               case 25:
                   if ((0x3ff201000000000L & l) == 0L)
                      break;
-                  if (kind > 78)
-                     kind = 78;
-                  jjCheckNAdd(1);
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
                   break;
-               case 2:
+               case 0:
+                  if ((0x3ff201000000000L & l) == 0L)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 24:
+                  if (curChar != 36)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 26:
                   if ((0x8400000000L & l) != 0L)
-                     jjCheckNAddTwoStates(3, 4);
+                     jjCheckNAddTwoStates(27, 28);
                   break;
-               case 3:
+               case 27:
                   if ((0xffffff7bffffffffL & l) != 0L)
-                     jjCheckNAddTwoStates(3, 4);
+                     jjCheckNAddTwoStates(27, 28);
                   break;
-               case 4:
-                  if ((0x8400000000L & l) != 0L && kind > 79)
-                     kind = 79;
+               case 28:
+                  if ((0x8400000000L & l) != 0L && kind > 91)
+                     kind = 91;
                   break;
-               case 5:
+               case 36:
                   if (curChar == 47)
                      jjAddStates(43, 44);
                   break;
-               case 6:
+               case 37:
                   if (curChar == 47)
                      jjCheckNAddStates(45, 47);
                   break;
-               case 7:
+               case 38:
                   if ((0xffffffffffffdbffL & l) != 0L)
                      jjCheckNAddStates(45, 47);
                   break;
-               case 8:
+               case 39:
                   if ((0x2400L & l) != 0L && kind > 5)
                      kind = 5;
                   break;
-               case 9:
+               case 40:
                   if (curChar == 10 && kind > 5)
                      kind = 5;
                   break;
-               case 10:
+               case 41:
                   if (curChar == 13)
-                     jjstateSet[jjnewStateCnt++] = 9;
+                     jjstateSet[jjnewStateCnt++] = 40;
                   break;
-               case 11:
+               case 42:
                   if (curChar == 42)
-                     jjCheckNAddTwoStates(12, 13);
+                     jjCheckNAddTwoStates(43, 44);
                   break;
-               case 12:
+               case 43:
                   if ((0xfffffbffffffffffL & l) != 0L)
-                     jjCheckNAddTwoStates(12, 13);
+                     jjCheckNAddTwoStates(43, 44);
                   break;
-               case 13:
+               case 44:
                   if (curChar == 42)
                      jjAddStates(48, 49);
                   break;
-               case 14:
+               case 45:
                   if ((0xffff7fffffffffffL & l) != 0L)
-                     jjCheckNAddTwoStates(15, 13);
+                     jjCheckNAddTwoStates(46, 44);
                   break;
-               case 15:
+               case 46:
                   if ((0xfffffbffffffffffL & l) != 0L)
-                     jjCheckNAddTwoStates(15, 13);
+                     jjCheckNAddTwoStates(46, 44);
                   break;
-               case 16:
+               case 47:
                   if (curChar == 47 && kind > 6)
                      kind = 6;
                   break;
@@ -2283,26 +2732,230 @@ private int jjMoveNfa_0(int startState, int curPos)
          {
             switch(jjstateSet[--i])
             {
-               case 0:
+               case 2:
+                  if ((0x7fffffe87fffffeL & l) != 0L)
+                  {
+                     if (kind > 90)
+                        kind = 90;
+                     jjCheckNAdd(25);
+                  }
+                  if (curChar == 76)
+                     jjAddStates(50, 51);
+                  else if (curChar == 83)
+                     jjAddStates(52, 53);
+                  else if (curChar == 68)
+                     jjAddStates(54, 55);
+                  else if (curChar == 66)
+                     jjstateSet[jjnewStateCnt++] = 22;
+                  else if (curChar == 108)
+                     jjstateSet[jjnewStateCnt++] = 18;
+                  else if (curChar == 100)
+                     jjstateSet[jjnewStateCnt++] = 14;
+                  else if (curChar == 73)
+                     jjstateSet[jjnewStateCnt++] = 8;
+                  else if (curChar == 105)
+                     jjstateSet[jjnewStateCnt++] = 1;
+                  break;
                case 1:
-                  if ((0x7fffffe87fffffeL & l) == 0L)
-                     break;
-                  if (kind > 78)
-                     kind = 78;
-                  jjCheckNAdd(1);
+                  if ((0x7fffffe87fffffeL & l) != 0L)
+                  {
+                     if (kind > 90)
+                        kind = 90;
+                     jjCheckNAdd(25);
+                  }
+                  if (curChar == 110)
+                     jjstateSet[jjnewStateCnt++] = 0;
+                  break;
+               case 0:
+                  if ((0x7fffffe87fffffeL & l) != 0L)
+                  {
+                     if (kind > 90)
+                        kind = 90;
+                     jjCheckNAdd(25);
+                  }
+                  if (curChar == 116)
+                  {
+                     if (kind > 77)
+                        kind = 77;
+                  }
                   break;
                case 3:
-                  jjAddStates(50, 51);
+                  if (curChar == 114 && kind > 77)
+                     kind = 77;
+                  break;
+               case 4:
+                  if (curChar == 101)
+                     jjstateSet[jjnewStateCnt++] = 3;
+                  break;
+               case 5:
+                  if (curChar == 103)
+                     jjstateSet[jjnewStateCnt++] = 4;
+                  break;
+               case 6:
+                  if (curChar == 101)
+                     jjstateSet[jjnewStateCnt++] = 5;
                   break;
                case 7:
-                  jjAddStates(45, 47);
+                  if (curChar == 116)
+                     jjstateSet[jjnewStateCnt++] = 6;
+                  break;
+               case 8:
+                  if (curChar == 110)
+                     jjstateSet[jjnewStateCnt++] = 7;
+                  break;
+               case 9:
+                  if (curChar == 73)
+                     jjstateSet[jjnewStateCnt++] = 8;
+                  break;
+               case 10:
+                  if (curChar == 101 && kind > 77)
+                     kind = 77;
+                  break;
+               case 11:
+               case 32:
+                  if (curChar == 108)
+                     jjCheckNAdd(10);
                   break;
                case 12:
-                  jjCheckNAddTwoStates(12, 13);
+                  if (curChar == 98)
+                     jjstateSet[jjnewStateCnt++] = 11;
+                  break;
+               case 13:
+                  if (curChar == 117)
+                     jjstateSet[jjnewStateCnt++] = 12;
                   break;
                case 14:
+                  if (curChar == 111)
+                     jjstateSet[jjnewStateCnt++] = 13;
+                  break;
                case 15:
-                  jjCheckNAddTwoStates(15, 13);
+                  if (curChar == 100)
+                     jjstateSet[jjnewStateCnt++] = 14;
+                  break;
+               case 16:
+                  if (curChar == 103 && kind > 77)
+                     kind = 77;
+                  break;
+               case 17:
+               case 49:
+               case 56:
+                  if (curChar == 110)
+                     jjCheckNAdd(16);
+                  break;
+               case 18:
+                  if (curChar == 111)
+                     jjstateSet[jjnewStateCnt++] = 17;
+                  break;
+               case 19:
+                  if (curChar == 108)
+                     jjstateSet[jjnewStateCnt++] = 18;
+                  break;
+               case 20:
+                  if (curChar == 98 && kind > 77)
+                     kind = 77;
+                  break;
+               case 21:
+                  if (curChar == 111)
+                     jjstateSet[jjnewStateCnt++] = 20;
+                  break;
+               case 22:
+                  if (curChar == 108)
+                     jjstateSet[jjnewStateCnt++] = 21;
+                  break;
+               case 23:
+                  if (curChar == 66)
+                     jjstateSet[jjnewStateCnt++] = 22;
+                  break;
+               case 24:
+                  if ((0x7fffffe87fffffeL & l) == 0L)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 25:
+                  if ((0x7fffffe87fffffeL & l) == 0L)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 27:
+                  jjAddStates(56, 57);
+                  break;
+               case 29:
+                  if (curChar == 68)
+                     jjAddStates(54, 55);
+                  break;
+               case 30:
+                  if (curChar == 116)
+                     jjCheckNAdd(10);
+                  break;
+               case 31:
+                  if (curChar == 97)
+                     jjstateSet[jjnewStateCnt++] = 30;
+                  break;
+               case 33:
+                  if (curChar == 98)
+                     jjstateSet[jjnewStateCnt++] = 32;
+                  break;
+               case 34:
+                  if (curChar == 117)
+                     jjstateSet[jjnewStateCnt++] = 33;
+                  break;
+               case 35:
+                  if (curChar == 111)
+                     jjstateSet[jjnewStateCnt++] = 34;
+                  break;
+               case 38:
+                  jjAddStates(45, 47);
+                  break;
+               case 43:
+                  jjCheckNAddTwoStates(43, 44);
+                  break;
+               case 45:
+               case 46:
+                  jjCheckNAddTwoStates(46, 44);
+                  break;
+               case 48:
+                  if (curChar == 83)
+                     jjAddStates(52, 53);
+                  break;
+               case 50:
+                  if (curChar == 105)
+                     jjstateSet[jjnewStateCnt++] = 49;
+                  break;
+               case 51:
+                  if (curChar == 114)
+                     jjstateSet[jjnewStateCnt++] = 50;
+                  break;
+               case 52:
+                  if (curChar == 116)
+                     jjstateSet[jjnewStateCnt++] = 51;
+                  break;
+               case 53:
+                  if (curChar == 116 && kind > 78)
+                     kind = 78;
+                  break;
+               case 54:
+                  if (curChar == 101)
+                     jjCheckNAdd(53);
+                  break;
+               case 55:
+                  if (curChar == 76)
+                     jjAddStates(50, 51);
+                  break;
+               case 57:
+                  if (curChar == 111)
+                     jjstateSet[jjnewStateCnt++] = 56;
+                  break;
+               case 58:
+                  if (curChar == 115)
+                     jjCheckNAdd(53);
+                  break;
+               case 59:
+                  if (curChar == 105)
+                     jjstateSet[jjnewStateCnt++] = 58;
                   break;
                default : break;
             }
@@ -2316,30 +2969,44 @@ private int jjMoveNfa_0(int startState, int curPos)
          {
             switch(jjstateSet[--i])
             {
-               case 0:
-               case 1:
+               case 2:
                   if ((jjbitVec0[i2] & l2) == 0L)
                      break;
-                  if (kind > 78)
-                     kind = 78;
-                  jjCheckNAdd(1);
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
                   break;
-               case 3:
+               case 1:
+               case 25:
+                  if ((jjbitVec0[i2] & l2) == 0L)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 0:
+                  if ((jjbitVec0[i2] & l2) == 0L)
+                     break;
+                  if (kind > 90)
+                     kind = 90;
+                  jjCheckNAdd(25);
+                  break;
+               case 27:
                   if ((jjbitVec1[i2] & l2) != 0L)
-                     jjAddStates(50, 51);
+                     jjAddStates(56, 57);
                   break;
-               case 7:
+               case 38:
                   if ((jjbitVec1[i2] & l2) != 0L)
                      jjAddStates(45, 47);
                   break;
-               case 12:
+               case 43:
                   if ((jjbitVec1[i2] & l2) != 0L)
-                     jjCheckNAddTwoStates(12, 13);
+                     jjCheckNAddTwoStates(43, 44);
                   break;
-               case 14:
-               case 15:
+               case 45:
+               case 46:
                   if ((jjbitVec1[i2] & l2) != 0L)
-                     jjCheckNAddTwoStates(15, 13);
+                     jjCheckNAddTwoStates(46, 44);
                   break;
                default : break;
             }
@@ -2352,14 +3019,19 @@ private int jjMoveNfa_0(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
-      if ((i = jjnewStateCnt) == (startsAt = 17 - (jjnewStateCnt = startsAt)))
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
+      if ((i = jjnewStateCnt) == (startsAt = 60 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_3(int pos, long active0)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       default :
@@ -2393,6 +3065,7 @@ private int jjMoveStringLiteralDfa0_3()
       case 125:
          return jjStopAtPos(0, 8);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_3(0, 0);
    }
 }
@@ -2402,6 +3075,8 @@ private int jjMoveNfa_3(int startState, int curPos)
    jjnewStateCnt = 15;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -2421,7 +3096,7 @@ private int jjMoveNfa_3(int startState, int curPos)
                         kind = 63;
                   }
                   else if (curChar == 47)
-                     jjAddStates(52, 53);
+                     jjAddStates(58, 59);
                   else if (curChar == 36)
                   {
                      if (kind > 59)
@@ -2442,15 +3117,15 @@ private int jjMoveNfa_3(int startState, int curPos)
                   break;
                case 3:
                   if (curChar == 47)
-                     jjAddStates(52, 53);
+                     jjAddStates(58, 59);
                   break;
                case 4:
                   if (curChar == 47)
-                     jjCheckNAddStates(54, 56);
+                     jjCheckNAddStates(60, 62);
                   break;
                case 5:
                   if ((0xffffffffffffdbffL & l) != 0L)
-                     jjCheckNAddStates(54, 56);
+                     jjCheckNAddStates(60, 62);
                   break;
                case 6:
                   if ((0x2400L & l) != 0L && kind > 5)
@@ -2474,7 +3149,7 @@ private int jjMoveNfa_3(int startState, int curPos)
                   break;
                case 11:
                   if (curChar == 42)
-                     jjAddStates(57, 58);
+                     jjAddStates(63, 64);
                   break;
                case 12:
                   if ((0xffff7fffffffffffL & l) != 0L)
@@ -2508,7 +3183,7 @@ private int jjMoveNfa_3(int startState, int curPos)
                   jjCheckNAdd(1);
                   break;
                case 5:
-                  jjAddStates(54, 56);
+                  jjAddStates(60, 62);
                   break;
                case 10:
                   jjCheckNAddTwoStates(10, 11);
@@ -2539,7 +3214,7 @@ private int jjMoveNfa_3(int startState, int curPos)
                   break;
                case 5:
                   if ((jjbitVec1[i2] & l2) != 0L)
-                     jjAddStates(54, 56);
+                     jjAddStates(60, 62);
                   break;
                case 10:
                   if ((jjbitVec1[i2] & l2) != 0L)
@@ -2561,14 +3236,19 @@ private int jjMoveNfa_3(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 15 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 private final int jjStopStringLiteralDfa_2(int pos, long active0)
 {
+      debugStream.println("   No more string literal token matches are possible.");
    switch (pos)
    {
       default :
@@ -2604,6 +3284,7 @@ private int jjMoveStringLiteralDfa0_2()
       case 125:
          return jjStartNfaWithStates_2(0, 8, 0);
       default :
+      debugStream.println("   No string literal matches possible.");
          return jjMoveNfa_2(1, 0);
    }
 }
@@ -2611,8 +3292,11 @@ private int jjStartNfaWithStates_2(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
+   debugStream.println("   No more string literal token matches are possible.");
+   debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
    try { curChar = input_stream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
+   debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    return jjMoveNfa_2(state, pos + 1);
 }
 private int jjMoveNfa_2(int startState, int curPos)
@@ -2621,6 +3305,8 @@ private int jjMoveNfa_2(int startState, int curPos)
    jjnewStateCnt = 13;
    int i = 1;
    jjstateSet[0] = startState;
+      debugStream.println("   Starting NFA to match one of : " + jjKindsForStateVector(curLexState, jjstateSet, 0, 1));
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -2765,17 +3451,22 @@ private int jjMoveNfa_2(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
+      if (jjmatchedKind != 0 && jjmatchedKind != 0x7fffffff)
+         debugStream.println("   Currently matched the first " + (jjmatchedPos + 1) + " characters as a " + tokenImage[jjmatchedKind] + " token.");
       if ((i = jjnewStateCnt) == (startsAt = 13 - (jjnewStateCnt = startsAt)))
          return curPos;
+      debugStream.println("   Possible kinds of longer matches : " + jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
    }
 }
 static final int[] jjnextStates = {
    15, 18, 19, 3, 8, 4, 5, 7, 11, 13, 18, 19, 34, 39, 35, 36, 
    38, 42, 44, 54, 56, 49, 51, 28, 32, 2, 7, 3, 4, 6, 10, 12, 
-   12, 17, 13, 14, 16, 20, 22, 5, 6, 8, 9, 6, 11, 7, 8, 10, 
-   14, 16, 3, 4, 4, 9, 5, 6, 8, 12, 14, 
+   12, 17, 13, 14, 16, 20, 22, 5, 6, 8, 9, 37, 42, 38, 39, 41, 
+   45, 47, 57, 59, 52, 54, 31, 35, 27, 28, 4, 9, 5, 6, 8, 12, 
+   14, 
 };
 
 /** Token literal values. */
@@ -2794,7 +3485,10 @@ public static final String[] jjstrLiteralImages = {
 "\143\157\154\165\155\156", "\43", null, null, null, null, "\54", "\56", null, null, null, "\72", "\73", 
 "\52", null, null, "\145\156\165\155", null, null, null, "\55\76", "\54", "\52", 
 "\74", "\76", "\143\162\165\144", "\163\145\141\162\143\150\145\162", 
-"\163\145\162\166\151\143\145", "\54", null, null, };
+"\163\145\162\166\151\143\145", null, null, "\166\157\151\144", "\54", "\162\145\163\164", "\146\157\162\155", 
+"\146\151\154\145", "\167\163", "\145\155\141\151\154", "\151\156\164\145\162\146\141\143\145", 
+"\145\170\143\150\141\156\147\145", "\155\157\144\145\154", "\145\170\164\145\162\156\141\154", null, null, "\74", 
+"\76", };
 
 /** Lexer state names. */
 public static final String[] lexStateNames = {
@@ -2812,17 +3506,17 @@ public static final int[] jjnewLexState = {
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-   -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
 };
 static final long[] jjtoToken = {
-   0xfffffffffbfc1f81L, 0xffffL, 
+   0xfffffffffbfc1f81L, 0x3fffffffL, 
 };
 static final long[] jjtoSkip = {
    0x7eL, 0x0L, 
 };
 protected SimpleCharStream input_stream;
-private final int[] jjrounds = new int[57];
-private final int[] jjstateSet = new int[114];
+private final int[] jjrounds = new int[60];
+private final int[] jjstateSet = new int[120];
 protected char curChar;
 /** Constructor. */
 public SWLTokenManager(SimpleCharStream stream){
@@ -2849,7 +3543,7 @@ private void ReInitRounds()
 {
    int i;
    jjround = 0x80000001;
-   for (i = 57; i-- > 0;)
+   for (i = 60; i-- > 0;)
       jjrounds[i] = 0x80000000;
 }
 
@@ -2902,6 +3596,7 @@ public Token getNextToken()
    }
    catch(java.io.IOException e)
    {
+      debugStream.println("Returning the <EOF> token.");
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
       return matchedToken;
@@ -2912,68 +3607,94 @@ public Token getNextToken()
      case 0:
        try { input_stream.backup(0);
           while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+       {
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Skipping character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ")");
              curChar = input_stream.BeginToken();
+       }
        }
        catch (java.io.IOException e1) { continue EOFLoop; }
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_0();
        break;
      case 1:
        try { input_stream.backup(0);
           while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+       {
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Skipping character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ")");
              curChar = input_stream.BeginToken();
+       }
        }
        catch (java.io.IOException e1) { continue EOFLoop; }
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_1();
        break;
      case 2:
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_2();
        break;
      case 3:
        try { input_stream.backup(0);
           while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+       {
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Skipping character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ")");
              curChar = input_stream.BeginToken();
+       }
        }
        catch (java.io.IOException e1) { continue EOFLoop; }
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_3();
        break;
      case 4:
        try { input_stream.backup(0);
           while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+       {
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Skipping character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ")");
              curChar = input_stream.BeginToken();
+       }
        }
        catch (java.io.IOException e1) { continue EOFLoop; }
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_4();
        break;
      case 5:
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_5();
        break;
      case 6:
        try { input_stream.backup(0);
           while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+       {
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Skipping character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ")");
              curChar = input_stream.BeginToken();
+       }
        }
        catch (java.io.IOException e1) { continue EOFLoop; }
        jjmatchedKind = 0x7fffffff;
        jjmatchedPos = 0;
+      debugStream.println("<" + lexStateNames[curLexState] + ">" + "Current character : " + TokenMgrError.addEscapes(String.valueOf(curChar)) + " (" + (int)curChar + ") at line " + input_stream.getEndLine() + " column " + input_stream.getEndColumn());
        curPos = jjMoveStringLiteralDfa0_6();
        break;
    }
      if (jjmatchedKind != 0x7fffffff)
      {
         if (jjmatchedPos + 1 < curPos)
+        {
+           debugStream.println("   Putting back " + (curPos - jjmatchedPos - 1) + " characters into the input stream.");
            input_stream.backup(curPos - jjmatchedPos - 1);
+        }
+    debugStream.println("****** FOUND A " + tokenImage[jjmatchedKind] + " MATCH (" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + ") ******\n");
         if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
         {
            matchedToken = jjFillToken();
@@ -3010,6 +3731,293 @@ public Token getNextToken()
      throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
   }
 }
+
+protected static final int[][][] statesForState = {
+ {
+   { 0, 25, },
+   { 1, 25, },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 3 },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 10 },
+   { 11 },
+   { 12 },
+   { 13 },
+   { 14 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 16 },
+   { 17 },
+   { 18 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 20 },
+   { 21 },
+   { 22 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 0, 25, },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 27 },
+   { 28 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 30 },
+   { 31 },
+   { 32 },
+   { 33 },
+   { 34 },
+   { 35 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 37 },
+   { 38 },
+   { 39 },
+   { 40 },
+   { 41 },
+   { 42 },
+   { 43 },
+   { 44 },
+   { 45 },
+   { 46 },
+   { 47 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 49 },
+   { 50 },
+   { 51 },
+   { 52 },
+   { 53 },
+   { 54 },
+   { 2, 9, 15, 19, 23, 24, 26, 29, 36, 48, 55, },
+   { 56 },
+   { 57 },
+   { 58 },
+   { 59 },
+ },
+ {
+   { 0 },
+   { 1 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 3 },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 10 },
+   { 11 },
+   { 12 },
+   { 13 },
+   { 14 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 16 },
+   { 17 },
+   { 18 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 20 },
+   { 21 },
+   { 22 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 25 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 27 },
+   { 28 },
+   { 29 },
+   { 30 },
+   { 31 },
+   { 32 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 34 },
+   { 35 },
+   { 36 },
+   { 37 },
+   { 38 },
+   { 39 },
+   { 40 },
+   { 41 },
+   { 42 },
+   { 43 },
+   { 44 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 46 },
+   { 47 },
+   { 48 },
+   { 49 },
+   { 50 },
+   { 51 },
+   { 2, 9, 15, 19, 23, 24, 26, 33, 45, 52, },
+   { 53 },
+   { 54 },
+   { 55 },
+   { 56 },
+ },
+ {
+   { 0, 1, },
+   { 0, 1, },
+   { 2 },
+   { 3 },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 9 },
+   { 10 },
+   { 11 },
+   { 12 },
+ },
+ {
+   { 0, 2, 3, },
+   { 1 },
+   { 0, 2, 3, },
+   { 0, 2, 3, },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 9 },
+   { 10 },
+   { 11 },
+   { 12 },
+   { 13 },
+   { 14 },
+ },
+ {
+   { 0, 2, 4, 7, 10, 11, },
+   { 1 },
+   { 0, 2, 4, 7, 10, 11, },
+   { 3 },
+   { 0, 2, 4, 7, 10, 11, },
+   { 5 },
+   { 6 },
+   { 0, 2, 4, 7, 10, 11, },
+   { 8 },
+   { 9 },
+   { 0, 2, 4, 7, 10, 11, },
+   { 0, 2, 4, 7, 10, 11, },
+   { 12 },
+   { 13 },
+   { 14 },
+   { 15 },
+   { 16 },
+   { 17 },
+   { 18 },
+   { 19 },
+   { 20 },
+   { 21 },
+   { 22 },
+ },
+ {
+   { 0, 1, },
+   { 0, 1, },
+   { 2 },
+   { 3 },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 9 },
+   { 10 },
+   { 11 },
+   { 12 },
+ },
+ {
+   { 0, 2, 14, },
+   { 1 },
+   { 0, 2, 14, },
+   { 3 },
+   { 4 },
+   { 5 },
+   { 6 },
+   { 7 },
+   { 8 },
+   { 9 },
+   { 10 },
+   { 11 },
+   { 12 },
+   { 13 },
+   { 0, 2, 14, },
+   { 15 },
+   { 16 },
+   { 17 },
+   { 18 },
+   { 19 },
+ },
+
+};
+protected static final int[][] kindForState = {
+{ 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77,
+  77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 90, 90, 91, 91, 91,
+  77, 77, 77, 77, 77, 77, 77, 5, 5, 5, 5, 5, 5, 6, 6,
+  6, 6, 6, 6, 77, 77, 77, 77, 77, 78, 78, 77, 77, 77, 78,
+  78},
+{ 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
+  66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 68, 68, 66, 66, 66,
+  66, 66, 66, 66, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6,
+  6, 66, 66, 66, 66, 66, 67, 67, 66, 66, 66, 67, 67},
+{ 64, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6},
+{ 59, 59, 63, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6,
+  6},
+{ 53, 53, 54, 54, 57, 57, 57, 57, 57, 57, 58, 5, 5, 5,
+  5, 5, 5, 6, 6, 6, 6, 6, 6},
+{ 52, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6},
+{ 51, 51, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6,
+  27, 27, 27, 27, 28, 28}
+};
+   int kindCnt = 0;
+  protected  final String jjKindsForBitVector(int i, long vec)
+  {
+    String retVal = "";
+    if (i == 0)
+       kindCnt = 0;
+    for (int j = 0; j < 64; j++)
+    {
+       if ((vec & (1L << j)) != 0L)
+       {
+          if (kindCnt++ > 0)
+             retVal += ", ";
+          if (kindCnt % 5 == 0)
+             retVal += "\n     ";
+          retVal += tokenImage[i * 64 + j];
+       }
+    }
+    return retVal;
+  }
+
+  protected  final String jjKindsForStateVector(int lexState, int[] vec, int start, int end)
+  {
+    boolean[] kindDone = new boolean[94];
+    String retVal = "";
+    int cnt = 0;
+    for (int i = start; i < end; i++)
+    {
+     if (vec[i] == -1)
+       continue;
+     int[] stateSet = statesForState[curLexState][vec[i]];
+     for (int j = 0; j < stateSet.length; j++)
+     {
+       int state = stateSet[j];
+       if (!kindDone[kindForState[lexState][state]])
+       {
+          kindDone[kindForState[lexState][state]] = true;
+          if (cnt++ > 0)
+             retVal += ", ";
+          if (cnt % 5 == 0)
+             retVal += "\n     ";
+          retVal += tokenImage[kindForState[lexState][state]];
+       }
+     }
+    }
+    if (cnt == 0)
+       return "{  }";
+    else
+       return "{ " + retVal + " }";
+  }
 
 private void jjCheckNAdd(int state)
 {

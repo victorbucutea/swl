@@ -131,7 +131,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 		f.setHasGetter(false);
 		f.setHasSetter(false);
 		f.addAnotation("javax.ejb.EJB");
-		r.addProperty(f);
+		r.addField(f);
 	}
 
 
@@ -144,7 +144,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 		for (ASTAction action : service.getActions()) {
 			Method m = new Method(action.getImage());
 
-			m.setReturnType(new Type(action.getReturnType()));
+			m.setReturnType(new Type(action.getReturnTypeAsString()));
 			addParameters(action.getActionParams(), m);
 			r.addMethod(m);
 		}
@@ -154,7 +154,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 
 	private void addParameters(List<ASTActionParam> actionParams, Method m) throws CreateException {
 		for (ASTActionParam param : actionParams) {
-			String fqParamName = getGlobalCtxt().getFqNameForRegisteredType(param.getType());
+			String fqParamName = getGlobalCtxt().getFqNameForRegisteredType(param.getTypeAsString());
 			Method.Parameter mParam = new Method.Parameter(param.getName(), new Type(fqParamName));
 			m.addParameter(mParam);
 		}

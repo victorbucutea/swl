@@ -54,16 +54,20 @@ public interface SWLTreeConstants
   public int JJTCSSSTYLENAME = 48;
   public int JJTCSSSTYLEVALUE = 49;
   public int JJTLOGIC = 50;
-  public int JJTSERVICE = 51;
-  public int JJTCRUD = 52;
-  public int JJTSEARCHER = 53;
-  public int JJTACTION = 54;
-  public int JJTACTIONPARAM = 55;
-  public int JJTDOMAIN = 56;
-  public int JJTENUM = 57;
-  public int JJTENUMLITERAL = 58;
-  public int JJTENTITY = 59;
-  public int JJTPROPERTY = 60;
+  public int JJTEXTERNALINTERFACE = 51;
+  public int JJTEXCHANGEMODEL = 52;
+  public int JJTSERVICEACTIONS = 53;
+  public int JJTSERVICE = 54;
+  public int JJTCRUD = 55;
+  public int JJTSEARCHER = 56;
+  public int JJTACTION = 57;
+  public int JJTTYPE = 58;
+  public int JJTACTIONPARAM = 59;
+  public int JJTDOMAIN = 60;
+  public int JJTENUM = 61;
+  public int JJTENUMLITERAL = 62;
+  public int JJTENTITY = 63;
+  public int JJTPROPERTY = 64;
 
 
   public String[] jjtNodeName = {
@@ -118,10 +122,14 @@ public interface SWLTreeConstants
     "CssStyleName",
     "CssStyleValue",
     "Logic",
+    "ExternalInterface",
+    "ExchangeModel",
+    "ServiceActions",
     "Service",
     "Crud",
     "Searcher",
     "Action",
+    "Type",
     "ActionParam",
     "Domain",
     "Enum",
@@ -130,4 +138,4 @@ public interface SWLTreeConstants
     "Property",
   };
 }
-/* JavaCC - OriginalChecksum=4e21a550bf69eb2aa68b84e58f85726f (do not edit this line) */
+/* JavaCC - OriginalChecksum=3d55802c2590fc781e1f83f6bc9e335c (do not edit this line) */

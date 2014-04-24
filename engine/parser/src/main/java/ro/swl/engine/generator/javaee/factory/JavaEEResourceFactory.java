@@ -7,7 +7,9 @@ import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.CreationContext;
@@ -15,10 +17,13 @@ import ro.swl.engine.generator.ResourceFactory;
 import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
 import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
+import ro.swl.engine.generator.javaee.exception.DuplicateModuleException;
+import ro.swl.engine.generator.javaee.exception.DuplicateServiceException;
 import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
 import ro.swl.engine.generator.javaee.exception.NoModuleException;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
+import ro.swl.engine.generator.javaee.model.ExternalInterfaceResource;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
@@ -26,6 +31,7 @@ import ro.swl.engine.generator.javaee.model.WebXml;
 import ro.swl.engine.generator.model.Resource;
 import ro.swl.engine.parser.ASTDomain;
 import ro.swl.engine.parser.ASTEntity;
+import ro.swl.engine.parser.ASTExternalInterface;
 import ro.swl.engine.parser.ASTLogic;
 import ro.swl.engine.parser.ASTModule;
 import ro.swl.engine.parser.ASTProperty;
@@ -61,6 +67,9 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 		} else if (isPackageTemplate(templateFile)) {
 			return createPackageResource(parent, templateFile);
+
+		} else if (isExternalInterfaceTemplate(templateFile)) {
+			return createExternalInterface(parent, templateFile);
 
 		}
 
@@ -140,7 +149,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 		for (ASTProperty prop : entity.getFields()) {
 			checkFieldUnique(entity, prop.getName());
 			EntityField field = new EntityField(prop, res.getPackage());
-			res.addProperty(field);
+			res.addField(field);
 		}
 		newResources.add(res);
 	}
@@ -200,6 +209,7 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 		// iterate through module's services and generate a service resource
 		List<ServiceResource> serviceRes = newArrayList();
+		Set<String> servicesReg = new HashSet<String>();
 		String currentPackage = getCtxt().getCurrentPackage();
 		String currentModule = getCtxt().getCurrentModule();
 
@@ -217,11 +227,42 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 		for (ASTService modelService : services) {
 			ServiceResource serviceResource = new ServiceResource(parent, templateFile, currentPackage);
-			serviceResource.setName(modelService.getImage());
+			String serviceName = modelService.getImage();
+			if (!servicesReg.add(serviceName)) {
+				throw new DuplicateServiceException(serviceName);
+			}
+			serviceResource.setName(serviceName);
 			serviceRes.add(serviceResource);
 		}
 
 		return serviceRes;
+	}
+
+
+	private List<? extends Resource> createExternalInterface(Resource parent, File templateFile) throws CreateException {
+		List<ExternalInterfaceResource> extIfs = newArrayList();
+		String currentPackage = getCtxt().getCurrentPackage();
+		String currentModule = getCtxt().getCurrentModule();
+
+
+		if (isEmpty(currentModule))
+			throw new NoModuleException();
+
+		ASTLogic logic = getCurrentModule().getLogic();
+
+		if (logic == null) {
+			return new ArrayList<ServiceResource>();
+		}
+
+		List<ASTExternalInterface> externalIfs = logic.getExternalInterfaces();
+
+		for (ASTExternalInterface modelExtIntf : externalIfs) {
+			ExternalInterfaceResource extIf = new ExternalInterfaceResource(parent, templateFile, currentPackage,
+					modelExtIntf);
+			extIfs.add(extIf);
+		}
+
+		return extIfs;
 	}
 
 
@@ -239,12 +280,18 @@ public class JavaEEResourceFactory extends ResourceFactory {
 	}
 
 
-	private List<ModuleResource> createModuleResources(Resource parent, File templateFile) {
+	private List<ModuleResource> createModuleResources(Resource parent, File templateFile) throws CreateException {
 		List<ModuleResource> newResources = new ArrayList<ModuleResource>();
+		Set<String> moduleNames = new HashSet<String>();
 
 		for (ASTModule module : getAppModel().getModules()) {
 			ModuleResource moduleResource = new ModuleResource(parent, templateFile);
-			moduleResource.setModuleName(module.getName());
+			String moduleName = module.getName();
+
+			if (!moduleNames.add(moduleName)) {
+				throw new DuplicateModuleException(moduleName);
+			}
+			moduleResource.setModuleName(moduleName);
 			newResources.add(moduleResource);
 		}
 
@@ -266,6 +313,11 @@ public class JavaEEResourceFactory extends ResourceFactory {
 
 	private boolean isPackageTemplate(File f) {
 		return "__package__".equals(f.getName());
+	}
+
+
+	private boolean isExternalInterfaceTemplate(File f) {
+		return "__external_interface__".equals(f.getName());
 	}
 
 

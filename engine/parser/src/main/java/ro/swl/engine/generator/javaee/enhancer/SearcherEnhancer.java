@@ -29,7 +29,6 @@ public class SearcherEnhancer extends Enhancer<EntityResource> {
 		List<ASTService> services = logic.getServices();
 
 		for (ASTService service : services) {
-
 			List<ASTCrud> cruds = service.getChildNodesOfType(ASTCrud.class, true);
 			String entityName = r.getName();
 

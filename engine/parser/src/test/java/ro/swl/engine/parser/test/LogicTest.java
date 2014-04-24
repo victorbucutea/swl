@@ -111,6 +111,10 @@ public class LogicTest extends AbstractTest {
 									"				some random content {} " +
 									"				21332!@#$%^&*()[];'"+
 									"			}" +
+									"			Set<ReturnClassX> someAction(List<ReturnClass> list, String x, Set<ReturnClass2> rc2) {" +
+									"				some random content {} " +
+									"				21332!@#$%^&*()[];'"+
+									"			}" +
 									"		}" +
 									"  }"));
 		//@formatter:on
@@ -121,19 +125,19 @@ public class LogicTest extends AbstractTest {
 		assertEquals(2, services.size());
 
 		ASTAction action1 = services.get(0).getFirstChildNodeOfType(ASTAction.class, true);
-		assertEquals("ReturnClass", action1.getReturnType());
+		assertEquals("ReturnClass", action1.getReturnTypeAsString());
 		ASTActionParam actionP1 = action1.getActionParams().get(0);
 		ASTActionParam actionP2 = action1.getActionParams().get(1);
 
-		assertEquals("Customer", actionP1.getType());
+		assertEquals("Customer", actionP1.getTypeAsString());
 		assertEquals("c", actionP1.getName());
 
-		assertEquals("CV", actionP2.getType());
+		assertEquals("CV", actionP2.getTypeAsString());
 		assertEquals("d", actionP2.getName());
 
 
 		ASTAction action3 = services.get(1).getFirstChildNodeOfType(ASTAction.class, true);
-		assertEquals("void", action3.getReturnType());
+		assertEquals("void", action3.getReturnTypeAsString());
 		assertEquals(0, action3.getActionParams().size());
 
 	}

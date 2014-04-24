@@ -83,15 +83,15 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		Field f9 = new Field(createProp("PROP_10", "String"), "");
 		f9.setInitializingExpression("\"PROP_10\"");
 
-		res.addProperty(f);
-		res.addProperty(f1);
-		res.addProperty(f2);
-		res.addProperty(f3);
-		res.addProperty(f4);
-		res.addProperty(f5);
-		res.addProperty(f6);
-		res.addProperty(f7);
-		res.addProperty(f8);
+		res.addField(f);
+		res.addField(f1);
+		res.addField(f2);
+		res.addField(f3);
+		res.addField(f4);
+		res.addField(f5);
+		res.addField(f6);
+		res.addField(f7);
+		res.addField(f8);
 		res.addStaticFinalProperty(f9);
 		res.write();
 

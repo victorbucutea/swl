@@ -7,6 +7,7 @@ import static ro.swl.engine.generator.GlobalContext.AUTO_DETECT_PACKAGE;
 import static ro.swl.engine.generator.GlobalContext.PACKAGE;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -374,7 +375,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		List<Resource> children = projectRoot.getChildren();
 
 		Resource module1 = children.get(0);
-		assertEquals("CV", ((ModuleResource) module1).getModuleName());
+		assertEquals("CV", module1.getModuleName());
 
 
 		PackageResource packageFolder = module1.getChildCast(0);
@@ -513,7 +514,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		ProjectRoot root = generator.getProjectRoot();
 
 		Resource module = root.getChild(0);
-		assertEquals("CV", ((ModuleResource) module).getModuleName());
+		assertEquals("CV", module.getModuleName());
 
 		Resource pkgFolderRoot = module.getChild(0);
 		assertTrue(pkgFolderRoot instanceof FolderResource);
@@ -575,6 +576,101 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		assertTrue(pkg.getChild(0) instanceof JavaResource);
 		assertTrue(pkg.getChild(1) instanceof JavaResource);
 		assertEquals("ro.sft.somepackage", ((JavaResource) pkg.getChild(1)).getPackage());
+	}
+
+
+	@Test(expected = CreateException.class)
+	public void duplicateServiceNameInSameModule() throws ParseException, CreateException, WriteException, IOException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
+									" module cv {" +
+												"  ui     {} " +
+												"  logic  {" +
+												"			service SomeName {" +
+												"					crud Customer {}" +
+												"			}" +
+												"			service SomeName {" +
+												"					crud Customer {}" +
+												"			}" +
+												"	" +
+												"	}" +
+												"  domain {" +
+												"		Customer {"+
+												"			startDate Date,"+
+												"			endDate   Date," +
+												"			exp		  Experience -> *"+
+												"		}"+
+												""+	
+												"	    Experience {"+
+												"			startDate Date,"+
+												"			endDate   Date,"+
+												"			field 	  Blob," +
+												"			someProp  String," +
+												"			someProp2 double"+
+												"		} " +
+												"  }" +
+												"}"));//@formatter:on
+		ASTSwdlApp appModel = swl.SwdlApp();
+		skeleton.setSkeletonName("entity-child-of-package");
+		generator.create(appModel);
+		generator.enhance(appModel);
+	}
+
+
+	@Test
+	// no duplicate exception
+	public void duplicateServiceNameInDifferentModule() throws ParseException, CreateException, WriteException,
+			IOException {
+		//@formatter:off
+		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
+									" module cv {" +
+												"  ui     {} " +
+												"  logic  {" +
+												"			service SomeName {" +
+												"					crud Customer {}" +
+												"			}" +
+												"	" +
+												"	}" +
+												"  domain {" +
+												"		Customer {"+
+												"			startDate Date,"+
+												"			endDate   Date," +
+												"			exp		  Experience -> *"+
+												"		}"+
+												""+	
+												"	    Experience {"+
+												"			startDate Date,"+
+												"			endDate   Date,"+
+												"			field 	  Blob," +
+												"			someProp  String," +
+												"			someProp2 double"+
+												"		} " +
+												"  }" +
+												"}"+
+										" module cv2 {" +
+												"  ui     {} " +
+												"  logic  {" +
+												"			service SomeName {" +
+												"					crud Customer {}" +
+												"			}" +
+												"	}" +
+												"  domain {}" +
+												"}"));//@formatter:on
+
+		ASTSwdlApp appModel = swl.SwdlApp();
+		skeleton.setSkeletonName("entity-child-of-package");
+		generator.create(appModel);
+		generator.enhance(appModel);
+	}
+
+
+	@Test(expected = CreateException.class)
+	public void duplicateModuleNames() throws ParseException, CreateException {
+		String string = " name \"x\" \n\t\n  module some_other { logic{} } module some_other { ui{}}";
+		InputStream stream = createInputStream(string);
+		SWL appModel = new SWL(stream);
+		skeleton.setSkeletonName("entity-child-of-package");
+		generator.create(appModel.SwdlApp());
 	}
 
 
@@ -655,8 +751,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		printTree(root);
 
 		assertEquals("CV", ((ServiceResource) root.getChild(1).getChild(0).getChild(2)).getName());
-		assertEquals("CV.java", ((ServiceResource) root.getChild(1).getChild(0).getChild(2)).getOutputFileName());
+		assertEquals("CV.java", root.getChild(1).getChild(0).getChild(2).getOutputFileName());
 	}
-
 
 }

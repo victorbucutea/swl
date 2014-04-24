@@ -31,9 +31,10 @@ public class SectionTest extends WriterTest {
 		assertEquals(1, cssClassNames.size());
 		assertEquals("vertical-css-class", cssClassNames.get(0));
 
-		List<String> cssInlineStyles = sectinLayout.getDescription().getCssInlineStyles();
-		assertEquals(1, cssInlineStyles.size());
-		assertEquals("some-css: someValue", cssInlineStyles.get(0));
+
+        List<String> cssInlineStyles = sectinLayout.getDescription().getCssInlineStyles();
+        assertEquals(1, cssInlineStyles.size());
+        assertEquals("some-css: someValue", cssInlineStyles.get(0));
 
 		String modelVar = sectinLayout.getModelValueBinding().getImage();
 		assertEquals("variable", modelVar);

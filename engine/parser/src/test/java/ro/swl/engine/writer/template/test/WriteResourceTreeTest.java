@@ -43,7 +43,7 @@ import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.generator.java.model.PackageResource;
 import ro.swl.engine.generator.javaee.enhancer.EJBTechnology;
 import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
-import ro.swl.engine.generator.javaee.enhancer.JaxRSTechnology;
+import ro.swl.engine.generator.javaee.enhancer.JaxRsTechnology;
 import ro.swl.engine.generator.model.FileResource;
 import ro.swl.engine.generator.model.FolderResource;
 import ro.swl.engine.generator.model.Resource;
@@ -72,7 +72,7 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 		list.add(new InternalEnhancers());
 		list.add(new JPATechnology());
-		list.add(new JaxRSTechnology());
+		list.add(new JaxRsTechnology());
 		list.add(new EJBTechnology());
 
 

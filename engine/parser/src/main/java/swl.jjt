@@ -8,7 +8,8 @@ options
   KEEP_LINE_COLUMN = false;
   static = false;
   NODE_CLASS = "SWLNode";
- // DEBUG_PARSER=true; // DEBUG_TOKEN_MANAGER=true;
+//  DEBUG_PARSER=true;
+//  DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -71,7 +72,8 @@ PARSER_END(SWL)
 | < OPEN_R_BRACKET: "(" >
 | < CLOSE_R_BRACKET: ")" >
 | < OPEN_S_BRACKET: "[" >
-| < CLOSE_S_BRACKET: "]" >}
+| < CLOSE_S_BRACKET: "]" >
+}
 
 <DEFAULT> TOKEN :
 {
@@ -135,7 +137,8 @@ PARSER_END(SWL)
 < JsContentState > TOKEN:
 {
   < ANY_NON_OPEN_CLOSE: (~["{","}"])+ >
-}
+}
+
 
 < InputDescriptionState > TOKEN:
 {
@@ -153,9 +156,11 @@ PARSER_END(SWL)
 | < COLON : ":" >
 | < SEMICOLON : ";" >
 | < ASTERISK : "*" >
-| < CLOSE_QUOTE :< QUOTE >>}
+| < CLOSE_QUOTE :< QUOTE >>
+}
 
-< CssStyleValueState > TOKEN :{
+< CssStyleValueState > TOKEN :
+{
   < ANY_NO_SEMICOLON : (~[";"])+ >
 }
 
@@ -169,16 +174,36 @@ PARSER_END(SWL)
 | < SEPARATOR : "," >
 | < MANY_MARKER : "*" >
 | < OPEN_ANGLE: "<" >
-| < CLOSE_ANGLE: ">" >}
+| < CLOSE_ANGLE: ">" >
+}
+
 
 < LogicState > TOKEN :
-{	< CRUD : "crud" >
+{
+	< CRUD : "crud" >
 | 	< SEARCHER : "searcher" >
 |   < SERVICE : "service" >
+| 	< S_PRIMITIVE: "Date" | "String" | "int" | "Integer" |"Double" | "double" | "long" | "Long" | "Blob" >
+| 	< S_COLLECTION: "Set" | "List" >
+|   < VOID : "void" >
 |   < S_COMMA : "," >
+|   < EXT_IF_REST : "rest" >
+|   < EXT_IF_FORM : "form" >
+|   < EXT_IF_FILE : "file" >
+|   < EXT_IF_WS : 	"ws" >
+|   < EXT_IF_EMAIL: "email" >
+|   < INTERFACE : "interface" >
+|   < EXCHANGE : "exchange" >
+|   < E_MODEL : "model" >
+|   < EXTERNAL : "external" >
 |   < S_NAME : < NAME >>
 |   < S_QUOTED_TEXT: < QUOTE > (~["\"","'"])* < QUOTE >>
-}  
+| 	< S_OPEN_ANGLE: "<" >
+| 	< S_CLOSE_ANGLE: ">" >
+}
+
+
+
 
 
 /** ******************************************************************** */
@@ -189,7 +214,8 @@ ASTSwdlApp SwdlApp() :
 {}
 {
   NameDecl() ( Module() )+ <EOF>
-  {    return jjtThis;
+  {
+    return jjtThis;
   }
 }
 
@@ -202,7 +228,9 @@ void NameDecl() :{}
 
 void AppName(): {Token t;}
 {
-  t = < QUOTED_IDENTIFIER > { 	jjtThis.setImageWithoutQuote(t.image);
+  t = < QUOTED_IDENTIFIER >
+ {
+ 	jjtThis.setImageWithoutQuote(t.image);
  }
 }
 void Module() : {}
@@ -215,7 +243,8 @@ void Module() : {}
 void ModuleName() : {Token t;}
 {
   t = < NAME >
-  {	jjtThis.setImage(t.image);
+  {
+	jjtThis.setImage(t.image);
   }
 }
 
@@ -228,24 +257,31 @@ void ModuleBody() : {}
 	 < CLOSE_BRACKET >
 }
 
-void Ui() :{}
-{  < UI >
+void Ui() :
+{
+}
+{
+  < UI >
   < OPEN_BRACKET >
    ( Screen() )*
  < CLOSE_BRACKET >  
 }
 
-void Screen() :{}
+void Screen() :
+{
+}
 {
   < SCREEN >
   ScreenName()
   < OPEN_BRACKET >
  	MvcArea()
- < CLOSE_BRACKET >  }
+ < CLOSE_BRACKET >  
+}
 
 void ScreenName() :
 {
-  Token t;}
+  Token t;
+}
 {
   t= < NAME >
 }
@@ -258,7 +294,9 @@ void Model() : {}
 
 void Controller() :{}
 {
-  < CONTROLLER >  GenericBlock(DEFAULT)}
+  < CONTROLLER >
+  GenericBlock(DEFAULT)
+}
 
 
 void GenericBlock(int switchBackState) :
@@ -271,10 +309,17 @@ void GenericBlock(int switchBackState) :
   	 nestingLvl++;
   	}
   (< ANY_NON_OPEN_CLOSE > | GenericBlock(switchBackState))*
-  < CLOSE_BRACKET >  {
+  < CLOSE_BRACKET >
+  {
     nestingLvl--;
-    if ( nestingLvl == 0 )    {
-      token_source.SwitchTo(switchBackState);    }  }}void MvcArea() : {}
+    if ( nestingLvl == 0 )
+    {
+      token_source.SwitchTo(switchBackState);
+    }
+  }
+}
+
+void MvcArea() : {}
 {
    (Model())?
   (Controller())?
@@ -295,7 +340,9 @@ void GenericBlock(int switchBackState) :
 	| HorizontalLayout()
 	| HorizontalForm()
 	| Section() 
-	)*}
+	)*
+}
+
 
 ASTVerticalLayout VerticalLayout() : {}
 {
@@ -305,8 +352,11 @@ ASTVerticalLayout VerticalLayout() : {}
   		(Model())?
   		(Controller())?	
   		( LayoutRow())*
-  	< CLOSE_BRACKET >  	{
-  	  return jjtThis;  	}}
+  	< CLOSE_BRACKET >
+  	{
+  	  return jjtThis;
+  	}
+}
 
 ASTHorizontalLayout HorizontalLayout() :
 {
@@ -317,14 +367,18 @@ ASTHorizontalLayout HorizontalLayout() :
   	< HORIZONTAL_LAYOUT >
   	StdLayoutDescription()	
   	< OPEN_BRACKET >
-  		( n =  LayoutColumn()  		{
+  		( n =  LayoutColumn()
+  		{
 		  noOfColumns = noOfColumns + n.getColSpan();
   		})*
   		
   	< CLOSE_BRACKET >
   	{
-  	  if ( noOfColumns > 12 )  	  {		throw new ParseException("An horizontal_layout() cannot have more than 12 columns");
-  	  }  	   return jjtThis;
+  	  if ( noOfColumns > 12 )
+  	  {
+		throw new ParseException("An horizontal_layout() cannot have more than 12 columns");
+  	  }
+  	   return jjtThis;
   	}
 }
 
@@ -332,7 +386,8 @@ ASTLayoutColumn LayoutColumn() :
 {
   int colSpan = 0 ;
 }
-{	< COLUMN >
+{
+	< COLUMN >
 	colSpan = ColumnDescription()
 	< OPEN_BRACKET >
   		MvcArea()
@@ -367,11 +422,13 @@ ASTHorizontalForm HorizontalForm() : {}
   		( HorizontalFormRow())*
   < CLOSE_BRACKET >
   {
-    return jjtThis;  }
+    return jjtThis;
+  }
 }
 
 ASTHorizontalFormRow HorizontalFormRow() : {}
-{	  (< NO_LABEL_FLAG > { jjtThis.setNoLabelRendering(); } )?
+{
+	  (< NO_LABEL_FLAG > { jjtThis.setNoLabelRendering(); } )?
 	    < ROW >
 	  	StdLayoutDescription()
 	  < OPEN_BRACKET >
@@ -380,7 +437,8 @@ ASTHorizontalFormRow HorizontalFormRow() : {}
 	   {
 	    return jjtThis;
 	  }
-}
+}
+
 ASTLayoutRow LayoutRow() : {}
 {
   < ROW >
@@ -390,7 +448,8 @@ ASTLayoutRow LayoutRow() : {}
   < CLOSE_BRACKET >
    {
     return jjtThis;
-  }}
+  }
+}
 
 ASTSection Section() : {Token t = null;}
 {
@@ -401,11 +460,13 @@ ASTSection Section() : {Token t = null;}
   < CLOSE_BRACKET >
   {
     return jjtThis;
-  }}
+  }
+}
 
 ASTInput Input():  {}
 {
- (< NO_LABEL_FLAG > { jjtThis.setNoLabelRendering(); } )? < INPUT > (StdInputDescription())? {  return jjtThis; } }
+ (< NO_LABEL_FLAG > { jjtThis.setNoLabelRendering(); } )? < INPUT > (StdInputDescription())? {  return jjtThis; } 
+}
 
 
 ASTInputFile InputFile():  {}
@@ -430,36 +491,44 @@ ASTSelectbox Selectbox():  {}
 
 ASTRadio Radio(): {}
 {
- < RADIO > (RadioInputDescription())? { return jjtThis; } }
+ < RADIO > (RadioInputDescription())? { return jjtThis; } 
+}
 
 ASTRadios Radios(): {}
 {
- < RADIOS >  (RadiosInputDescription())? { return jjtThis; } }
+ < RADIOS >  (RadiosInputDescription())? { return jjtThis; } 
+}
 
 ASTText Text(): {}
 {
- < TEXT > (StdInputDescription())? { return jjtThis; } }
+ < TEXT > (StdInputDescription())? { return jjtThis; } 
+}
 
 ASTLabel Label() : {}
 {
- < LABEL > { return jjtThis;}}
+ < LABEL > { return jjtThis;}
+}
 
 ASTImg Img(): {}
 {
- < IMG > (StdInputDescription())?  { return jjtThis; } }
+ < IMG > (StdInputDescription())?  { return jjtThis; } 
+}
 
 void ButtonGroup() : {}
 {
  < BUTTONGROUP > < OPEN_BRACKET > (Button())* < CLOSE_BRACKET >
 }
 
-ASTButton Button() : {}{
+ASTButton Button() : {}
+{
  < BUTTON > (ButtonDescription())?  { return jjtThis; } 
 }
 
 void ButtonDescription() : {}
-{  	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		(		  ButtonAction()
+{
+  	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
+		(
+		  ButtonAction()
 		  (< COMMA > CssStyle() )?
 		)?
   	< CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT); }
@@ -468,48 +537,60 @@ void ButtonDescription() : {}
 void ButtonAction() : {Token t; String param ;StringBuffer s = new StringBuffer();}
 {
   t = < VARIABLE >{ s.append(t.image);}
-  t = <OPEN_R_BRACKET >{s.append(t.image);}  ( param = ButtonActionParameter() {s.append(param);}
+  t = <OPEN_R_BRACKET >{s.append(t.image);}
+  ( param = ButtonActionParameter() {s.append(param);}
    ( t = < COMMA > {s.append(t.image);}
     param = ButtonActionParameter(){s.append(" " + param);}
    )*
   )?
   t = < CLOSE_R_BRACKET > {s.append(t.image);}
-  {	jjtThis.setImage(s.toString());
-  }}
+  {
+	jjtThis.setImage(s.toString());
+  }
+}
 
 String ButtonActionParameter() : {Token t; StringBuffer s = new StringBuffer();}
-{	t = <VARIABLE >{s.append(t.image);}
+{
+	t = <VARIABLE >{s.append(t.image);}
   	(
   	  t = < DOT > {s.append(t.image);}
   	  t = <VARIABLE >{s.append(t.image);}
   	)*
-  {	return s.toString();
+  {
+	return s.toString();
   }
 }
- 
+ 
+
 void ModelVariable():
 {
   StringBuffer s = new StringBuffer();
   Token t;
 }
 {
-    t= < LITERAL > { s.append(t.image.replace("\"","").replace("'","")); jjtThis.setLiteral(true); jjtThis.setImage(s.toString()); }    |( t = < VARIABLE > { s.append(t.image); }	      (
+    t= < LITERAL > { s.append(t.image.replace("\"","").replace("'","")); jjtThis.setLiteral(true); jjtThis.setImage(s.toString()); }
+    |( t = < VARIABLE > { s.append(t.image); }
+	      (
 	       t= < DOT > { s.append(t.image); }
 	       t = <VARIABLE > { s.append(t.image); }
 	       )*
-     ) { jjtThis.setImage(s.toString());  }}
+     ) { jjtThis.setImage(s.toString());  }
+}
 
 void StdLayoutDescription(): {}
 {
   	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		(  CssStyle() )?	< CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT) ;}
+		(  CssStyle() )?
+	< CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT) ;}
 }
 
 
 void RadioInputDescription() : {}
-{		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
+{
+		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		
-		(		    ModelVariable() // model variable to bind to
+		(
+		    ModelVariable() // model variable to bind to
 		      < COMMA > ModelVariable() // value property 
 			( < COMMA >  CssStyle() )?
 		)?
@@ -550,15 +631,18 @@ void SelectboxOptions() : {}
 {
   < OPEN_BRACKET >
   
- (     	SelectOption()
+ (
+     	SelectOption()
  |  SelectOptionGroup()
  )*
 
-  < CLOSE_BRACKET >}
+  < CLOSE_BRACKET >
+}
 
 void SelectOption() : {}
 {
-   < SELECTOPTION > (RadioInputDescription()) // reuse the old production despite the bad name...}
+   < SELECTOPTION > (RadioInputDescription()) // reuse the old production despite the bad name...
+}
 
 
 void SelectOptionGroup() : {}
@@ -571,33 +655,42 @@ void StdInputDescription(): {}
 {
   < OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
   
- 	 ( 	   ModelVariable()  
+ 	 (
+ 	   ModelVariable()  
  	   ( < COMMA >  CssStyle() )?
  	 )?
  	 
-  < CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT) ;}}
+  < CLOSE_R_BRACKET > { token_source.SwitchTo(DEFAULT) ;}
+}
+
 
 void CssStyle(): {}
 {
   < DESC_QUOTE > { token_source.SwitchTo(CssStyleState); }
 
   (
-    LOOKAHEAD(CssClassName())   	CssClassName()
+    LOOKAHEAD(CssClassName())
+   	CssClassName()
     |
   	CssInlineStyle()
   )*
  	 
-  < CLOSE_QUOTE >  { token_source.SwitchTo(InputDescriptionState); }}
+  < CLOSE_QUOTE >  { token_source.SwitchTo(InputDescriptionState); }
+}
+
 void CssClassName()  : {Token t = null;}
-{	t = < STYLE_CLASS >  < SEMICOLON >
+{
+	t = < STYLE_CLASS >  < SEMICOLON >
 	 {
 		jjtThis.setImage(t.image); 
 	}
 }
 
 void CssInlineStyle() : {String t1 = null; String t2 = null;}
-{    t1 =  CssStyleName()
- 	 < COLON > {token_source.SwitchTo(CssStyleValueState);} 	t2 =  CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
+{
+    t1 =  CssStyleName()
+ 	 < COLON > {token_source.SwitchTo(CssStyleValueState);}
+ 	t2 =  CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
  	 < SEMICOLON >
 	{
 		jjtThis.setImage(t1 + ": "+t2); 
@@ -607,11 +700,13 @@ void CssInlineStyle() : {String t1 = null; String t2 = null;}
 
 String CssStyleName():  {Token t = null;}
 {
-  (< ASTERISK >)? t = < STYLE_CLASS > { return t.image; }}
+  (< ASTERISK >)? t = < STYLE_CLASS > { return t.image; }
+}
 
 String CssStyleValue(): {Token t = null;}
 {
-  t = <ANY_NO_SEMICOLON > {  return t.image.trim();  }}
+  t = <ANY_NO_SEMICOLON > {  return t.image.trim();  }
+}
 
 
 
@@ -620,20 +715,52 @@ ASTLogic Logic() : {}
 {
   < LOGIC >
   < OPEN_BRACKET > { token_source.SwitchTo(LogicState); }
-   	(Service())*
+   	( 
+   	  ExternalInterface() | Service()
+   	)*
   < CLOSE_BRACKET >  { token_source.SwitchTo(DEFAULT); return jjtThis;}
+}
+
+void ExternalInterface() : {Token t; Token t1;}
+{
+	< EXTERNAL >
+	( t = < EXT_IF_REST > |  t = < EXT_IF_FORM > |  t = < EXT_IF_FILE > |  t =  < EXT_IF_WS > |  t = < EXT_IF_EMAIL >	) { jjtThis.setType(t.image);}
+	< INTERFACE >
+	t1 = < S_NAME > {jjtThis.setName(t1.image);}
+		< OPEN_BRACKET >
+			( ExchangeModel() ) ?
+			( ServiceActions() | Action() )*
+		< CLOSE_BRACKET > { token_source.SwitchTo(LogicState); }
+}
+
+void ExchangeModel() : {}
+{
+  	 < EXCHANGE > < E_MODEL >
+  	 	< OPEN_BRACKET >  { token_source.SwitchTo(DomainState); }
+  	 		( Entity() ) *
+  	 	< CLOSE_BRACKET >  { token_source.SwitchTo(LogicState); }
+}
+
+void ServiceActions() : {Token t;}
+{
+  < SERVICE > t = < S_NAME > { jjtThis.setImage(t.image);}
+  	< OPEN_BRACKET >
+  	< CLOSE_BRACKET >
 }
 
 void Service() : {Token t;}
 {
   < SERVICE > t =  <S_NAME> { jjtThis.setImage(t.image);}
   < OPEN_BRACKET >
-  	(  	  Crud() | Action()
+  	(
+  	  Crud() | Action()
   	)* 
-  < CLOSE_BRACKET >}
+  < CLOSE_BRACKET >
+}
 
 void Crud() : {Token t;}
-{	< CRUD > t = <S_NAME>	{ jjtThis.setEntity(t.image);}
+{
+	< CRUD > t = <S_NAME>	{ jjtThis.setEntity(t.image);}
 	< OPEN_BRACKET >
 		(Searcher())*
 	< CLOSE_BRACKET >
@@ -643,22 +770,54 @@ void Searcher() : {Token t1; Token t2; Token t3;}
 {
 	< SEARCHER >
 	 t2 = <S_NAME> { jjtThis.setSearcherName(t2.image); }
-	 < OPEN_BRACKET >		 t3 = < S_QUOTED_TEXT >{jjtThis.setQuery(t3.image);}
-	 < CLOSE_BRACKET >}
+	 < OPEN_BRACKET >
+		 t3 = < S_QUOTED_TEXT >{jjtThis.setQuery(t3.image);}
+	 < CLOSE_BRACKET >
+}
 
-void Action() : {Token t1; Token t2;}
-{
-	t2 = < S_NAME > { jjtThis.setReturnType(t2.image);}	t1 = < S_NAME > { jjtThis.setImageWithoutQuote(t1.image);}
+void Action() : {Token t1; Token t2; ASTType type;  }
+{
+  	
+	 (
+	   	  type = Type() { jjtThis.setReturnType(type);  }
+	 	| < VOID >	  {jjtThis.setVoid(true);}
+	 )
+	 
+	 
+	t1 = < S_NAME > { jjtThis.setImageWithoutQuote(t1.image);}
 	 < OPEN_R_BRACKET >
 	 		[ ActionParam() ( < S_COMMA > ActionParam() )* ] 
-	 < CLOSE_R_BRACKET >
-
+	 < CLOSE_R_BRACKET > {  }
 	 GenericBlock(LogicState)
 }
 
-void ActionParam() : { Token t1 ; Token t2;}
-{	t1 = < S_NAME > {jjtThis.setType(t1.image);}
-	t2 = < S_NAME > {jjtThis.setName(t2.image);}}
+ASTType Type() : {Token t2; Token t3 = null;}
+{
+	 ( 
+		t2 =  < S_PRIMITIVE > { jjtThis.setPrimitive(true);}
+		|t2 =  < S_COLLECTION > <S_OPEN_ANGLE > t3 = < S_NAME > <S_CLOSE_ANGLE >  
+		|t2 =  < S_NAME > 
+	  )
+  {
+    if ( t3 != null )
+    {
+   		jjtThis.setTypeName(t2.image+"<"+t3.image+">");
+  	}
+  	else
+  	{
+  	  	jjtThis.setTypeName(t2.image);
+ 	}
+ 	
+    return jjtThis;
+  } 
+}
+
+void ActionParam() : { ASTType t1; Token t2;}
+{
+	t1 = Type() {jjtThis.setType(t1);}
+	t2 = < S_NAME > {jjtThis.setName(t2.image);}
+}
+
 
 void Domain() : {}
 {
@@ -673,7 +832,8 @@ void Domain() : {}
 }
 
 void Enum() : { Token t;}
-{  < ENUM >  t = < CLS_NAME >
+{
+  < ENUM >  t = < CLS_NAME >
   < OPEN_BRACKET >
   		( EnumLiteral() )
   		(< SEPARATOR > EnumLiteral())*
@@ -682,44 +842,56 @@ void Enum() : { Token t;}
 }
 
 void EnumLiteral() : { Token t;}  
-{	t = < CLS_NAME > { jjtThis.setImage(t.image);	}
+{
+	t = < CLS_NAME > { jjtThis.setImage(t.image);	}
 }
 
 
 ASTEntity Entity() : { Token t;}
-{  t = < CLS_NAME >
+{
+  t = < CLS_NAME >
   < OPEN_BRACKET >
   	 ( Property() )
   	 ( < SEPARATOR > Property() )*
-  < CLOSE_BRACKET >{ jjtThis.setImage(t.image); return jjtThis;}
+  < CLOSE_BRACKET >{ jjtThis.setImage(t.image); return jjtThis;}
+
 }
 
 void Property() :{Token t1; Token t2; Token t3 = null;Token t4 = null;Token t5 =null;}
-{  t1 = < CLS_NAME >
+{
+  t1 = < CLS_NAME >
   ( 
-	t2 =  < PRIMITIVE > { jjtThis.setPrimitive(true);}	|t2 =  < COLLECTION > <OPEN_ANGLE > t4 = < CLS_NAME > <CLOSE_ANGLE >  
+	t2 =  < PRIMITIVE > { jjtThis.setPrimitive(true);}
+	|t2 =  < COLLECTION > <OPEN_ANGLE > t4 = < CLS_NAME > <CLOSE_ANGLE >  
 	|t2 =  < CLS_NAME >
   )
   (
     < INDICATOR >
-    (       t3 = < CLS_NAME > | 	t5 = < MANY_MARKER > 
-  	)  )?
+    (
+       t3 = < CLS_NAME > | 	t5 = < MANY_MARKER > 
+  	)
+  )?
   {
-	jjtThis.setName(t1.image);	jjtThis.setType(t2.image);
+	jjtThis.setName(t1.image);
+	jjtThis.setType(t2.image);
 	if (t3 != null ) {
 	    jjtThis.setRelatedPropertyName(t3.image);
 	}
 
 	if (t5 != null ) {
-	  	jjtThis.setMarkedWithStar(true);	}
+	  	jjtThis.setMarkedWithStar(true);
+	}
 
 	if ( t5 != null && t4 == null ){
-	    jjtThis.setUnidirManyToOne(true);	}
+	    jjtThis.setUnidirManyToOne(true);
+	}
 
-	if ( t5 != null && t4 != null ) {		jjtThis.setUnidirManyToMany(true);
+	if ( t5 != null && t4 != null ) {
+		jjtThis.setUnidirManyToMany(true);
 	}
 	  
-    if (t4 != null ){    	jjtThis.setCollectionType(t4.image);
+    if (t4 != null ){
+    	jjtThis.setCollectionType(t4.image);
    }
   }
 }

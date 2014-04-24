@@ -151,11 +151,39 @@ public interface SWLConstants {
   /** RegularExpression Id. */
   int SERVICE = 76;
   /** RegularExpression Id. */
-  int S_COMMA = 77;
+  int S_PRIMITIVE = 77;
   /** RegularExpression Id. */
-  int S_NAME = 78;
+  int S_COLLECTION = 78;
   /** RegularExpression Id. */
-  int S_QUOTED_TEXT = 79;
+  int VOID = 79;
+  /** RegularExpression Id. */
+  int S_COMMA = 80;
+  /** RegularExpression Id. */
+  int EXT_IF_REST = 81;
+  /** RegularExpression Id. */
+  int EXT_IF_FORM = 82;
+  /** RegularExpression Id. */
+  int EXT_IF_FILE = 83;
+  /** RegularExpression Id. */
+  int EXT_IF_WS = 84;
+  /** RegularExpression Id. */
+  int EXT_IF_EMAIL = 85;
+  /** RegularExpression Id. */
+  int INTERFACE = 86;
+  /** RegularExpression Id. */
+  int EXCHANGE = 87;
+  /** RegularExpression Id. */
+  int E_MODEL = 88;
+  /** RegularExpression Id. */
+  int EXTERNAL = 89;
+  /** RegularExpression Id. */
+  int S_NAME = 90;
+  /** RegularExpression Id. */
+  int S_QUOTED_TEXT = 91;
+  /** RegularExpression Id. */
+  int S_OPEN_ANGLE = 92;
+  /** RegularExpression Id. */
+  int S_CLOSE_ANGLE = 93;
 
   /** Lexical state. */
   int LogicState = 0;
@@ -251,9 +279,23 @@ public interface SWLConstants {
     "\"crud\"",
     "\"searcher\"",
     "\"service\"",
+    "<S_PRIMITIVE>",
+    "<S_COLLECTION>",
+    "\"void\"",
     "\",\"",
+    "\"rest\"",
+    "\"form\"",
+    "\"file\"",
+    "\"ws\"",
+    "\"email\"",
+    "\"interface\"",
+    "\"exchange\"",
+    "\"model\"",
+    "\"external\"",
     "<S_NAME>",
     "<S_QUOTED_TEXT>",
+    "\"<\"",
+    "\">\"",
   };
 
 }

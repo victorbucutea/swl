@@ -1,4 +1,4 @@
-package ro.swl.engine.writer.ui.test;
+package ro.swl.engine.parser.ui.test;
 
 import static junit.framework.Assert.assertEquals;
 

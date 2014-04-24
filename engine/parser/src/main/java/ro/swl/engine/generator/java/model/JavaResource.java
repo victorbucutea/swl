@@ -4,7 +4,6 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +41,7 @@ public class JavaResource<F extends AbstractField> extends Resource {
 
 	private List<Method> methods = new ArrayList<Method>();
 
-	private Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+	private List<Annotation> annotations = new ArrayList<Annotation>();
 
 
 	public JavaResource(Resource parent, String name, String pkg) {
@@ -58,7 +57,7 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	}
 
 
-	public void addProperty(F field) throws CreateException {
+	public void addField(F field) throws CreateException {
 		this.props.add(field);
 	}
 
@@ -121,7 +120,12 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	}
 
 
-	public Set<Annotation> getAnnotations() {
+	public String getLowerCaseName() {
+		return getName().toLowerCase();
+	}
+
+
+	public List<Annotation> getAnnotations() {
 		return annotations;
 	}
 

@@ -1,12 +1,12 @@
-package ro.swl.engine.writer.i18n.test;
+package ro.swl.engine.parser.i18n.test;
 
 import org.junit.Test;
 
 import ro.swl.engine.parser.ASTVerticalLayout;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
+import ro.swl.engine.parser.ui.test.IdGeneratorTest;
 import ro.swl.engine.writer.ui.WriteException;
-import ro.swl.engine.writer.ui.test.IdGeneratorTest;
 
 
 public class I18nLabelsTest extends IdGeneratorTest {
