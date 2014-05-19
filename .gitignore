@@ -1,5 +1,7 @@
 .idea
 .metadata
+.classpath
+.project
 bin/
 tmp/
 *.tmp
