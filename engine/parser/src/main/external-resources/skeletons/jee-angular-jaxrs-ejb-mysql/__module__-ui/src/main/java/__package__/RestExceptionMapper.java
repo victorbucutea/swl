@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.recruiter;
+package ${basePackage}.recruiter;
 
 import static javax.ws.rs.core.Response.serverError;
 import static javax.ws.rs.core.Response.status;

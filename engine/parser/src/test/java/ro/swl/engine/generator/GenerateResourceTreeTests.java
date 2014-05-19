@@ -16,10 +16,7 @@ import org.junit.Test;
 import ro.swl.engine.GeneratorTest;
 import ro.swl.engine.generator.java.model.JavaResource;
 import ro.swl.engine.generator.java.model.PackageResource;
-import ro.swl.engine.generator.javaee.exception.DuplicateEntityException;
-import ro.swl.engine.generator.javaee.exception.DuplicateFieldNameException;
-import ro.swl.engine.generator.javaee.exception.InvalidPackageException;
-import ro.swl.engine.generator.javaee.exception.NoModuleException;
+import ro.swl.engine.generator.javaee.exception.*;
 import ro.swl.engine.generator.javaee.model.ModuleResource;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
@@ -41,9 +38,9 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 		return techs;
 	}
 
-
 	@Test
 	public void simpleResourceTreeGeneration() throws CreateException, ParseException, IOException {
+
 		String string = " name \"x\" \n\t\n  module CV { logic{} } module some_other { ui{}}";
 		SWL swl = new SWL(createInputStream(string));
 		ASTSwdlApp appModel = swl.SwdlApp();
@@ -148,7 +145,7 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 							"  }" +
 				"}"));
 		//@formatter:on
-		skeleton.setSkeletonName("entity-no-module");
+        skeleton.setSkeletonName("entity-no-module");
 		generator.create(swl.SwdlApp());
 		ProjectRoot root = generator.getProjectRoot();
 
@@ -427,7 +424,22 @@ public class GenerateResourceTreeTests extends GeneratorTest {
 	}
 
 
-	@Test(expected = InvalidPackageException.class)
+    @Test(expected = ServiceNotInPackageException.class)
+    public void serviceNotInPackage() throws ParseException, CreateException {
+        //@formatter:off
+        SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +
+                " module CV {" +
+                "  ui     {} " +
+                "  logic  { service SomeService{} }" +
+                "  domain {}" +
+                "}"));
+        //@formatter:on
+        skeleton.setSkeletonName("entity-no-package");
+        ASTSwdlApp appModel = swl.SwdlApp();
+        generator.create(appModel);
+    }
+
+	@Test(expected = EntityNotInPackageException.class)
 	public void entityNotInPackage() throws ParseException, CreateException {
 		//@formatter:off
 				SWL swl = new SWL(createInputStream(" name  'module' \n\t\n" +

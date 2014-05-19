@@ -6,14 +6,14 @@
  */
 package ro.swl.engine.parser;
 
-import static ro.swl.engine.parser.SWLConstants.RADIO;
-import static ro.swl.engine.parser.SWLConstants.tokenImage;
-
-import java.util.List;
-
 import ro.swl.engine.parser.model.Component;
 import ro.swl.engine.writer.ui.TagWriter;
 import ro.swl.engine.writer.ui.WriteException;
+
+import java.util.List;
+
+import static ro.swl.engine.parser.SWLConstants.RADIO;
+import static ro.swl.engine.parser.SWLConstants.tokenImage;
 
 
 public class ASTRadio extends Component {
@@ -51,8 +51,6 @@ public class ASTRadio extends Component {
 
 	@Override
 	public boolean hasExternalizableLabel() {
-		// TODO label right now is the value of the property passed in as second param
-		// that value will need to be a key to the i18n bundle
 		return false;
 	}
 

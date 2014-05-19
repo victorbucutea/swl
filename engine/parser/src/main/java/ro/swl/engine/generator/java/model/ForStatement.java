@@ -20,7 +20,7 @@ public class ForStatement extends CompoundStatement {
 
 
 	@Override
-	public String render() {
+	public String toJavaRepresentation() {
 
 		//@formatter:off
 		return "for (" + itType.getSimpleClassName() + " " +itVar+ " : "+ expression.renderWithoutSemiCol()+") {\r\n" +

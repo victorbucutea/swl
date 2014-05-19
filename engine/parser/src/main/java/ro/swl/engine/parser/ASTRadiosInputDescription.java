@@ -9,6 +9,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 public class ASTRadiosInputDescription extends SWLNode {
 
 	public ASTRadiosInputDescription(int id) {

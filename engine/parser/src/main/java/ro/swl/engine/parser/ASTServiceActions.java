@@ -9,6 +9,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 public class ASTServiceActions extends SWLNode {
 
 	public ASTServiceActions(int id) {

@@ -1,21 +1,16 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.GlobalContext;
-import ro.swl.engine.generator.java.model.Annotation;
-import ro.swl.engine.generator.java.model.CompoundStatement;
-import ro.swl.engine.generator.java.model.IfStatement;
-import ro.swl.engine.generator.java.model.Method;
-import ro.swl.engine.generator.java.model.Statement;
-import ro.swl.engine.generator.java.model.Type;
+import ro.swl.engine.generator.java.model.*;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
 import ro.swl.engine.parser.ASTSwdlApp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class JaxRSEntityEnhancer extends Enhancer<EntityResource> {

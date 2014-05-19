@@ -1,14 +1,19 @@
-package ro.swl.engine.parser;
+package ro.swl.engine.parser.model;
 
-import static org.apache.commons.lang3.StringUtils.remove;
+import ro.swl.engine.parser.Node;
+import ro.swl.engine.parser.SWL;
+import ro.swl.engine.parser.SWLTreeConstants;
+import ro.swl.engine.parser.SimpleNode;
+import ro.swl.engine.writer.ui.Signal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.writer.ui.Signal;
+import static org.apache.commons.lang3.StringUtils.remove;
 
-
+/**
+ * SWLNode offers node manipulation and querying.
+ */
 public class SWLNode extends SimpleNode {
 
 	private String image;
@@ -42,15 +47,6 @@ public class SWLNode extends SimpleNode {
 	public void receiveSignal(Signal signal) {
 		// override to listen to signals 
 	}
-
-
-	public void broadcastSignal(Signal signal) {
-		for (Component comp : getChildComponents()) {
-			comp.receiveSignal(signal);
-			comp.broadcastSignal(signal);
-		}
-	}
-
 
 	public <T extends SWLNode> boolean hasParent(Class<T> cls) {
 		SWLNode parent = getParent();
@@ -200,7 +196,7 @@ public class SWLNode extends SimpleNode {
 
 	@Override
 	public String toString() {
-		return super.toString() + " - " + image;
+		return super.toString() + " - " + getImage();
 	}
 
 

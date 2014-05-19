@@ -6,11 +6,12 @@
  */
 package ro.swl.engine.parser;
 
-import static ro.swl.engine.parser.SWLTreeConstants.JJTMVCAREA;
+import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.parser.model.SWLNode;
 
 import java.util.List;
 
-import ro.swl.engine.parser.model.Component;
+import static ro.swl.engine.parser.SWLTreeConstants.JJTMVCAREA;
 
 
 public class ASTMvcArea extends SWLNode {

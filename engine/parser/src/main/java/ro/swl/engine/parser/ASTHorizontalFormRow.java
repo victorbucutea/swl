@@ -25,10 +25,6 @@ public class ASTHorizontalFormRow extends ASTLayoutRow {
 
 	@Override
 	protected void renderContentBeforeChildren(TagWriter writer) throws WriteException {
-		/*
-		 * TODO - When in horizontal_form we need to render the 'for' attribute
-		 * to point to the first input component
-		 */
 		//draw horizontal form label
 		if (isRenderLabel()) {
 			ASTLabel label = new ASTLabel(getParent(), this);

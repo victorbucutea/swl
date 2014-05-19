@@ -1,7 +1,7 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
-import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.javaee.model.PersistenceXml;
 import ro.swl.engine.parser.ASTSwdlApp;
 

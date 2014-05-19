@@ -1,10 +1,6 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
-import static com.google.common.base.CaseFormat.UPPER_CAMEL;
-import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
-
-import java.util.List;
-
+import com.google.common.base.CaseFormat;
 import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.java.model.Field;
@@ -13,14 +9,12 @@ import ro.swl.engine.generator.java.model.Statement;
 import ro.swl.engine.generator.java.model.Type;
 import ro.swl.engine.generator.javaee.exception.CrudEntityNotFoundException;
 import ro.swl.engine.generator.javaee.model.ServiceResource;
-import ro.swl.engine.parser.ASTAction;
-import ro.swl.engine.parser.ASTActionParam;
-import ro.swl.engine.parser.ASTCrud;
-import ro.swl.engine.parser.ASTModule;
-import ro.swl.engine.parser.ASTService;
-import ro.swl.engine.parser.ASTSwdlApp;
+import ro.swl.engine.parser.*;
 
-import com.google.common.base.CaseFormat;
+import java.util.List;
+
+import static com.google.common.base.CaseFormat.UPPER_CAMEL;
+import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
 
 
 public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
@@ -45,7 +39,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 
 	private void addCrudMethods(ASTService service, ServiceResource r) throws CreateException {
 
-		List<ASTCrud> cruds = service.getChildNodesOfType(ASTCrud.class, true);
+		List<ASTCrud> cruds = service.getCruds();
 
 		for (ASTCrud crud : cruds) {
 			addCrudDaoInjection(crud, r);
@@ -54,8 +48,7 @@ public class ServiceEJBEnhancer extends Enhancer<ServiceResource> {
 
 	}
 
-
-	private void addCrudDaoMethods(ASTCrud crud, ServiceResource r) throws CreateException {
+    private void addCrudDaoMethods(ASTCrud crud, ServiceResource r) throws CreateException {
 		String entityName = crud.getEntity();
 		String entityFqName = getGlobalCtxt().getFqNameForRegisteredType(entityName);
 		if (entityFqName == null) {

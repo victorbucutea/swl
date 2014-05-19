@@ -30,10 +30,10 @@ public class $model.Name #if($model.isSubClass())extends $model.SuperClass#end {
 #foreach( $annotation in $method.Annotations )
 	$annotation.toJavaRepresentation()
 #end
-	public ${method.ReturnType.ParameterizedName} ${method.Name}(#foreach($param in ${method.Parameters})${param.Type.ParameterizedName}#if($param.isVarArg())...#end ${param.Name}#if( $velocityCount < $method.Parameters.size() ), #end#end) { 
+	public ${method.ReturnType.ParameterizedName} ${method.Name}(#foreach($param in ${method.Parameters})#foreach($ann in ${param.Annotations})$ann.toJavaRepresentation() #end${param.Type.ParameterizedName}#if($param.isVarArg())...#end ${param.Name}#if( $velocityCount < $method.Parameters.size() ), #end#end) {
 	
 #foreach($stmt in $method.Body)
-		$stmt.render()
+		$stmt.toJavaRepresentation()
 #end
 	}
 

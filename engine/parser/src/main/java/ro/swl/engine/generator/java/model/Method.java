@@ -58,9 +58,10 @@ public class Method {
 
 		private boolean isVarArg;
 
+        private List<Annotation> annotations = new ArrayList<Annotation>();
 
 
-		public Parameter(String name, Type type) {
+        public Parameter(String name, Type type) {
 			this.name = name;
 			this.type = type;
 		}
@@ -71,8 +72,11 @@ public class Method {
 			this.type = new Type(type);
 		}
 
+        public List<Annotation> getAnnotations() {
+            return annotations;
+        }
 
-		public String getName() {
+        public String getName() {
 			return name;
 		}
 
@@ -103,11 +107,22 @@ public class Method {
 
 
 		public Set<String> getImports() {
-			return type.getImports();
+            Set<String> imports = type.getImports();
+
+            imports.addAll(type.getImports());
+
+            for (Annotation ann : annotations){
+                imports.addAll(ann.getImports());
+            }
+
+			return imports;
 		}
 
 
-	}
+        public void addAnnotation(Annotation ann) {
+            this.annotations.add(ann);
+        }
+    }
 
 
 	public Set<String> getImports() {

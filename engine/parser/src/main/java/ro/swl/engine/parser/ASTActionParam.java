@@ -6,6 +6,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 public class ASTActionParam extends SWLNode {
 
 	private String name;

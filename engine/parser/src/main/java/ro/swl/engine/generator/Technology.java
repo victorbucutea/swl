@@ -23,6 +23,6 @@ public abstract class Technology {
 	}
 
 
-	public abstract List<? extends Enhancer<? extends Resource>> getEnhancers();
+	public abstract List<Enhancer<? extends Resource>> getEnhancers();
 
 }

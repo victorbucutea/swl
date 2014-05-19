@@ -114,7 +114,9 @@ public class Type {
 		return clsName.getFqName();
 	}
 
-
+    public String toJavaRepresentation() {
+        return toString();
+    }
 
 	@Override
 	public String toString() {

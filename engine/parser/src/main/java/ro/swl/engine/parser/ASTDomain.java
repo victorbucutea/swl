@@ -6,6 +6,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

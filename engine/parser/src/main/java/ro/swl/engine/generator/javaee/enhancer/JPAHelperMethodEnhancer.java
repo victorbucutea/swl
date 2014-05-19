@@ -1,23 +1,18 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
-import static java.util.Arrays.asList;
+import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.Enhancer;
+import ro.swl.engine.generator.java.model.*;
+import ro.swl.engine.generator.java.model.Method.Parameter;
+import ro.swl.engine.generator.javaee.model.EntityField;
+import ro.swl.engine.generator.javaee.model.EntityResource;
+import ro.swl.engine.parser.ASTSwdlApp;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ro.swl.engine.generator.CreateException;
-import ro.swl.engine.generator.Enhancer;
-import ro.swl.engine.generator.java.model.CompoundStatement;
-import ro.swl.engine.generator.java.model.ForStatement;
-import ro.swl.engine.generator.java.model.IfStatement;
-import ro.swl.engine.generator.java.model.Method;
-import ro.swl.engine.generator.java.model.Method.Parameter;
-import ro.swl.engine.generator.java.model.Statement;
-import ro.swl.engine.generator.java.model.Type;
-import ro.swl.engine.generator.javaee.model.EntityField;
-import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.parser.ASTSwdlApp;
+import static java.util.Arrays.asList;
 
 
 public class JPAHelperMethodEnhancer extends Enhancer<EntityResource> {

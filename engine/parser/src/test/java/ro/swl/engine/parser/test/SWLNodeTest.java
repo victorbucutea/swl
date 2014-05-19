@@ -61,7 +61,6 @@ public class SWLNodeTest extends WriterTest {
 		//@formatter:on
 
 		ASTHorizontalLayout horizontalLayout = swl.HorizontalLayout();
-		horizontalLayout.dump("");
 		List<Component> components = horizontalLayout.getChildComponents();
 
 		assertEquals(2, components.size());

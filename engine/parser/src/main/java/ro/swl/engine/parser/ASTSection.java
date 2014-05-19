@@ -6,11 +6,12 @@
  */
 package ro.swl.engine.parser;
 
-import static ro.swl.engine.parser.SWLConstants.SECTION;
-import static ro.swl.engine.parser.SWLConstants.tokenImage;
 import ro.swl.engine.parser.model.LayoutComponent;
 import ro.swl.engine.writer.ui.TagWriter;
 import ro.swl.engine.writer.ui.WriteException;
+
+import static ro.swl.engine.parser.SWLConstants.SECTION;
+import static ro.swl.engine.parser.SWLConstants.tokenImage;
 
 
 public class ASTSection extends LayoutComponent {

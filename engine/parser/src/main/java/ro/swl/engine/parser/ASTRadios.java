@@ -6,9 +6,10 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.Component;
+
 import static ro.swl.engine.parser.SWLConstants.RADIOS;
 import static ro.swl.engine.parser.SWLConstants.tokenImage;
-import ro.swl.engine.parser.model.Component;
 
 
 public class ASTRadios extends Component {

@@ -1,20 +1,14 @@
 package ro.swl.engine.generator.javaee.enhancer;
 
-import java.util.List;
-
+import com.google.common.base.CaseFormat;
 import ro.swl.engine.generator.CreateException;
 import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.java.model.Annotation;
 import ro.swl.engine.generator.javaee.model.EntityField;
 import ro.swl.engine.generator.javaee.model.EntityResource;
-import ro.swl.engine.parser.ASTCrud;
-import ro.swl.engine.parser.ASTLogic;
-import ro.swl.engine.parser.ASTModule;
-import ro.swl.engine.parser.ASTSearcher;
-import ro.swl.engine.parser.ASTService;
-import ro.swl.engine.parser.ASTSwdlApp;
+import ro.swl.engine.parser.*;
 
-import com.google.common.base.CaseFormat;
+import java.util.List;
 
 
 public class SearcherEnhancer extends Enhancer<EntityResource> {

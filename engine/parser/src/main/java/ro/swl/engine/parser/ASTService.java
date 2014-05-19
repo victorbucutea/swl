@@ -6,6 +6,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 import java.util.List;
 
 
@@ -20,6 +22,9 @@ public class ASTService extends SWLNode {
 		return getChildNodesOfType(ASTAction.class, true);
 	}
 
+    public List<ASTCrud> getCruds() {
+        return getChildNodesOfType(ASTCrud.class, true);
+    }
 }
 /*
  * JavaCC - OriginalChecksum=10d537bca4f4e38e6a4bafec49a9cdc0 (do not edit this

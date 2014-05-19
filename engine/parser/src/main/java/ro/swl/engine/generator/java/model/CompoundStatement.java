@@ -40,7 +40,7 @@ public class CompoundStatement extends Statement {
 
 		for (Statement stmt : childStmts) {
 			blder.append(childIndentation);
-			blder.append(stmt.render() + CR_LF);
+			blder.append(stmt.toJavaRepresentation() + CR_LF);
 		}
 		return blder;
 	}

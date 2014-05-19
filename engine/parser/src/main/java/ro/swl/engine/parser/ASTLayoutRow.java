@@ -6,11 +6,12 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.parser.model.LayoutComponent;
+
 import static ro.swl.engine.parser.SWLConstants.ROW;
 import static ro.swl.engine.parser.SWLConstants.tokenImage;
 import static ro.swl.engine.parser.SWLTreeConstants.JJTLAYOUTROW;
-import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.parser.model.LayoutComponent;
 
 
 public class ASTLayoutRow extends LayoutComponent {
@@ -44,7 +45,3 @@ public class ASTLayoutRow extends LayoutComponent {
 	}
 
 }
-/*
- * JavaCC - OriginalChecksum=0f704bdf304d136165e470bd4480c31d (do not edit this
- * line)
- */

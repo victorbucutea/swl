@@ -24,12 +24,6 @@ public class I18nBundle {
 
 	private String bundleName = "get_from_app_name";
 
-
-	//TODO avoid overriding existing properties here 
-	//first read target directory and keep a map of existing values
-	//also take into consideration that the ASTLabel and all other dynamically generated components 
-	// will need to have the class retrieved from that existing file
-
 	public void addProperty(String key) {
 		props.put(key, "");
 		props.put(key + ".cssClass", "");

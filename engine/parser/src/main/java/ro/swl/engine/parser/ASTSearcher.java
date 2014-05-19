@@ -6,6 +6,8 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.SWLNode;
+
 import static org.apache.commons.lang3.StringUtils.remove;
 
 

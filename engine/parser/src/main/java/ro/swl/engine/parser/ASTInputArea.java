@@ -6,9 +6,10 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.InputComponent;
+
 import static ro.swl.engine.parser.SWLConstants.INPUT_AREA;
 import static ro.swl.engine.parser.SWLConstants.tokenImage;
-import ro.swl.engine.parser.model.InputComponent;
 
 
 public class ASTInputArea extends InputComponent {

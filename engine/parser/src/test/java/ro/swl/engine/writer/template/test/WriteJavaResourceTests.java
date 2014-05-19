@@ -1,49 +1,32 @@
 package ro.swl.engine.writer.template.test;
 
-import static java.util.Arrays.asList;
-import static junit.framework.Assert.assertEquals;
-import static org.apache.commons.io.FileUtils.listFilesAndDirs;
-import static org.junit.Assert.assertTrue;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
-import japa.parser.ast.body.FieldDeclaration;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.ModifierSet;
-import japa.parser.ast.body.Parameter;
-import japa.parser.ast.body.TypeDeclaration;
+import japa.parser.ast.body.*;
 import japa.parser.ast.stmt.BlockStmt;
 import japa.parser.ast.stmt.ForeachStmt;
 import japa.parser.ast.stmt.IfStmt;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.junit.Test;
+import ro.swl.engine.GeneratorTest;
+import ro.swl.engine.generator.CreateException;
+import ro.swl.engine.generator.Technology;
+import ro.swl.engine.generator.java.model.*;
+import ro.swl.engine.generator.model.ProjectRoot;
+import ro.swl.engine.parser.ASTProperty;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.junit.Test;
-
-import ro.swl.engine.GeneratorTest;
-import ro.swl.engine.generator.CreateException;
-import ro.swl.engine.generator.Technology;
-import ro.swl.engine.generator.java.model.Annotation;
-import ro.swl.engine.generator.java.model.CompoundStatement;
-import ro.swl.engine.generator.java.model.Field;
-import ro.swl.engine.generator.java.model.ForStatement;
-import ro.swl.engine.generator.java.model.IfStatement;
-import ro.swl.engine.generator.java.model.JavaResource;
-import ro.swl.engine.generator.java.model.Method;
-import ro.swl.engine.generator.java.model.Statement;
-import ro.swl.engine.generator.java.model.Type;
-import ro.swl.engine.generator.model.ProjectRoot;
-import ro.swl.engine.parser.ASTProperty;
+import static java.util.Arrays.asList;
+import static junit.framework.Assert.assertEquals;
+import static org.apache.commons.io.FileUtils.listFilesAndDirs;
+import static org.junit.Assert.assertTrue;
 
 
 public class WriteJavaResourceTests extends GeneratorTest {
@@ -212,10 +195,14 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		method2.setReturnType(new Type("ro.sft.pkg.SomeClasss<Y>"));
 		method2.addParameter("param1", new Type("java.lang.String"));
 		method2.addParameter("param2", new Type("ro.sft.pkg.Class<X>"));
+        Method.Parameter param = new Method.Parameter("param3",new Type("java.util.Set<SomeClass>"));
+        Annotation ann  = new Annotation("javax.ws.rs.PathParam");
+        param.addAnnotation(ann);
+        method2.addParameter(param);
 		res.addMethod(method2);
 
-		root.addChild(res);
 
+		root.addChild(res);
 		addStatements(method2);
 
 
@@ -284,7 +271,12 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		assertEquals("param2", param2.getId().toString());
 		assertEquals("Class<X>", param2.getType().toString());
 
-		// check method 2 annotations 
+        Parameter param3 = method2.getParameters().get(2);
+        assertEquals("param3", param3.getId().toString());
+        assertEquals("@PathParam", param3.getAnnotations().get(0).toString());
+        assertEquals("Set<SomeClass>", param3.getType().toString());
+
+        // check method 2 annotations
 		assertEquals("@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, "
 				+ "prop = @SomeAnnotation(name = \"someAnnName\"))", method2.getAnnotations().get(0).toString());
 
@@ -313,9 +305,8 @@ public class WriteJavaResourceTests extends GeneratorTest {
 		List<ImportDeclaration> imports = cu.getImports();
 		List<String> expectedImports = asList("java.util.HashSet", "ro.sft.pkg.SomeClasss",
 				"javax.persistence.SomeAnnotation", "javax.persistence.CascadeType", "javax.persistence.OneToMany",
-				"ro.sft.pkg.Class");
+				"ro.sft.pkg.Class", "java.util.Set", "javax.ws.rs.PathParam");
 		for (ImportDeclaration imprt : imports) {
-			System.out.println(imprt);
 			assertTrue(expectedImports.contains(imprt.getName().toString()));
 		}
 

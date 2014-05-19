@@ -12,9 +12,7 @@ import ro.swl.engine.generator.InternalEnhancers;
 import ro.swl.engine.generator.ProjectGenerator;
 import ro.swl.engine.generator.Skeleton;
 import ro.swl.engine.generator.Technology;
-import ro.swl.engine.generator.javaee.enhancer.EJBTechnology;
-import ro.swl.engine.generator.javaee.enhancer.JPATechnology;
-import ro.swl.engine.generator.javaee.enhancer.JaxRsTechnology;
+import ro.swl.engine.generator.javaee.enhancer.*;
 import ro.swl.engine.parser.ASTSwdlApp;
 import ro.swl.engine.parser.ParseException;
 import ro.swl.engine.parser.SWL;
@@ -57,8 +55,10 @@ public class Main {
 			List<Technology> techs = new ArrayList<Technology>();
 			techs.add(new InternalEnhancers());
 			techs.add(new JPATechnology());
-			techs.add(new JaxRsTechnology());
-			techs.add(new EJBTechnology());
+            techs.add(new EJBTechnology());
+            techs.add(new JaxRsTechnology());
+            techs.add(new HibernateTechnology());
+            techs.add(new ResteasyTechnology());
 
 
 

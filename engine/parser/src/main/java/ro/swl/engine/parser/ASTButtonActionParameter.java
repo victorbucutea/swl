@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTButtonActionParameter extends SWLNode {
+class ASTButtonActionParameter extends ro.swl.engine.parser.model.SWLNode {
   public ASTButtonActionParameter(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTButtonActionParameter extends SWLNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=8ae98f8c9e01891f1445b9e1a908359c (do not edit this line) */
+/* JavaCC - OriginalChecksum=f14562f3ffd01f1be27b80c2a56d31de (do not edit this line) */

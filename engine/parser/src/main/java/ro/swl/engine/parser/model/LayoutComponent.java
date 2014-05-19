@@ -1,10 +1,10 @@
 package ro.swl.engine.parser.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ro.swl.engine.parser.ASTModelVariable;
 import ro.swl.engine.parser.ASTMvcArea;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class LayoutComponent extends Component {

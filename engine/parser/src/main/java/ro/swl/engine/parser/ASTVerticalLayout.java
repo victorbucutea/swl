@@ -9,14 +9,14 @@
  */
 package ro.swl.engine.parser;
 
-import static ro.swl.engine.parser.SWLConstants.VERTICAL_LAYOUT;
-import static ro.swl.engine.parser.SWLConstants.tokenImage;
+import ro.swl.engine.parser.model.Component;
+import ro.swl.engine.parser.model.LayoutComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ro.swl.engine.parser.model.Component;
-import ro.swl.engine.parser.model.LayoutComponent;
+import static ro.swl.engine.parser.SWLConstants.VERTICAL_LAYOUT;
+import static ro.swl.engine.parser.SWLConstants.tokenImage;
 
 
 public class ASTVerticalLayout extends LayoutComponent {

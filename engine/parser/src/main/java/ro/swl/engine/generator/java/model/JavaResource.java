@@ -43,8 +43,10 @@ public class JavaResource<F extends AbstractField> extends Resource {
 
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 
+    private List<String> imports = new ArrayList<String>();
 
-	public JavaResource(Resource parent, String name, String pkg) {
+
+    public JavaResource(Resource parent, String name, String pkg) {
 		super(parent, name, false);
 		this.name = name;
 		this.pkg = pkg;
@@ -157,6 +159,8 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	public Set<String> getImports() {
 		Set<String> imports = newHashSet();
 
+        imports.addAll(this.imports);
+
 		for (Method m : getMethods()) {
 			imports.addAll(m.getImports());
 		}
@@ -190,4 +194,8 @@ public class JavaResource<F extends AbstractField> extends Resource {
 	public Type getSuperClass() {
 		return superClass;
 	}
+
+    public void addImport(String s) {
+        this.imports.add(s);
+    }
 }

@@ -1,14 +1,8 @@
 package ro.swl.engine.parser.model;
 
-import java.util.List;
+import ro.swl.engine.parser.*;
 
-import ro.swl.engine.parser.ASTCssClassName;
-import ro.swl.engine.parser.ASTCssInlineStyle;
-import ro.swl.engine.parser.ASTInput;
-import ro.swl.engine.parser.ASTInputArea;
-import ro.swl.engine.parser.ASTLabel;
-import ro.swl.engine.parser.SWL;
-import ro.swl.engine.parser.SWLNode;
+import java.util.List;
 
 
 /**

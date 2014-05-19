@@ -13,7 +13,6 @@ public class Skeleton {
 
 
 	public Skeleton() {
-
 	}
 
 

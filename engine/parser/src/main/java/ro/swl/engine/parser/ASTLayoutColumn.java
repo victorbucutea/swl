@@ -6,12 +6,12 @@
  */
 package ro.swl.engine.parser;
 
-import static ro.swl.engine.parser.SWLConstants.COLUMN;
-import static ro.swl.engine.parser.SWLConstants.tokenImage;
+import ro.swl.engine.parser.model.LayoutComponent;
 
 import java.util.List;
 
-import ro.swl.engine.parser.model.LayoutComponent;
+import static ro.swl.engine.parser.SWLConstants.COLUMN;
+import static ro.swl.engine.parser.SWLConstants.tokenImage;
 
 
 public class ASTLayoutColumn extends LayoutComponent {

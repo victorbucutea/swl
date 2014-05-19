@@ -19,7 +19,7 @@ public class IfStatement extends CompoundStatement {
 
 
 	@Override
-	public String render() {
+	public String toJavaRepresentation() {
 		StringBuilder blder = renderChildren();
 		//@formatter:off
 		return "if ( " + condition + " ) {" +CR_LF +

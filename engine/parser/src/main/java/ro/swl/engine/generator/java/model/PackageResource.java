@@ -12,9 +12,7 @@ public class PackageResource extends Resource {
 
 
 	/**
-	 * Create PackageResource from a namespace ( e.g. 'ro.sft.somepackage')
-	 * 
-	 * It will have the file output name ro/sft/somepackage
+	 * Create PackageResource from a namespace ( e.g. 'ro.sft.somepackage' will have the file output name ro/sft/somepackage )
 	 * 
 	 * @param parent
 	 * @param namespace

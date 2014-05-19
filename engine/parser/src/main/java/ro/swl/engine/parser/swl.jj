@@ -8,8 +8,10 @@ options
              
   KEEP_LINE_COLUMN = false;
   static = false;
-                         
-  DEBUG_PARSER=true;  DEBUG_TOKEN_MANAGER=true;
+                                                    
+
+ // DEBUG_PARSER=true;
+ // DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(SWL)
@@ -22,24 +24,6 @@ public class SWL/*@bgen(jjtree)*/implements SWLTreeConstants/*@egen*/
 /*@egen*/
 
   private int nestingLvl = 0;
-
-  
-  public static void main(String args [])
-  {
-    System.out.println("Reading from standard input...");
-    SWL parser = new SWL(System.in);
-    try
-    {
-      ASTSwdlApp n = parser.SwdlApp();
-      n.dump("");
-      System.out.println("Thank you.");
-    }
-    catch (Exception e)
-    {
-      System.out.println("Oops.");
-      System.out.println(e.getMessage());
-    }
-  }
 
  	public static ASTSwdlApp  parse( java.io.File f) throws ParseException, java.io.FileNotFoundException {
 		java.io.FileInputStream fStr = new java.io.FileInputStream(f);
@@ -75,7 +59,8 @@ PARSER_END(SWL)
 | < OPEN_R_BRACKET: "(" >
 | < CLOSE_R_BRACKET: ")" >
 | < OPEN_S_BRACKET: "[" >
-| < CLOSE_S_BRACKET: "]" >}
+| < CLOSE_S_BRACKET: "]" >
+}
 
 <DEFAULT> TOKEN :
 {
@@ -139,7 +124,8 @@ PARSER_END(SWL)
 < JsContentState > TOKEN:
 {
   < ANY_NON_OPEN_CLOSE: (~["{","}"])+ >
-}
+}
+
 
 < InputDescriptionState > TOKEN:
 {
@@ -157,9 +143,11 @@ PARSER_END(SWL)
 | < COLON : ":" >
 | < SEMICOLON : ";" >
 | < ASTERISK : "*" >
-| < CLOSE_QUOTE :< QUOTE >>}
+| < CLOSE_QUOTE :< QUOTE >>
+}
 
-< CssStyleValueState > TOKEN :{
+< CssStyleValueState > TOKEN :
+{
   < ANY_NO_SEMICOLON : (~[";"])+ >
 }
 
@@ -173,11 +161,13 @@ PARSER_END(SWL)
 | < SEPARATOR : "," >
 | < MANY_MARKER : "*" >
 | < OPEN_ANGLE: "<" >
-| < CLOSE_ANGLE: ">" >}
+| < CLOSE_ANGLE: ">" >
+}
 
 
 < LogicState > TOKEN :
-{	< CRUD : "crud" >
+{
+	< CRUD : "crud" >
 | 	< SEARCHER : "searcher" >
 |   < SERVICE : "service" >
 | 	< S_PRIMITIVE: "Date" | "String" | "int" | "Integer" |"Double" | "double" | "long" | "Long" | "Blob" >
@@ -222,7 +212,8 @@ ASTSwdlApp SwdlApp() :
     jjtc000 = false;
   }
 /*@egen*/
-  {    return jjtn000;
+  {
+    return jjtn000;
   }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -292,7 +283,9 @@ void AppName(): {/*@bgen(jjtree) AppName */
    jjtree.closeNodeScope(jjtn000, true);
    jjtc000 = false;
  }
-/*@egen*/ { 	jjtn000.setImageWithoutQuote(t.image);
+/*@egen*/
+ {
+ 	jjtn000.setImageWithoutQuote(t.image);
  }/*@bgen(jjtree)*/
   } finally {
     if (jjtc000) {
@@ -348,7 +341,8 @@ void ModuleName() : {/*@bgen(jjtree) ModuleName */
     jjtc000 = false;
   }
 /*@egen*/
-  {	jjtn000.setImage(t.image);
+  {
+	jjtn000.setImage(t.image);
   }/*@bgen(jjtree)*/
   } finally {
     if (jjtc000) {
@@ -393,14 +387,17 @@ void ModuleBody() : {/*@bgen(jjtree) ModuleBody */
 /*@egen*/
 }
 
-void Ui() :{/*@bgen(jjtree) Ui */
+void Ui() :
+{/*@bgen(jjtree) Ui */
   ASTUi jjtn000 = new ASTUi(JJTUI);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/
+}
 {/*@bgen(jjtree) Ui */
   try {
-/*@egen*/  < UI >
+/*@egen*/
+  < UI >
   < OPEN_BRACKET >
    ( Screen() )*
  < CLOSE_BRACKET >/*@bgen(jjtree)*/
@@ -426,11 +423,13 @@ void Ui() :{/*@bgen(jjtree) Ui */
 /*@egen*/  
 }
 
-void Screen() :{/*@bgen(jjtree) Screen */
+void Screen() :
+{/*@bgen(jjtree) Screen */
   ASTScreen jjtn000 = new ASTScreen(JJTSCREEN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/
+}
 {/*@bgen(jjtree) Screen */
   try {
 /*@egen*/
@@ -458,7 +457,8 @@ void Screen() :{/*@bgen(jjtree) Screen */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/  }
+/*@egen*/  
+}
 
 void ScreenName() :
 {/*@bgen(jjtree) ScreenName */
@@ -466,7 +466,8 @@ void ScreenName() :
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
-  Token t;}
+  Token t;
+}
 {/*@bgen(jjtree) ScreenName */
   try {
 /*@egen*/
@@ -519,7 +520,8 @@ void Controller() :{/*@bgen(jjtree) Controller */
 {/*@bgen(jjtree) Controller */
   try {
 /*@egen*/
-  < CONTROLLER >  GenericBlock(DEFAULT)/*@bgen(jjtree)*/
+  < CONTROLLER >
+  GenericBlock(DEFAULT)/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -539,7 +541,8 @@ void Controller() :{/*@bgen(jjtree) Controller */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 
 void GenericBlock(int switchBackState) :
@@ -563,10 +566,14 @@ void GenericBlock(int switchBackState) :
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
   }
-/*@egen*/  {
+/*@egen*/
+  {
     nestingLvl--;
-    if ( nestingLvl == 0 )    {
-      token_source.SwitchTo(switchBackState);    }  }/*@bgen(jjtree)*/
+    if ( nestingLvl == 0 )
+    {
+      token_source.SwitchTo(switchBackState);
+    }
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -586,7 +593,10 @@ void GenericBlock(int switchBackState) :
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}void MvcArea() : {/*@bgen(jjtree) MvcArea */
+/*@egen*/
+}
+
+void MvcArea() : {/*@bgen(jjtree) MvcArea */
   ASTMvcArea jjtn000 = new ASTMvcArea(JJTMVCAREA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
@@ -633,7 +643,9 @@ void GenericBlock(int switchBackState) :
        jjtree.closeNodeScope(jjtn000, true);
      }
    }
-/*@egen*/}
+/*@egen*/
+}
+
 
 ASTVerticalLayout VerticalLayout() : {/*@bgen(jjtree) VerticalLayout */
   ASTVerticalLayout jjtn000 = new ASTVerticalLayout(JJTVERTICALLAYOUT);
@@ -654,8 +666,10 @@ ASTVerticalLayout VerticalLayout() : {/*@bgen(jjtree) VerticalLayout */
           jjtree.closeNodeScope(jjtn000, true);
           jjtc000 = false;
         }
-/*@egen*/  	{
-  	  return jjtn000;  	}/*@bgen(jjtree)*/
+/*@egen*/
+  	{
+  	  return jjtn000;
+  	}/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -675,7 +689,8 @@ ASTVerticalLayout VerticalLayout() : {/*@bgen(jjtree) VerticalLayout */
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/}
+/*@egen*/
+}
 
 ASTHorizontalLayout HorizontalLayout() :
 {/*@bgen(jjtree) HorizontalLayout */
@@ -692,7 +707,8 @@ ASTHorizontalLayout HorizontalLayout() :
   	< HORIZONTAL_LAYOUT >
   	StdLayoutDescription()	
   	< OPEN_BRACKET >
-  		( n =  LayoutColumn()  		{
+  		( n =  LayoutColumn()
+  		{
 		  noOfColumns = noOfColumns + n.getColSpan();
   		})*
   		
@@ -703,8 +719,11 @@ ASTHorizontalLayout HorizontalLayout() :
         }
 /*@egen*/
   	{
-  	  if ( noOfColumns > 12 )  	  {		throw new ParseException("An horizontal_layout() cannot have more than 12 columns");
-  	  }  	   return jjtn000;
+  	  if ( noOfColumns > 12 )
+  	  {
+		throw new ParseException("An horizontal_layout() cannot have more than 12 columns");
+  	  }
+  	   return jjtn000;
   	}/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
           if (jjtc000) {
@@ -738,7 +757,8 @@ ASTLayoutColumn LayoutColumn() :
 }
 {/*@bgen(jjtree) LayoutColumn */
         try {
-/*@egen*/	< COLUMN >
+/*@egen*/
+	< COLUMN >
 	colSpan = ColumnDescription()
 	< OPEN_BRACKET >
   		MvcArea()
@@ -840,7 +860,8 @@ ASTHorizontalForm HorizontalForm() : {/*@bgen(jjtree) HorizontalForm */
   }
 /*@egen*/
   {
-    return jjtn000;  }/*@bgen(jjtree)*/
+    return jjtn000;
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -870,7 +891,8 @@ ASTHorizontalFormRow HorizontalFormRow() : {/*@bgen(jjtree) HorizontalFormRow */
 /*@egen*/}
 {/*@bgen(jjtree) HorizontalFormRow */
           try {
-/*@egen*/	  (< NO_LABEL_FLAG > { jjtn000.setNoLabelRendering(); } )?
+/*@egen*/
+	  (< NO_LABEL_FLAG > { jjtn000.setNoLabelRendering(); } )?
 	    < ROW >
 	  	StdLayoutDescription()
 	  < OPEN_BRACKET >
@@ -904,7 +926,8 @@ ASTHorizontalFormRow HorizontalFormRow() : {/*@bgen(jjtree) HorizontalFormRow */
             }
           }
 /*@egen*/
-}
+}
+
 ASTLayoutRow LayoutRow() : {/*@bgen(jjtree) LayoutRow */
   ASTLayoutRow jjtn000 = new ASTLayoutRow(JJTLAYOUTROW);
   boolean jjtc000 = true;
@@ -945,7 +968,8 @@ ASTLayoutRow LayoutRow() : {/*@bgen(jjtree) LayoutRow */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 ASTSection Section() : {/*@bgen(jjtree) Section */
                         ASTSection jjtn000 = new ASTSection(JJTSECTION);
@@ -987,7 +1011,8 @@ ASTSection Section() : {/*@bgen(jjtree) Section */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 ASTInput Input():  {/*@bgen(jjtree) Input */
   ASTInput jjtn000 = new ASTInput(JJTINPUT);
@@ -1022,7 +1047,8 @@ ASTInput Input():  {/*@bgen(jjtree) Input */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 
 ASTInputFile InputFile():  {/*@bgen(jjtree) InputFile */
@@ -1202,7 +1228,8 @@ ASTRadio Radio(): {/*@bgen(jjtree) Radio */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 ASTRadios Radios(): {/*@bgen(jjtree) Radios */
   ASTRadios jjtn000 = new ASTRadios(JJTRADIOS);
@@ -1237,7 +1264,8 @@ ASTRadios Radios(): {/*@bgen(jjtree) Radios */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 ASTText Text(): {/*@bgen(jjtree) Text */
   ASTText jjtn000 = new ASTText(JJTTEXT);
@@ -1272,7 +1300,8 @@ ASTText Text(): {/*@bgen(jjtree) Text */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 ASTLabel Label() : {/*@bgen(jjtree) Label */
   ASTLabel jjtn000 = new ASTLabel(JJTLABEL);
@@ -1293,7 +1322,8 @@ ASTLabel Label() : {/*@bgen(jjtree) Label */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/}
+/*@egen*/
+}
 
 ASTImg Img(): {/*@bgen(jjtree) Img */
   ASTImg jjtn000 = new ASTImg(JJTIMG);
@@ -1328,7 +1358,8 @@ ASTImg Img(): {/*@bgen(jjtree) Img */
      jjtree.closeNodeScope(jjtn000, true);
    }
  }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 void ButtonGroup() : {/*@bgen(jjtree) ButtonGroup */
   ASTButtonGroup jjtn000 = new ASTButtonGroup(JJTBUTTONGROUP);
@@ -1365,7 +1396,8 @@ ASTButton Button() : {/*@bgen(jjtree) Button */
   ASTButton jjtn000 = new ASTButton(JJTBUTTON);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}{/*@bgen(jjtree) Button */
+/*@egen*/}
+{/*@bgen(jjtree) Button */
  try {
 /*@egen*/
  < BUTTON > (ButtonDescription())?/*@bgen(jjtree)*/
@@ -1403,8 +1435,10 @@ void ButtonDescription() : {/*@bgen(jjtree) ButtonDescription */
 /*@egen*/}
 {/*@bgen(jjtree) ButtonDescription */
         try {
-/*@egen*/  	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		(		  ButtonAction()
+/*@egen*/
+  	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
+		(
+		  ButtonAction()
 		  (< COMMA > CssStyle() )?
 		)?
   	< CLOSE_R_BRACKET >/*@bgen(jjtree)*/
@@ -1444,7 +1478,8 @@ void ButtonAction() : {/*@bgen(jjtree) ButtonAction */
   try {
 /*@egen*/
   t = < VARIABLE >{ s.append(t.image);}
-  t = <OPEN_R_BRACKET >{s.append(t.image);}  ( param = ButtonActionParameter() {s.append(param);}
+  t = <OPEN_R_BRACKET >{s.append(t.image);}
+  ( param = ButtonActionParameter() {s.append(param);}
    ( t = < COMMA > {s.append(t.image);}
     param = ButtonActionParameter(){s.append(" " + param);}
    )*
@@ -1455,7 +1490,8 @@ void ButtonAction() : {/*@bgen(jjtree) ButtonAction */
     jjtc000 = false;
   }
 /*@egen*/
-  {	jjtn000.setImage(s.toString());
+  {
+	jjtn000.setImage(s.toString());
   }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -1476,7 +1512,8 @@ void ButtonAction() : {/*@bgen(jjtree) ButtonAction */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 String ButtonActionParameter() : {/*@bgen(jjtree) ButtonActionParameter */
                                   ASTButtonActionParameter jjtn000 = new ASTButtonActionParameter(JJTBUTTONACTIONPARAMETER);
@@ -1485,7 +1522,8 @@ String ButtonActionParameter() : {/*@bgen(jjtree) ButtonActionParameter */
 /*@egen*/Token t; StringBuffer s = new StringBuffer();}
 {/*@bgen(jjtree) ButtonActionParameter */
         try {
-/*@egen*/	t = <VARIABLE >{s.append(t.image);}
+/*@egen*/
+	t = <VARIABLE >{s.append(t.image);}
   	(
   	  t = < DOT > {s.append(t.image);}
   	  t = <VARIABLE >{s.append(t.image);}
@@ -1495,7 +1533,8 @@ String ButtonActionParameter() : {/*@bgen(jjtree) ButtonActionParameter */
     jjtc000 = false;
   }
 /*@egen*/
-  {	return s.toString();
+  {
+	return s.toString();
   }/*@bgen(jjtree)*/
         } finally {
           if (jjtc000) {
@@ -1504,7 +1543,8 @@ String ButtonActionParameter() : {/*@bgen(jjtree) ButtonActionParameter */
         }
 /*@egen*/
 }
- 
+ 
+
 void ModelVariable():
 {/*@bgen(jjtree) ModelVariable */
   ASTModelVariable jjtn000 = new ASTModelVariable(JJTMODELVARIABLE);
@@ -1522,7 +1562,14 @@ void ModelVariable():
                      jjtree.closeNodeScope(jjtn000, true);
                      jjtc000 = false;
                    }
-/*@egen*/ { s.append(t.image.replace("\"","").replace("'","")); jjtn000.setLiteral(true); jjtn000.setImage(s.toString()); }    |( t = < VARIABLE > { s.append(t.image); }	      (
+/*@egen*/ {
+                    char quote = '"';
+                    s.append(t.image.replace(""+quote,"").replace("'",""));
+                    jjtn000.setLiteral(true);
+                    jjtn000.setImage(s.toString());
+                    }
+    |( t = < VARIABLE > { s.append(t.image); }
+	      (
 	       t= < DOT > { s.append(t.image); }
 	       t = <VARIABLE > { s.append(t.image); }
 	       )*
@@ -1537,7 +1584,8 @@ void ModelVariable():
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/}
+/*@egen*/
+}
 
 void StdLayoutDescription(): {/*@bgen(jjtree) StdLayoutDescription */
   ASTStdLayoutDescription jjtn000 = new ASTStdLayoutDescription(JJTSTDLAYOUTDESCRIPTION);
@@ -1548,7 +1596,8 @@ void StdLayoutDescription(): {/*@bgen(jjtree) StdLayoutDescription */
         try {
 /*@egen*/
   	< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
-		(  CssStyle() )?	< CLOSE_R_BRACKET >/*@bgen(jjtree)*/
+		(  CssStyle() )?
+	< CLOSE_R_BRACKET >/*@bgen(jjtree)*/
                             {
                               jjtree.closeNodeScope(jjtn000, true);
                               jjtc000 = false;
@@ -1584,9 +1633,11 @@ void RadioInputDescription() : {/*@bgen(jjtree) RadioInputDescription */
 /*@egen*/}
 {/*@bgen(jjtree) RadioInputDescription */
                 try {
-/*@egen*/		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
+/*@egen*/
+		< OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
 		
-		(		    ModelVariable() // model variable to bind to
+		(
+		    ModelVariable() // model variable to bind to
 		      < COMMA > ModelVariable() // value property 
 			( < COMMA >  CssStyle() )?
 		)?
@@ -1720,7 +1771,8 @@ void SelectboxOptions() : {/*@bgen(jjtree) SelectboxOptions */
 /*@egen*/
   < OPEN_BRACKET >
   
- (     	SelectOption()
+ (
+     	SelectOption()
  |  SelectOptionGroup()
  )*
 
@@ -1744,7 +1796,8 @@ void SelectboxOptions() : {/*@bgen(jjtree) SelectboxOptions */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 void SelectOption() : {/*@bgen(jjtree) SelectOption */
   ASTSelectOption jjtn000 = new ASTSelectOption(JJTSELECTOPTION);
@@ -1774,7 +1827,8 @@ void SelectOption() : {/*@bgen(jjtree) SelectOption */
        jjtree.closeNodeScope(jjtn000, true);
      }
    }
-/*@egen*/ // reuse the old production despite the bad name...}
+/*@egen*/ // reuse the old production despite the bad name...
+}
 
 
 void SelectOptionGroup() : {/*@bgen(jjtree) SelectOptionGroup */
@@ -1819,7 +1873,8 @@ void StdInputDescription(): {/*@bgen(jjtree) StdInputDescription */
 /*@egen*/
   < OPEN_R_BRACKET > { token_source.SwitchTo(InputDescriptionState); }
   
- 	 ( 	   ModelVariable()  
+ 	 (
+ 	   ModelVariable()  
  	   ( < COMMA >  CssStyle() )?
  	 )?
  	 
@@ -1848,7 +1903,9 @@ void StdInputDescription(): {/*@bgen(jjtree) StdInputDescription */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
+
 
 void CssStyle(): {/*@bgen(jjtree) CssStyle */
   ASTCssStyle jjtn000 = new ASTCssStyle(JJTCSSSTYLE);
@@ -1861,7 +1918,8 @@ void CssStyle(): {/*@bgen(jjtree) CssStyle */
   < DESC_QUOTE > { token_source.SwitchTo(CssStyleState); }
 
   (
-    LOOKAHEAD(CssClassName())   	CssClassName()
+    LOOKAHEAD(CssClassName())
+   	CssClassName()
     |
   	CssInlineStyle()
   )*
@@ -1891,7 +1949,9 @@ void CssStyle(): {/*@bgen(jjtree) CssStyle */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
+
 void CssClassName()  : {/*@bgen(jjtree) CssClassName */
                         ASTCssClassName jjtn000 = new ASTCssClassName(JJTCSSCLASSNAME);
                         boolean jjtc000 = true;
@@ -1899,7 +1959,8 @@ void CssClassName()  : {/*@bgen(jjtree) CssClassName */
 /*@egen*/Token t = null;}
 {/*@bgen(jjtree) CssClassName */
         try {
-/*@egen*/	t = < STYLE_CLASS >  < SEMICOLON >/*@bgen(jjtree)*/
+/*@egen*/
+	t = < STYLE_CLASS >  < SEMICOLON >/*@bgen(jjtree)*/
          {
            jjtree.closeNodeScope(jjtn000, true);
            jjtc000 = false;
@@ -1923,8 +1984,10 @@ void CssInlineStyle() : {/*@bgen(jjtree) CssInlineStyle */
 /*@egen*/String t1 = null; String t2 = null;}
 {/*@bgen(jjtree) CssInlineStyle */
     try {
-/*@egen*/    t1 =  CssStyleName()
- 	 < COLON > {token_source.SwitchTo(CssStyleValueState);} 	t2 =  CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
+/*@egen*/
+    t1 =  CssStyleName()
+ 	 < COLON > {token_source.SwitchTo(CssStyleValueState);}
+ 	t2 =  CssStyleValue()  {token_source.SwitchTo(CssStyleState);}
  	 < SEMICOLON >/*@bgen(jjtree)*/
         {
           jjtree.closeNodeScope(jjtn000, true);
@@ -1976,7 +2039,8 @@ String CssStyleName():  {/*@bgen(jjtree) CssStyleName */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 String CssStyleValue(): {/*@bgen(jjtree) CssStyleValue */
                          ASTCssStyleValue jjtn000 = new ASTCssStyleValue(JJTCSSSTYLEVALUE);
@@ -1997,7 +2061,8 @@ String CssStyleValue(): {/*@bgen(jjtree) CssStyleValue */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 
 
@@ -2050,10 +2115,12 @@ void ExternalInterface() : {/*@bgen(jjtree) ExternalInterface */
 /*@egen*/Token t; Token t1;}
 {/*@bgen(jjtree) ExternalInterface */
         try {
-/*@egen*/	< EXTERNAL >
+/*@egen*/
+	< EXTERNAL >
 	( t = < EXT_IF_REST > |  t = < EXT_IF_FORM > |  t = < EXT_IF_FILE > |  t =  < EXT_IF_WS > |  t = < EXT_IF_EMAIL >	) { jjtn000.setType(t.image);}
 	< INTERFACE >
-	t1 = < S_NAME > {jjtn000.setName(t1.image);}		< OPEN_BRACKET >
+	t1 = < S_NAME > {jjtn000.setName(t1.image);}
+		< OPEN_BRACKET >
 			( ExchangeModel() ) ?
 			( ServiceActions() | Action() )*
 		< CLOSE_BRACKET >/*@bgen(jjtree)*/
@@ -2120,7 +2187,8 @@ void ExchangeModel() : {/*@bgen(jjtree) ExchangeModel */
              jjtree.closeNodeScope(jjtn000, true);
            }
          }
-/*@egen*/}
+/*@egen*/
+}
 
 void ServiceActions() : {/*@bgen(jjtree) ServiceActions */
                          ASTServiceActions jjtn000 = new ASTServiceActions(JJTSERVICEACTIONS);
@@ -2138,7 +2206,8 @@ void ServiceActions() : {/*@bgen(jjtree) ServiceActions */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 void Service() : {/*@bgen(jjtree) Service */
                   ASTService jjtn000 = new ASTService(JJTSERVICE);
@@ -2150,7 +2219,8 @@ void Service() : {/*@bgen(jjtree) Service */
 /*@egen*/
   < SERVICE > t =  <S_NAME> { jjtn000.setImage(t.image);}
   < OPEN_BRACKET >
-  	(  	  Crud() | Action()
+  	(
+  	  Crud() | Action()
   	)* 
   < CLOSE_BRACKET >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -2172,7 +2242,8 @@ void Service() : {/*@bgen(jjtree) Service */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/}
+/*@egen*/
+}
 
 void Crud() : {/*@bgen(jjtree) Crud */
                ASTCrud jjtn000 = new ASTCrud(JJTCRUD);
@@ -2181,7 +2252,8 @@ void Crud() : {/*@bgen(jjtree) Crud */
 /*@egen*/Token t;}
 {/*@bgen(jjtree) Crud */
         try {
-/*@egen*/	< CRUD > t = <S_NAME>	{ jjtn000.setEntity(t.image);}
+/*@egen*/
+	< CRUD > t = <S_NAME>	{ jjtn000.setEntity(t.image);}
 	< OPEN_BRACKET >
 		(Searcher())*
 	< CLOSE_BRACKET >/*@bgen(jjtree)*/
@@ -2217,14 +2289,16 @@ void Searcher() : {/*@bgen(jjtree) Searcher */
 /*@egen*/
 	< SEARCHER >
 	 t2 = <S_NAME> { jjtn000.setSearcherName(t2.image); }
-	 < OPEN_BRACKET >		 t3 = < S_QUOTED_TEXT >{jjtn000.setQuery(t3.image);}
+	 < OPEN_BRACKET >
+		 t3 = < S_QUOTED_TEXT >{jjtn000.setQuery(t3.image);}
 	 < CLOSE_BRACKET >/*@bgen(jjtree)*/
         } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}
+/*@egen*/
+}
 
 void Action() : {/*@bgen(jjtree) Action */
                  ASTAction jjtn000 = new ASTAction(JJTACTION);
@@ -2234,15 +2308,18 @@ void Action() : {/*@bgen(jjtree) Action */
 {/*@bgen(jjtree) Action */
          try {
 /*@egen*/
-  		 (
+  	
+	 (
 	   	  type = Type() { jjtn000.setReturnType(type);  }
 	 	| < VOID >	  {jjtn000.setVoid(true);}
 	 )
 	 
-	 	t1 = < S_NAME > { jjtn000.setImageWithoutQuote(t1.image);}
+	 
+	t1 = < S_NAME > { jjtn000.setImageWithoutQuote(t1.image);}
 	 < OPEN_R_BRACKET >
 	 		[ ActionParam() ( < S_COMMA > ActionParam() )* ] 
-	 < CLOSE_R_BRACKET > {  }	 GenericBlock(LogicState)/*@bgen(jjtree)*/
+	 < CLOSE_R_BRACKET > {  }
+	 GenericBlock(LogicState)/*@bgen(jjtree)*/
          } catch (Throwable jjte000) {
            if (jjtc000) {
              jjtree.clearNodeScope(jjtn000);
@@ -2276,18 +2353,22 @@ ASTType Type() : {/*@bgen(jjtree) Type */
 	 ( 
 		t2 =  < S_PRIMITIVE > { jjtn000.setPrimitive(true);}
 		|t2 =  < S_COLLECTION > <S_OPEN_ANGLE > t3 = < S_NAME > <S_CLOSE_ANGLE >  
-		|t2 =  < S_NAME > 	  )/*@bgen(jjtree)*/
+		|t2 =  < S_NAME > 
+	  )/*@bgen(jjtree)*/
   {
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
   }
 /*@egen*/
   {
-    if ( t3 != null )    {   		jjtn000.setTypeName(t2.image+"<"+t3.image+">");
+    if ( t3 != null )
+    {
+   		jjtn000.setTypeName(t2.image+"<"+t3.image+">");
   	}
   	else
   	{
-  	  	jjtn000.setTypeName(t2.image); 	}
+  	  	jjtn000.setTypeName(t2.image);
+ 	}
  	
     return jjtn000;
   }/*@bgen(jjtree)*/
@@ -2296,7 +2377,8 @@ ASTType Type() : {/*@bgen(jjtree) Type */
              jjtree.closeNodeScope(jjtn000, true);
            }
          }
-/*@egen*/ }
+/*@egen*/ 
+}
 
 void ActionParam() : {/*@bgen(jjtree) ActionParam */
                        ASTActionParam jjtn000 = new ASTActionParam(JJTACTIONPARAM);
@@ -2305,7 +2387,8 @@ void ActionParam() : {/*@bgen(jjtree) ActionParam */
 /*@egen*/ ASTType t1; Token t2;}
 {/*@bgen(jjtree) ActionParam */
         try {
-/*@egen*/	t1 = Type() {jjtn000.setType(t1);}
+/*@egen*/
+	t1 = Type() {jjtn000.setType(t1);}
 	t2 = < S_NAME >/*@bgen(jjtree)*/
                         {
                           jjtree.closeNodeScope(jjtn000, true);
@@ -2331,7 +2414,9 @@ void ActionParam() : {/*@bgen(jjtree) ActionParam */
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}
+/*@egen*/
+}
+
 
 void Domain() : {/*@bgen(jjtree) Domain */
   ASTDomain jjtn000 = new ASTDomain(JJTDOMAIN);
@@ -2383,7 +2468,8 @@ void Enum() : {/*@bgen(jjtree) Enum */
 /*@egen*/ Token t;}
 {/*@bgen(jjtree) Enum */
   try {
-/*@egen*/  < ENUM >  t = < CLS_NAME >
+/*@egen*/
+  < ENUM >  t = < CLS_NAME >
   < OPEN_BRACKET >
   		( EnumLiteral() )
   		(< SEPARATOR > EnumLiteral())*
@@ -2423,7 +2509,8 @@ void EnumLiteral() : {/*@bgen(jjtree) EnumLiteral */
 /*@egen*/ Token t;}  
 {/*@bgen(jjtree) EnumLiteral */
         try {
-/*@egen*/	t = < CLS_NAME >/*@bgen(jjtree)*/
+/*@egen*/
+	t = < CLS_NAME >/*@bgen(jjtree)*/
                          {
                            jjtree.closeNodeScope(jjtn000, true);
                            jjtc000 = false;
@@ -2445,7 +2532,8 @@ ASTEntity Entity() : {/*@bgen(jjtree) Entity */
 /*@egen*/ Token t;}
 {/*@bgen(jjtree) Entity */
   try {
-/*@egen*/  t = < CLS_NAME >
+/*@egen*/
+  t = < CLS_NAME >
   < OPEN_BRACKET >
   	 ( Property() )
   	 ( < SEPARATOR > Property() )*
@@ -2474,7 +2562,8 @@ ASTEntity Entity() : {/*@bgen(jjtree) Entity */
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/
+/*@egen*/
+
 }
 
 void Property() :{/*@bgen(jjtree) Property */
@@ -2484,36 +2573,45 @@ void Property() :{/*@bgen(jjtree) Property */
 /*@egen*/Token t1; Token t2; Token t3 = null;Token t4 = null;Token t5 =null;}
 {/*@bgen(jjtree) Property */
   try {
-/*@egen*/  t1 = < CLS_NAME >
+/*@egen*/
+  t1 = < CLS_NAME >
   ( 
-	t2 =  < PRIMITIVE > { jjtn000.setPrimitive(true);}	|t2 =  < COLLECTION > <OPEN_ANGLE > t4 = < CLS_NAME > <CLOSE_ANGLE >  
+	t2 =  < PRIMITIVE > { jjtn000.setPrimitive(true);}
+	|t2 =  < COLLECTION > <OPEN_ANGLE > t4 = < CLS_NAME > <CLOSE_ANGLE >  
 	|t2 =  < CLS_NAME >
   )
   (
     < INDICATOR >
-    (       t3 = < CLS_NAME > | 	t5 = < MANY_MARKER > 
-  	)  )?/*@bgen(jjtree)*/
+    (
+       t3 = < CLS_NAME > | 	t5 = < MANY_MARKER > 
+  	)
+  )?/*@bgen(jjtree)*/
   {
     jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
   }
 /*@egen*/
   {
-	jjtn000.setName(t1.image);	jjtn000.setType(t2.image);
+	jjtn000.setName(t1.image);
+	jjtn000.setType(t2.image);
 	if (t3 != null ) {
 	    jjtn000.setRelatedPropertyName(t3.image);
 	}
 
 	if (t5 != null ) {
-	  	jjtn000.setMarkedWithStar(true);	}
+	  	jjtn000.setMarkedWithStar(true);
+	}
 
 	if ( t5 != null && t4 == null ){
-	    jjtn000.setUnidirManyToOne(true);	}
+	    jjtn000.setUnidirManyToOne(true);
+	}
 
-	if ( t5 != null && t4 != null ) {		jjtn000.setUnidirManyToMany(true);
+	if ( t5 != null && t4 != null ) {
+		jjtn000.setUnidirManyToMany(true);
 	}
 	  
-    if (t4 != null ){    	jjtn000.setCollectionType(t4.image);
+    if (t4 != null ){
+    	jjtn000.setCollectionType(t4.image);
    }
   }/*@bgen(jjtree)*/
   } finally {

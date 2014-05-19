@@ -7,6 +7,7 @@
 package ro.swl.engine.parser;
 
 import ro.swl.engine.generator.javaee.model.Relation;
+import ro.swl.engine.parser.model.SWLNode;
 
 
 public class ASTProperty extends SWLNode {

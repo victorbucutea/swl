@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.recruiter.auth;
+package ${basePackage}.recruiter.auth;
 
 import java.security.Principal;
 
@@ -17,7 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import ${package}.recruiter.user.model.User;
+import ${basePackage}.recruiter.user.model.User;
 
 /**
  * Authentication facade. It provides login/logout and also serializes user

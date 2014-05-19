@@ -312,8 +312,9 @@ public class WriteResourceTreeTest extends GeneratorTest {
 
 		assertPlainFileVelocityTemplateFilledIn(list.get(9), "customer");
 		assertPlainFileVelocityTemplateFilledIn(list.get(17), "cv");
-
 	}
+
+
 
 
 
@@ -329,13 +330,11 @@ public class WriteResourceTreeTest extends GeneratorTest {
 		assertNamedQueriesCreated();
 
 		assertEntityHelperMethodsCreated();
-
 	}
 
 
 	private SWL complexSwl() {
-		//@formatter:off
-		SWL swl = new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
+		return new SWL(createInputStream(" name  'moduleTest' \n\t\n" +
 						" module cv {" +
 									"  ui     {} " +
 									"  logic  {}" +
@@ -345,7 +344,7 @@ public class WriteResourceTreeTest extends GeneratorTest {
 									"			endDate   Date," +
 									"			exp		  Experience -> *"+
 									"		}"+
-									""+	
+									""+
 									"	    Experience {"+
 									"			startDate Date,"+
 									"			endDate   Date,"+
@@ -363,7 +362,7 @@ public class WriteResourceTreeTest extends GeneratorTest {
 										"				searcher WithFirstName {" +
 										"					\"Select j from CV j where j.firstName = :firstName\"" +
 										"				}" +
-										"				searcher Certifications {"+ 
+										"				searcher Certifications {"+
 										"					\"Select cert from Certification cert where cert.name like :name\""+
 										"				}" +
 										"			}" +
@@ -380,9 +379,9 @@ public class WriteResourceTreeTest extends GeneratorTest {
 										"		Client {"+
 										"			startDate Date,"+
 										"			endDate   Date,"+
-										"			orders Set<Order> -> client"+		
+										"			orders Set<Order> -> client"+
 										"		}"+
-										""+	
+										""+
 										"	    Order {"+
 										"			startDate Date,"+
 										"			endDate   Date,"+
@@ -392,8 +391,6 @@ public class WriteResourceTreeTest extends GeneratorTest {
 										"		} " +
 										"  }"+
 						"}"));
-		//@formatter:on
-		return swl;
 	}
 
 

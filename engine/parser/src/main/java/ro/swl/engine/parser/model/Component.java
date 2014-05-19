@@ -1,19 +1,17 @@
 package ro.swl.engine.parser.model;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import ro.swl.engine.grammar.AngularJSGrammar;
 import ro.swl.engine.grammar.Grammar;
 import ro.swl.engine.parser.ASTModelVariable;
-import ro.swl.engine.parser.SWLNode;
 import ro.swl.engine.writer.ui.IdGenerator;
 import ro.swl.engine.writer.ui.TagWriter;
 import ro.swl.engine.writer.ui.WriteException;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.join;
 
 
 /**

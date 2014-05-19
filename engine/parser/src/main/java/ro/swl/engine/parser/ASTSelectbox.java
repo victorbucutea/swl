@@ -6,9 +6,10 @@
  */
 package ro.swl.engine.parser;
 
+import ro.swl.engine.parser.model.InputComponent;
+
 import static ro.swl.engine.parser.SWLConstants.SELECTBOX;
 import static ro.swl.engine.parser.SWLConstants.tokenImage;
-import ro.swl.engine.parser.model.InputComponent;
 
 
 public class ASTSelectbox extends InputComponent {

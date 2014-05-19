@@ -5,13 +5,18 @@ import ro.swl.engine.generator.Enhancer;
 import ro.swl.engine.generator.javaee.model.PomXml;
 import ro.swl.engine.parser.ASTSwdlApp;
 
-import static ro.swl.engine.generator.GlobalContext.getGlobalCtxt;
+/**
+ * Created by VictorBucutea on 27.04.2014.
+ */
+public class EJBPomXmlEnhancer extends Enhancer<PomXml> {
 
-
-public class JPAPomXmlEnhancer extends Enhancer<PomXml> {
-
-	@Override
-	public void enhance(ASTSwdlApp appModel, PomXml pom) throws CreateException {
+    /**
+     * @param appModel
+     * @param r
+     * @throws CreateException
+     */
+    @Override
+    public void enhance(ASTSwdlApp appModel, PomXml r) throws CreateException {
         /**
          *<dependency>
          <groupId>javax</groupId>
@@ -21,7 +26,7 @@ public class JPAPomXmlEnhancer extends Enhancer<PomXml> {
          */
         PomXml.Dependency dep = new PomXml.Dependency("javax", "javaee-api", "6.0");
         dep.setScope("provided");
-        pom.addDependency("javaeeApi",dep);
-	}
+        r.addDependency("javaeeApi");
 
+    }
 }

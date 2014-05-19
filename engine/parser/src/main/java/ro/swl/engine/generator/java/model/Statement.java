@@ -52,7 +52,7 @@ public class Statement {
 	}
 
 
-	public String render() {
+	public String toJavaRepresentation() {
 		return statement + ";";
 	}
 

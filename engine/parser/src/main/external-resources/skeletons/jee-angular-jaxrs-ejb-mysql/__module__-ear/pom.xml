@@ -20,11 +20,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${basePackage}</groupId>
-			<artifactId>${module}-base</artifactId>
-			<version>${version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${basePackage}</groupId>
 			<artifactId>${module}-ui</artifactId>
 			<version>${version}</version>
 			<type>war</type>

@@ -69,25 +69,57 @@
 			</plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>javacc-maven-plugin</artifactId>
-                <version>2.5</version>
+                <artifactId>exec-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>javacc</id>
+                        <id>jjtree</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>javacc</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/java/ro/swl/engine/parser2</outputDirectory>
-                            <lookAhead>2</lookAhead>
-                            <isStatic>false</isStatic>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-cp</argument>
+                                <classpath/>
+                                <argument>jjtree</argument>
+                                <argument>-OUTPUT_DIRECTORY:${project.build.sourceDirectory}/ro/swl/engine/parser</argument>
+                                <argument>${project.build.resources[0].directory}/swl.jjt</argument>
+                            </arguments>
+                            <!--<includePluginDependencies>true</includePluginDependencies>-->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>javacc</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                 <argument>-cp</argument>
+                                 <classpath/>
+                                 <argument>javacc</argument>
+                                 <argument>-OUTPUT_DIRECTORY:${project.build.sourceDirectory}/ro/swl/engine/parser/</argument>
+                                 <argument>${project.build.sourceDirectory}/ro/swl/engine/parser/swl.jj</argument>
+                            </arguments>
+                            <!--<includePluginDependencies>true</includePluginDependencies>-->
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+
+                </dependencies>
             </plugin>
 		</plugins>
 	</build>
 	<dependencies>
+        <dependency>
+            <groupId>net.java.dev.javacc</groupId>
+            <artifactId>javacc</artifactId>
+            <version>5.0</version>
+        </dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>

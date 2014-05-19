@@ -3,7 +3,7 @@
 package ro.swl.engine.parser;
 
 public
-class ASTExchangeModel extends SWLNode {
+class ASTExchangeModel extends ro.swl.engine.parser.model.SWLNode {
   public ASTExchangeModel(int id) {
     super(id);
   }
@@ -13,4 +13,4 @@ class ASTExchangeModel extends SWLNode {
   }
 
 }
-/* JavaCC - OriginalChecksum=53d3ab3e0a012632be1056ba88d69732 (do not edit this line) */
+/* JavaCC - OriginalChecksum=624f4e2e61b3b9c527d898635085791b (do not edit this line) */

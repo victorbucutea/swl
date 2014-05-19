@@ -1,11 +1,11 @@
 package ro.swl.engine.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ro.swl.engine.parser.model.Component;
 import ro.swl.engine.writer.ui.TagWriter;
 import ro.swl.engine.writer.ui.WriteException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ASTRadioLabel extends ASTLabel {
