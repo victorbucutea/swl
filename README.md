@@ -15,4 +15,4 @@ We want to take code generation one level further and describe the entity model,
 * Describe the UI ( and configure whether you would use JAX-RS with rich front-end like Angular or Backbone, or simple Servlets or HTTP, again your call  ) 
 
 
-Generating for whichever model is possible if it is described via a 'language' and generated via a 'skeleton'. 
+Generating for whichever model and whichever architecture is possible if it is described via a 'language' and generated via a 'skeleton'. 
